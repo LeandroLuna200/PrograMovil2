@@ -20,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ar.edu.unlam.mobile.scaffold.ui.components.BottomBar
+import ar.edu.unlam.mobile.scaffold.ui.screens.HabitScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.SecondaryScreen
 import ar.edu.unlam.mobile.scaffold.ui.theme.MyApplicationTheme
@@ -32,7 +33,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApplicationTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background,
+                ) {
                     MainScreen()
                 }
             }
@@ -69,6 +73,10 @@ fun MainScreen() {
             ) { navBackStackEntry ->
                 val id = navBackStackEntry.arguments?.getInt("id") ?: 1
                 SecondaryScreen(controller = controller, id = id)
+            }
+            composable("habit") {
+                // Home es el componente en sí que es el destino de navegación.
+                HabitScreen(modifier = Modifier.padding(paddingValue))
             }
         }
     }
