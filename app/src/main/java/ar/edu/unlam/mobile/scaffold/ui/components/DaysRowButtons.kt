@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 @Preview
 @Composable
 fun DaysRowButtons() {
-
     /** TODO CAMBIAR LOS ICONOS */
     val fabItems = listOf(
         FABItem("Agregar", Icons.Default.Add, Color.Blue),
@@ -29,7 +28,7 @@ fun DaysRowButtons() {
         FABItem("Editar", Icons.Default.Search, Color.Green),
         FABItem("Eliminar", Icons.Default.Delete, Color.Red),
         FABItem("Editar", Icons.Default.Edit, Color.Green),
-        FABItem("Eliminar", Icons.Default.Delete, Color.Red)
+        FABItem("Eliminar", Icons.Default.Delete, Color.Red),
     )
 
     LazyRow {
@@ -41,7 +40,7 @@ fun DaysRowButtons() {
             ) {
                 Icon(
                     imageVector = item.icon,
-                    contentDescription = item.label
+                    contentDescription = item.label,
                 )
             }
         }

@@ -16,14 +16,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabito
-import ar.edu.unlam.mobile.scaffold.ui.components.ListItemsHabits
-
 
 @Composable
 fun HabitScreen(modifier: Modifier = Modifier) {
     val listaDeElementos = listOf("Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4")
-    val listaDeElementos2 = listOf("Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4", "Elemento 5"
-        , "Elemento 6")
+    val listaDeElementos2 = listOf(
+        "Elemento 1",
+        "Elemento 2",
+        "Elemento 3",
+        "Elemento 4",
+        "Elemento 5",
+        "Elemento 6",
+    )
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -34,7 +38,7 @@ fun HabitScreen(modifier: Modifier = Modifier) {
             style = TextStyle(color = Color.Black, fontSize = 30.sp, textAlign = TextAlign.Center),
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .wrapContentHeight(),
         )
 
         DaysRowButtons()
@@ -42,15 +46,19 @@ fun HabitScreen(modifier: Modifier = Modifier) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f) // Ocupa el espacio restante en la columna
+                .weight(1f), // Ocupa el espacio restante en la columna
         ) {
             item {
                 Text(
                     text = "Objetivos",
-                    style = TextStyle(color = Color.Black, fontSize = 25.sp, textAlign = TextAlign.Center),
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 25.sp,
+                        textAlign = TextAlign.Center,
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
+                        .wrapContentHeight(),
                 )
             }
             items(listaDeElementos.size) { index ->
@@ -59,17 +67,19 @@ fun HabitScreen(modifier: Modifier = Modifier) {
             item {
                 Text(
                     text = "Metas",
-                    style = TextStyle(color = Color.Black, fontSize = 25.sp, textAlign = TextAlign.Center),
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 25.sp,
+                        textAlign = TextAlign.Center,
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
+                        .wrapContentHeight(),
                 )
             }
             items(listaDeElementos2.size) { index ->
                 ItemHabito()
             }
         }
-
-
     }
 }

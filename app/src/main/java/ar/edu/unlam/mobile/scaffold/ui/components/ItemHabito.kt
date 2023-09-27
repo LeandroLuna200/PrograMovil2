@@ -36,32 +36,32 @@ fun ItemHabito() {
             .padding(16.dp)
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(MaterialTheme.colorScheme.primary, Color(0xFF007ACC))
+                    colors = listOf(MaterialTheme.colorScheme.primary, Color(0xFF007ACC)),
                 ),
-                shape = CircleShape // Hace que el fondo sea circular
-            )
+                shape = CircleShape, // Hace que el fondo sea circular
+            ),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 text = text,
                 modifier = Modifier.weight(1f),
                 style = TextStyle(
                     color = Color.White,
-                    textAlign = TextAlign.Center
-                ) // Cambia el color del texto aquí
+                    textAlign = TextAlign.Center,
+                ), // Cambia el color del texto aquí
             )
 
             Button(
                 onClick = { /* Acción del botón */ },
                 modifier = Modifier.size(48.dp),
                 shape = CircleShape,
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
             ) {
                 Text(text = "B")
             }
