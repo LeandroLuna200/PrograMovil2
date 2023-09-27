@@ -23,7 +23,8 @@ import ar.edu.unlam.mobile.scaffold.ui.components.ListItemsHabits
 
 @Composable
 fun HabitScreen(modifier: Modifier = Modifier) {
-    val listaDeElementos = listOf("Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4", "Elemento 5"
+    val listaDeElementos = listOf("Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4")
+    val listaDeElementos2 = listOf("Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4", "Elemento 5"
         , "Elemento 6")
 
     Column(
@@ -66,7 +67,7 @@ fun HabitScreen(modifier: Modifier = Modifier) {
                         .wrapContentHeight()
                 )
             }
-            items(listaDeElementos.size) { index ->
+            items(listaDeElementos2.size) { index ->
                 ItemHabito()
             }
         }
