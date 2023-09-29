@@ -12,23 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabito
 
 @Composable
-fun HabitScreen(modifier: Modifier = Modifier) {
-    val listaDeElementos = listOf("Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4")
-    val listaDeElementos2 = listOf(
-        "Elemento 1",
-        "Elemento 2",
-        "Elemento 3",
-        "Elemento 4",
-        "Elemento 5",
-        "Elemento 6",
-    )
-
+fun HabitScreen() {
+    val mokkList = listOf("Habito", "Habito", "Habito", "Habito")
     Column(
         modifier = Modifier.fillMaxSize()
             .padding(bottom = 65.dp),
@@ -40,9 +32,7 @@ fun HabitScreen(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .wrapContentHeight(),
         )
-
         DaysRowButtons()
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -61,8 +51,8 @@ fun HabitScreen(modifier: Modifier = Modifier) {
                         .wrapContentHeight(),
                 )
             }
-            items(listaDeElementos.size) { index ->
-                ItemHabito()
+            items(mokkList.size) {
+                ItemHabito("Habito") {}
             }
             item {
                 Text(
@@ -77,9 +67,15 @@ fun HabitScreen(modifier: Modifier = Modifier) {
                         .wrapContentHeight(),
                 )
             }
-            items(listaDeElementos2.size) { index ->
-                ItemHabito()
+            items(mokkList.size) {
+                ItemHabito("Habito") {}
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewScreen() {
+    HabitScreen()
 }
