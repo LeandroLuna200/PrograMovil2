@@ -19,7 +19,7 @@ import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabito
 
 @Composable
-fun HabitScreen(modifier: Modifier = Modifier) {
+fun HabitScreen() {
     val mokkList = listOf("Habito", "Habito", "Habito", "Habito")
     Column(
         modifier = Modifier.fillMaxSize()
@@ -51,8 +51,8 @@ fun HabitScreen(modifier: Modifier = Modifier) {
                         .wrapContentHeight(),
                 )
             }
-            items(mokkList.size) { index ->
-                ItemHabito("Habito", {})
+            items(mokkList.size) {
+                ItemHabito("Habito") {}
             }
             item {
                 Text(
@@ -67,14 +67,15 @@ fun HabitScreen(modifier: Modifier = Modifier) {
                         .wrapContentHeight(),
                 )
             }
-            items(mokkList.size) { index ->
-                ItemHabito("Habito", {})
+            items(mokkList.size) {
+                ItemHabito("Habito") {}
             }
         }
     }
 }
+
 @Preview
 @Composable
-fun PreviewScreen(){
+fun PreviewScreen() {
     HabitScreen()
 }
