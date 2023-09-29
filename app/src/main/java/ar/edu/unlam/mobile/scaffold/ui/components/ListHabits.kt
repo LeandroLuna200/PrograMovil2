@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 fun ListItemsHabits(items: List<String>) {
     LazyColumn {
         items(items) { item ->
-            ItemHabito()
+            ItemHabito("Habito", {})
         }
     }
 }
