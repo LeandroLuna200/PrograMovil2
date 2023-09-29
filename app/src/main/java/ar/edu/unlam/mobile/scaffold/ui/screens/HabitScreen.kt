@@ -19,7 +19,7 @@ import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabito
 
 @Composable
 fun HabitScreen(modifier: Modifier = Modifier) {
-    val listaDeElementos = listOf("Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4")
+    val listaDeElementos = listOf("Elemento 1", "Elemento 2")
     val listaDeElementos2 = listOf(
         "Elemento 1",
         "Elemento 2",
