@@ -29,7 +29,7 @@ fun ItemHabito(text: String, action: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .height(64.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
             modifier = Modifier
@@ -38,7 +38,7 @@ fun ItemHabito(text: String, action: () -> Unit) {
                 .padding(6.dp)
                 .background(
                     color = Color.Red,
-                    shape = CircleShape
+                    shape = CircleShape,
                 ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -48,7 +48,7 @@ fun ItemHabito(text: String, action: () -> Unit) {
                 style = TextStyle(
                     color = Color.White,
                     textAlign = TextAlign.Center,
-                )
+                ),
             )
         }
         IconButton(
@@ -57,15 +57,12 @@ fun ItemHabito(text: String, action: () -> Unit) {
                 .padding(6.dp)
                 .background(
                     color = Color.Red,
-                    shape = CircleShape
+                    shape = CircleShape,
                 ),
-            onClick = action
+            onClick = action,
         ) {
-            //TODO CAMBIAR ICONO POR PARAMETRO
+            // TODO CAMBIAR ICONO POR PARAMETRO
             Icon(Icons.Default.Refresh, contentDescription = null)
         }
     }
 }
-
-
-

@@ -26,9 +26,8 @@ fun DaysRowButtons() {
             .height(64.dp)
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    )
-    {
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Day("D", Color.Green)
         Day("L", Color.Green)
         Day("M", Color.Green)
@@ -47,14 +46,14 @@ fun Day(text: String, backgroundColor: Color) {
             .height(32.dp)
             .background(
                 color = backgroundColor,
-                shape = CircleShape
+                shape = CircleShape,
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         Text(
             text = text,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
