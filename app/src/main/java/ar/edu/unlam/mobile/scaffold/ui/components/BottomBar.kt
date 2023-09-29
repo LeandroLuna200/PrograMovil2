@@ -48,7 +48,7 @@ fun BottomBar(controller: NavHostController) {
             onClick = { controller.navigate("segundo/667867895") },
             icon = {
                 Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_zen_mode),
+                    imageVector = Icons.Default.Face,
                     contentDescription = "Borrar Tarea",
                     tint = MaterialTheme.colorScheme.primary,
                 )
