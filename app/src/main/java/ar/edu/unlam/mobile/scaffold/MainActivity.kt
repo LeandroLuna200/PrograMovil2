@@ -18,7 +18,9 @@ import androidx.navigation.navArgument
 import ar.edu.unlam.mobile.scaffold.ui.components.BottomBar
 import ar.edu.unlam.mobile.scaffold.ui.screens.HabitScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.HomeScreen
+import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.SecondaryScreen
+import ar.edu.unlam.mobile.scaffold.ui.screens.TimerScreen
 import ar.edu.unlam.mobile.scaffold.ui.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +41,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun MainScreen() {
     // Controller es el elemento que nos permite navegar entre pantallas. Tiene las acciones
@@ -50,7 +53,7 @@ fun MainScreen() {
     ) { paddingValue ->
         // NavHost es el componente que funciona como contenedor de los otros componentes que
         // podrán ser destinos de navegación.
-        NavHost(navController = controller, startDestination = "home") {
+        NavHost(navController = controller, startDestination = "habit") {
             // composable es el componente que se usa para definir un destino de navegación.
             // Por parámetro recibe la ruta que se utilizará para navegar a dicho destino.
             composable("home") {
@@ -64,9 +67,17 @@ fun MainScreen() {
                 val id = navBackStackEntry.arguments?.getInt("id") ?: 1
                 SecondaryScreen(controller = controller, id = id)
             }
+            composable("planner") {
+                // Home es el componente en sí que es el destino de navegación.
+                PlannerScreen()
+            }
             composable("habit") {
                 // Home es el componente en sí que es el destino de navegación.
                 HabitScreen()
+            }
+            composable("timer") {
+                // Home es el componente en sí que es el destino de navegación.
+                TimerScreen()
             }
         }
     }
