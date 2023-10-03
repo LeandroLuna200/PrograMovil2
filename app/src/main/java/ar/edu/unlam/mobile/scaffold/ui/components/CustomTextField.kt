@@ -19,11 +19,11 @@ fun CustomTextField(titleText: String, text: String) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        var inicialText by remember { mutableStateOf(text) }
+        var initialText by remember { mutableStateOf(text) }
         OutlinedTextField(
-            value = inicialText,
+            value = initialText,
             onValueChange = { newText ->
-                inicialText = newText
+                initialText = newText
             },
             label = {
                 Text(text = titleText)

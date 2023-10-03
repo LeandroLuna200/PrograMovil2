@@ -2,7 +2,6 @@ package ar.edu.unlam.mobile.scaffold.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -17,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Chronometer(){
+fun Chronometer() {
     Row(
         modifier = Modifier
             .width(320.dp)
