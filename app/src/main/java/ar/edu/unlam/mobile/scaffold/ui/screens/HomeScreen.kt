@@ -39,7 +39,7 @@ fun Body(kitty: Kitty, action: () -> Unit, modifier: Modifier = Modifier) {
             title = kitty.url,
             imageUrl = kitty.url,
             action = action,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }
