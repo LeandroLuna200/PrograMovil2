@@ -10,10 +10,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomIconButton(action: () -> Unit) {
+fun CustomIconButton(action: () -> Unit, icon: ImageVector) {
     IconButton(
         modifier = Modifier
             .padding(6.dp)

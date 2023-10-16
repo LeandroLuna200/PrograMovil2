@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,12 +20,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffold.ui.components.CustomIconButton
-import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabito
+import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 
 @Preview
 @Composable
 fun PlannerScreen() {
+    // TODO pasar lista de habitos por parametro
     val habitsList = listOf("Habito", "Habito", "Habito", "Habito")
+    // TODO campo de busqueda y filtros
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,9 +46,10 @@ fun PlannerScreen() {
                 .fillMaxWidth(),
         ) {
             items(habitsList.size) {
-                ItemHabito("habito") {}
+                ItemHabit("habit", {}, Icons.Default.Edit)
             }
         }
-        CustomIconButton() {}
+        // TODO que el boton abra el pop-up de creacion de hábitos
+        CustomIconButton({}, Icons.Default.Add)
     }
 }
