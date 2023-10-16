@@ -19,12 +19,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ItemHabito(text: String, action: () -> Unit) {
+fun ItemHabito(text: String, action: () -> Unit, iconButton: ImageVector) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -61,8 +62,7 @@ fun ItemHabito(text: String, action: () -> Unit) {
                 ),
             onClick = action,
         ) {
-            // TODO CAMBIAR ICONO POR PARAMETRO
-            Icon(Icons.Default.Refresh, contentDescription = null)
+            Icon(iconButton, contentDescription = null)
         }
     }
 }
