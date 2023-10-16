@@ -1,4 +1,11 @@
 package ar.edu.unlam.mobile.scaffold.domain.habit
 
-class Habit {
-}
+data class Habit(
+    val name: String,
+    // TODO Enum de categorias
+    val category: String,
+    val isSimple: Boolean,
+    // TODO ver tiempos
+    val dailyGoal: Long,
+    val weeklyGoal: Long,
+)

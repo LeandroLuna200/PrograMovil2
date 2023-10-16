@@ -56,7 +56,7 @@ fun BottomBar(controller: NavHostController) {
         )
         NavigationBarItem(
             selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == "habit" } == true,
-            onClick = { controller.navigate("habit") },
+            onClick = { controller.navigate("home") },
             icon = {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_equalizer),
