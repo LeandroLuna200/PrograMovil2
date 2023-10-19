@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -72,7 +72,7 @@ fun HabitScreen() {
                 )
             }
             items(mokkList.size) {
-                ItemHabit("Habito", {}, Icons.Default.Favorite)
+                ItemHabit("Habito", {}, Icons.Default.Clear)
             }
         }
     }

@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffold.ui.components
+package ar.edu.unlam.mobile.scaffold.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ar.edu.unlam.mobile.scaffold.ui.components.CustomTextField
+import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
+import ar.edu.unlam.mobile.scaffold.ui.components.ToggleButton
+
 
 @Preview
 @Composable

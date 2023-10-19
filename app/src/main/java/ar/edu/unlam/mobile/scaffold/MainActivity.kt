@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ar.edu.unlam.mobile.scaffold.ui.components.BottomBar
+import ar.edu.unlam.mobile.scaffold.ui.screens.AddHabit
 import ar.edu.unlam.mobile.scaffold.ui.screens.HabitScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerScreen
@@ -78,6 +79,9 @@ fun MainScreen() {
             composable("timer") {
                 // Home es el componente en sí que es el destino de navegación.
                 TimerScreen()
+            }
+            composable("habit editor"){
+                AddHabit()
             }
         }
     }
