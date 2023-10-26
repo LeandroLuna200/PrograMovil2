@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffold.data.habit.network
+package ar.edu.unlam.mobile.scaffold.data.joke.network
 
 import retrofit2.http.GET
 
