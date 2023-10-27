@@ -7,5 +7,4 @@ data class Habit(
     // TODO ver tiempos
     val dailyGoal: Long,
     val weeklyGoal: Long,
-    //joke: Joke
 )

@@ -10,10 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 
 @Composable
-fun CustomIconButton(controller: NavHostController, route: String, icon: ImageVector) {
+fun CustomIconButton(action: () -> Unit, icon: ImageVector) {
     IconButton(
         modifier = Modifier
             .padding(6.dp)
@@ -21,7 +20,7 @@ fun CustomIconButton(controller: NavHostController, route: String, icon: ImageVe
                 color = Color.Red,
                 shape = CircleShape,
             ),
-        onClick = { controller.navigate(route) },
+        onClick = { action },
     ) {
         Icon(icon, contentDescription = null)
     }

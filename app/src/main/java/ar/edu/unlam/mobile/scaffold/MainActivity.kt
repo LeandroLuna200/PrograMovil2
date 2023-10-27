@@ -70,7 +70,7 @@ fun MainScreen() {
             }
             composable("planner") {
                 // Home es el componente en sí que es el destino de navegación.
-                PlannerScreen()
+                PlannerScreen(controller)
             }
             composable("habit") {
                 // Home es el componente en sí que es el destino de navegación.
@@ -80,8 +80,8 @@ fun MainScreen() {
                 // Home es el componente en sí que es el destino de navegación.
                 TimerScreen()
             }
-            composable("habit editor"){
-                AddHabit()
+            composable("editor") {
+                AddHabit(controller)
             }
         }
     }
