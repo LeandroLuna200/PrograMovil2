@@ -22,8 +22,8 @@ fun BottomBar(controller: NavHostController) {
     val navBackStackEntry by controller.currentBackStackEntryAsState()
     NavigationBar {
         NavigationBarItem(
-            selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == "home" } == true,
-            onClick = { controller.navigate("home") },
+            selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == "habit" } == true,
+            onClick = { controller.navigate("habit") },
             icon = {
                 Icon(
                     imageVector = Icons.Default.Home,
@@ -33,8 +33,8 @@ fun BottomBar(controller: NavHostController) {
             },
         )
         NavigationBarItem(
-            selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == "segundo" } == true,
-            onClick = { controller.navigate("segundo/667867895") },
+            selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == "planner" } == true,
+            onClick = { controller.navigate("planner") },
             icon = {
                 Icon(
                     imageVector = Icons.Default.DateRange,
@@ -44,8 +44,8 @@ fun BottomBar(controller: NavHostController) {
             },
         )
         NavigationBarItem(
-            selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == "segundo" } == true,
-            onClick = { controller.navigate("segundo/667867895") },
+            selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == "timer" } == true,
+            onClick = { controller.navigate("timer") },
             icon = {
                 Icon(
                     imageVector = Icons.Default.Face,
@@ -56,7 +56,7 @@ fun BottomBar(controller: NavHostController) {
         )
         NavigationBarItem(
             selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == "habit" } == true,
-            onClick = { controller.navigate("habit") },
+            onClick = { controller.navigate("home") },
             icon = {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_equalizer),
