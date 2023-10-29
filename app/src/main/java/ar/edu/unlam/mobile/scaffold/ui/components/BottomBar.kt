@@ -27,7 +27,7 @@ fun BottomBar(controller: NavHostController) {
             icon = {
                 Icon(
                     imageVector = Icons.Default.Home,
-                    contentDescription = "Borrar Tarea",
+                    contentDescription = "",
                     tint = MaterialTheme.colorScheme.primary,
                 )
             },
@@ -38,7 +38,7 @@ fun BottomBar(controller: NavHostController) {
             icon = {
                 Icon(
                     imageVector = Icons.Default.DateRange,
-                    contentDescription = "Borrar Tarea",
+                    contentDescription = "",
                     tint = MaterialTheme.colorScheme.primary,
                 )
             },
@@ -49,7 +49,7 @@ fun BottomBar(controller: NavHostController) {
             icon = {
                 Icon(
                     imageVector = Icons.Default.Face,
-                    contentDescription = "Borrar Tarea",
+                    contentDescription = "",
                     tint = MaterialTheme.colorScheme.primary,
                 )
             },

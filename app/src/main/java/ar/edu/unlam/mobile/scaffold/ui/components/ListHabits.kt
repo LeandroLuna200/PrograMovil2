@@ -1,16 +1,15 @@
 package ar.edu.unlam.mobile.scaffold.ui.components
 
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 
 @Composable
-fun ListItemsHabits(items: List<String>, iconButton: ImageVector) {
-    // TODO pasar lista de Habitos (crear model)
+fun ListItemsHabits(items: List<Habit>, iconButton: ImageVector) {
     LazyColumn {
-        items(items) {
-            ItemHabit("Habit", {}, iconButton)
+        items(items.size) {
+            item-> ItemHabit(items[item].name, {}, iconButton)
         }
     }
 }
