@@ -4,13 +4,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class JokeRepository@Inject constructor(private val api: ChuckNorrisAPI) : JokeNetworkRepository {
+class JokeHTTPRepository @Inject constructor(private val api: ChuckNorrisAPI) :
+    JokeNetworkRepository {
     override suspend fun getRandomJoke(): Flow<JokeAPIModel> {
         return flow {
-            emit(api.getJokes()[0])
+            emit(api.getJoke())
         }
     }
-    }
-
-
-
+}
