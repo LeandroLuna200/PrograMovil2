@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
 @Composable
 fun Chronometer() {
@@ -23,7 +24,7 @@ fun Chronometer() {
             .height(64.dp)
             .padding(6.dp)
             .background(
-                color = Color.Green,
+                color = CustomLightBlue,
                 shape = CircleShape,
             ),
         verticalAlignment = Alignment.CenterVertically,

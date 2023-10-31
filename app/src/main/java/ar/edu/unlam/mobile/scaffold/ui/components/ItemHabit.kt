@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -29,10 +30,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
+import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
 @Composable
-fun ItemHabit(text: String, action: () -> Unit, iconButton: ImageVector) {
-    var clicked by remember { mutableStateOf(false) }
+fun ItemHabit(text: String, iconButton: ImageVector) {
+    val controller = rememberNavController()
+    var icon: ImageVector = iconButton
+    var isIcon1Selected by remember { mutableStateOf(true) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,7 +51,7 @@ fun ItemHabit(text: String, action: () -> Unit, iconButton: ImageVector) {
                 .fillMaxHeight()
                 .padding(6.dp)
                 .background(
-                    color = Color.Red,
+                    color = CustomLightBlue,
                     shape = CircleShape,
                 ),
             verticalAlignment = Alignment.CenterVertically,
@@ -64,36 +70,28 @@ fun ItemHabit(text: String, action: () -> Unit, iconButton: ImageVector) {
                 .size(64.dp)
                 .padding(6.dp)
                 .background(
-                    color = Color.Red,
+                    color = CustomLightBlue,
                     shape = CircleShape,
                 ),
-            onClick = { /*clicked = true*/ action },
+            onClick = { isIcon1Selected = !isIcon1Selected },
         ) {
-            Icon(iconButton, contentDescription = null)
-        }
-        /*if (clicked)
-            if (iconButton == Icons.Default.Clear)
-                IconButton(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .padding(6.dp)
-                        .background(
-                            color = Color.Green,
-                            shape = CircleShape,
-                        ),
-                    onClick = { clicked = true },
-                ) {
-                    Icon(imageVector = Icons.Default.Check, contentDescription = null)
-                }
+            icon = if (isIcon1Selected) {
+                Icons.Default.Clear
+            } else {
+                Icons.Default.Check
+            }
 
-            else if (iconButton == Icons.Default.Check)
-                Icon(imageVector = Icons.Default.Clear, contentDescription = null)*/
+            Icon(icon, contentDescription = null)
+        }
+
+        }
+
 
     }
-}
+
 
 @Preview
 @Composable
 fun PreviewItemHabit() {
-    ItemHabit(text = "hola", action = { /*TODO*/ }, iconButton = Icons.Default.Clear)
+    ItemHabit(text = "hola", iconButton = Icons.Default.Clear)
 }

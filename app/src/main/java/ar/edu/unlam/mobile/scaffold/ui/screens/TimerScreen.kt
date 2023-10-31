@@ -32,6 +32,7 @@ fun TimerScreen(modifier: Modifier = Modifier, viewModel: TimerViewModel = hiltV
     ) {
         // TODO cambiar esto por un spinner
         CustomTextField(titleText = "Hábito", text = "Hábito")
+        //TODO la meta diaria cambia segun el habito que se selecciona en el spinner
         CustomTextField(titleText = "Meta Diaria", text = "01:30hs")
         ToggleButton(text = "Modo Zen")
         Chronometer()

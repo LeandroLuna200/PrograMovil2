@@ -1,6 +1,5 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,7 +55,7 @@ fun HabitScreen() {
                 )
             }
             items(mokkList.size) {
-                ItemHabit("Habito", {}, Icons.Default.Clear)
+                ItemHabit("Habito", Icons.Default.Clear)
             }
             item {
                 Text(
@@ -72,7 +71,7 @@ fun HabitScreen() {
                 )
             }
             items(mokkList.size) {
-                ItemHabit("Habito", {}, Icons.Default.Clear)
+                ItemHabit("Habito", Icons.Default.Clear)
             }
         }
     }
