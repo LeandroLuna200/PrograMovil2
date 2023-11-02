@@ -1,5 +1,7 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
+import android.annotation.SuppressLint
+import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,6 +12,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -19,17 +23,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
+import java.util.Date
+import androidx.compose.runtime.getValue
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 
 @Composable
-fun HabitScreen() {
+fun HabitScreen(/*habits: MutableList<Habit>*/) {
+    val currentDate by remember { mutableStateOf(getCurrentDate()) }
     // TODO pasar lista de Habits por parametro
-    val mokkList = listOf("Habito", "Habito", "Habito", "Habito")
+    val habits = mutableListOf<Habit>()
+    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, isSimple = true, 0, 0))
+    habits.add(Habit("estudiar 2hrs", TypeCategory.DEDICATED, isSimple = false, 2, 8))
+    habits.add(Habit("ir al medico a las 10am", TypeCategory.EVENT, isSimple = false, 0, 0))
+    val events = habits.filter { it.category == TypeCategory.EVENT }
+    val habitsDedicated = habits.filter { it.category == TypeCategory.DEDICATED }
+    val habitsSimple = habits.filter { it.category == TypeCategory.SIMPLE }
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(bottom = 65.dp),
     ) {
         Text(
-            text = "Pantalla principal",
+            text = currentDate,
             style = TextStyle(color = Color.Black, fontSize = 30.sp, textAlign = TextAlign.Center),
             modifier = Modifier
                 .fillMaxWidth()
@@ -43,7 +59,7 @@ fun HabitScreen() {
         ) {
             item {
                 Text(
-                    text = "Objetivos",
+                    text = "Eventos",
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 25.sp,
@@ -54,12 +70,30 @@ fun HabitScreen() {
                         .wrapContentHeight(),
                 )
             }
-            items(mokkList.size) {
-                ItemHabit("Habito", Icons.Default.Clear)
+
+            items(events.size) {
+                item-> ItemHabit(events[item].name, Icons.Default.Clear)
+            }
+            
+            item {
+                Text(
+                    text = "Tareas Dedicadas",
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 25.sp,
+                        textAlign = TextAlign.Center,
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                )
+            }
+            items(habitsDedicated.size) {
+                item-> ItemHabit(habitsDedicated[item].name, Icons.Default.Clear)
             }
             item {
                 Text(
-                    text = "Metas",
+                    text = "Tareas simples",
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 25.sp,
@@ -70,15 +104,24 @@ fun HabitScreen() {
                         .wrapContentHeight(),
                 )
             }
-            items(mokkList.size) {
-                ItemHabit("Habito", Icons.Default.Clear)
+            items(habitsSimple.size) {
+                    item-> ItemHabit(habitsSimple[item].name, Icons.Default.Clear)
             }
         }
     }
 }
 
-@Preview
+
+@SuppressLint("SimpleDateFormat")
+fun getCurrentDate(): String {
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+    return dateFormat.format(Date())
+}
+
+@Preview(showBackground = true)
 @Composable
 fun PreviewScreen() {
+    val habits: MutableList<Habit> = mutableListOf()
+    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, isSimple = true, 0, 0))
     HabitScreen()
 }

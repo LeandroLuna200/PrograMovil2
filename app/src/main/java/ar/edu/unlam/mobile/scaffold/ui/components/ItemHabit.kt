@@ -30,13 +30,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
 @Composable
 fun ItemHabit(text: String, iconButton: ImageVector) {
-    val controller = rememberNavController()
-    var icon: ImageVector = iconButton
+    var icon = iconButton
     var isIcon1Selected by remember { mutableStateOf(true) }
 
     Row(
@@ -75,12 +73,11 @@ fun ItemHabit(text: String, iconButton: ImageVector) {
                 ),
             onClick = { isIcon1Selected = !isIcon1Selected },
         ) {
-            icon = if (isIcon1Selected) {
-                Icons.Default.Clear
+            if (isIcon1Selected) {
+                icon = Icons.Default.Clear
             } else {
-                Icons.Default.Check
+                icon = Icons.Default.Check
             }
-
             Icon(icon, contentDescription = null)
         }
 
@@ -93,5 +90,5 @@ fun ItemHabit(text: String, iconButton: ImageVector) {
 @Preview
 @Composable
 fun PreviewItemHabit() {
-    ItemHabit(text = "hola", iconButton = Icons.Default.Clear)
+    ItemHabit(text = "hola", iconButton = Icons.Default.Edit)
 }

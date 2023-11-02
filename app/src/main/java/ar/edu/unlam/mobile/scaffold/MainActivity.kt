@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ar.edu.unlam.mobile.scaffold.ui.components.BottomBar
+import ar.edu.unlam.mobile.scaffold.ui.screens.AddEvent
 import ar.edu.unlam.mobile.scaffold.ui.screens.AddHabit
 import ar.edu.unlam.mobile.scaffold.ui.screens.HabitScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.HomeScreen
@@ -69,20 +70,21 @@ fun MainScreen() {
                 SecondaryScreen(controller = controller, id = id)
             }
             composable("planner") {
-                // Home es el componente en sí que es el destino de navegación.
-                PlannerScreen(controller)
+                PlannerScreen()
             }
             composable("habit") {
-                // Home es el componente en sí que es el destino de navegación.
                 HabitScreen()
             }
             composable("timer") {
-                // Home es el componente en sí que es el destino de navegación.
                 TimerScreen()
             }
-            composable("editor") {
+            composable("create habit") {
                 AddHabit(controller)
             }
+            composable("create event"){
+                AddEvent(controller)
+            }
+
         }
     }
 }
