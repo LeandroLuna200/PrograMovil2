@@ -14,8 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+
 @Composable
-fun ToggleButton(text: String) {
+fun ToggleButton(text: String): Boolean {
+    var isChecked by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .padding(12.dp),
@@ -31,11 +33,10 @@ fun ToggleButton(text: String) {
                 .weight(1f),
         )
 
-        var isChecked by remember { mutableStateOf(false) }
-
         Switch(
             checked = isChecked,
             onCheckedChange = { isChecked = it },
         )
     }
+    return isChecked
 }

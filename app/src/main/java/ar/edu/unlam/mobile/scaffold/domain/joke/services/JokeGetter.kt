@@ -1,8 +1,8 @@
-package ar.edu.unlam.mobile.scaffold.data.joke.repository
+package ar.edu.unlam.mobile.scaffold.domain.joke.services
 
 import ar.edu.unlam.mobile.scaffold.domain.joke.models.Joke
 import kotlinx.coroutines.flow.Flow
 
-interface JokeRepository {
+interface JokeGetter {
     suspend fun getJoke(): Flow<Joke>
 }

@@ -17,16 +17,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
 
-@Preview
 @Composable
-fun DaysRowButtons() {
+fun DaysRowButtons(onDaySelectedChanged: (String, Boolean) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -35,18 +32,39 @@ fun DaysRowButtons() {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Day("D")
-        Day("L")
-        Day("M")
-        Day("X")
-        Day("J")
-        Day("V")
-        Day("S")
+        Day("D") { day, isSelected ->
+            // Notifica el cambio al día seleccionado
+            onDaySelectedChanged(day, isSelected)
+        }
+        Day("L") { day, isSelected ->
+            // Notifica el cambio al día seleccionado
+            onDaySelectedChanged(day, isSelected)
+        }
+        Day("M") { day, isSelected ->
+            // Notifica el cambio al día seleccionado
+            onDaySelectedChanged(day, isSelected)
+        }
+        Day("X") { day, isSelected ->
+            // Notifica el cambio al día seleccionado
+            onDaySelectedChanged(day, isSelected)
+        }
+        Day("J") { day, isSelected ->
+            // Notifica el cambio al día seleccionado
+            onDaySelectedChanged(day, isSelected)
+        }
+        Day("V") { day, isSelected ->
+            // Notifica el cambio al día seleccionado
+            onDaySelectedChanged(day, isSelected)
+        }
+        Day("S") { day, isSelected ->
+            // Notifica el cambio al día seleccionado
+            onDaySelectedChanged(day, isSelected)
+        }
     }
 }
 
 @Composable
-fun Day(text: String) {
+fun Day(text: String, param: (String, Boolean) -> Unit) {
     var isButtonClicked by remember { mutableStateOf(false) }
 
     val buttonColor = if (isButtonClicked) {
@@ -67,18 +85,21 @@ fun Day(text: String) {
         horizontalArrangement = Arrangement.Center,
     ) {
         TextButton(
-            onClick = { isButtonClicked = !isButtonClicked },
+            onClick = {
+                isButtonClicked = !isButtonClicked
+
+                param(text, isButtonClicked)
+            },
             modifier = Modifier
                 .background(
                     color = buttonColor,
                     shape = CircleShape,
-                )
+                ),
         ) {
             Text(
                 text = text,
                 textAlign = TextAlign.Center,
             )
         }
-
     }
 }

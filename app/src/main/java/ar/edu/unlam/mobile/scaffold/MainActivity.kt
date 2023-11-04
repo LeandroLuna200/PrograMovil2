@@ -17,7 +17,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ar.edu.unlam.mobile.scaffold.ui.components.BottomBar
 import ar.edu.unlam.mobile.scaffold.ui.screens.AddEvent
-import ar.edu.unlam.mobile.scaffold.ui.screens.AddHabit
 import ar.edu.unlam.mobile.scaffold.ui.screens.HabitScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerScreen
@@ -70,7 +69,7 @@ fun MainScreen() {
                 SecondaryScreen(controller = controller, id = id)
             }
             composable("planner") {
-                PlannerScreen()
+                PlannerScreen(modifier = Modifier.padding(paddingValue))
             }
             composable("habit") {
                 HabitScreen()
@@ -78,13 +77,6 @@ fun MainScreen() {
             composable("timer") {
                 TimerScreen()
             }
-            composable("create habit") {
-                AddHabit(controller)
-            }
-            composable("create event"){
-                AddEvent(controller)
-            }
-
         }
     }
 }

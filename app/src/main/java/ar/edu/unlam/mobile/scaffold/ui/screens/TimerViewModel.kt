@@ -2,8 +2,8 @@ package ar.edu.unlam.mobile.scaffold.ui.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.Joke
-import ar.edu.unlam.mobile.scaffold.domain.habit.services.JokeGetter
+import ar.edu.unlam.mobile.scaffold.domain.joke.models.Joke
+import ar.edu.unlam.mobile.scaffold.domain.joke.services.JokeGetter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

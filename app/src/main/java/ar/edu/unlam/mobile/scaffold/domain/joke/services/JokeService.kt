@@ -1,7 +1,7 @@
-package ar.edu.unlam.mobile.scaffold.domain.habit.services
+package ar.edu.unlam.mobile.scaffold.domain.joke.services
 
 import ar.edu.unlam.mobile.scaffold.data.joke.repository.JokeRepository
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.Joke
+import ar.edu.unlam.mobile.scaffold.domain.joke.models.Joke
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

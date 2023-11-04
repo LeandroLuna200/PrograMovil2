@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -12,8 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,19 +26,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffold.ui.components.CustomTextField
 import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ToggleButton
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
 
 @Composable
-fun AddHabit(controller: NavHostController) {
-    var isDialogVisible by remember { mutableStateOf(false) }
+fun AddHabit(closeSecondDialogEvent: () -> Unit) {
+    var nombreHabito by remember { mutableStateOf("") }
+    var isCheckedSimple by remember { mutableStateOf(false) }
+    var isCheckedSemanal by remember { mutableStateOf(false) }
+    var horaSimple by remember { mutableStateOf("") }
+    var metaSemanal by remember { mutableStateOf("") }
+    var selectedDays by remember { mutableStateOf<Set<String>>(emptySet()) }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,10 +58,9 @@ fun AddHabit(controller: NavHostController) {
                     .padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                //TODO en esta parte la app rompe
                 TextButton(
-                    onClick = { controller.navigate("planner") },
-                    ) {
+                    onClick = { closeSecondDialogEvent() },
+                ) {
                     Text(
                         text = "<volver",
                         textAlign = TextAlign.Left,
@@ -67,19 +70,44 @@ fun AddHabit(controller: NavHostController) {
                     modifier = Modifier
                         .weight(1f),
                 )
-                Text(
-                    text = "Nuevo habito",
-                    textAlign = TextAlign.Right,
-                )
             }
 
-            DaysRowButtons()
-            CustomTextField(titleText = "Nombre", text = "(Nombre habito)")
-            ToggleButton(text = "Tarea simple")
-            ToggleButton(text = "Meta Diaria")
-            CustomTextField(titleText = "Meta diaria", text = "00:00hs")
-            ToggleButton(text = "Meta semanal")
-            CustomTextField(titleText = "Meta semanal", text = "00:00hs")
+            DaysRowButtons() { day, isSelected ->
+                selectedDays = if (isSelected) {
+                    selectedDays + day
+                } else {
+                    selectedDays - day
+                }
+                Log.i("DIAS", selectedDays.toString())
+            }
+
+            TextField(
+                value = nombreHabito,
+                label = { Text("Fecha del hábito") },
+                onValueChange = {
+                    nombreHabito = it
+                },
+            )
+
+            isCheckedSimple = ToggleButton(text = "Tarea Simple")
+
+            TextField(
+                value = horaSimple,
+                label = { Text("Hora") },
+                onValueChange = {
+                    horaSimple = it
+                },
+            )
+
+            isCheckedSemanal = ToggleButton(text = "Meta Diaria")
+
+            TextField(
+                value = metaSemanal,
+                label = { Text("Horas x dia") },
+                onValueChange = {
+                    metaSemanal = it
+                },
+            )
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -89,8 +117,8 @@ fun AddHabit(controller: NavHostController) {
                         .weight(1f),
                 )
                 TextButton(
-                    onClick = { isDialogVisible = false },
-                    ) {
+                    onClick = { Log.i("BOTON CREAR HABITO", "CLICK") },
+                ) {
                     Text(
                         text = "<crear>",
                         textAlign = TextAlign.Right,
@@ -102,8 +130,11 @@ fun AddHabit(controller: NavHostController) {
 }
 
 @Composable
-fun AddEvent(controller: NavHostController) {
-    var isDialogVisible by remember { mutableStateOf(false) }
+fun AddEvent(closeThirdDialogEvent: () -> Unit) {
+    var nombreHabito by remember { mutableStateOf("") }
+    var fechaHabito by remember { mutableStateOf("") }
+    var horaHabito by remember { mutableStateOf("") }
+    var selectedDays by remember { mutableStateOf<Set<String>>(emptySet()) }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -122,10 +153,9 @@ fun AddEvent(controller: NavHostController) {
                     .padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                //TODO en esta parte la app rompe
                 TextButton(
-                    onClick = { controller.navigate("planner") },
-                    ) {
+                    onClick = { closeThirdDialogEvent() },
+                ) {
                     Text(
                         text = "<volver",
                         textAlign = TextAlign.Left,
@@ -135,25 +165,45 @@ fun AddEvent(controller: NavHostController) {
                     modifier = Modifier
                         .weight(1f),
                 )
-                Text(
-                    text = "Nuevo evento",
-                    textAlign = TextAlign.Right,
-                )
             }
 
-            DaysRowButtons()
-            CustomTextField(titleText = "Nombre", text = "")
+//            DaysRowButtons { day, isSelected ->
+//                selectedDays = if (isSelected) {
+//                    selectedDays + day
+//                } else {
+//                    selectedDays - day
+//                }
+//                Log.i("DIAS", selectedDays.toString())
+//            }
+            TextField(
+                value = nombreHabito,
+                label = { Text("Nombre del hábito") },
+                onValueChange = {
+                    nombreHabito = it
+                },
+            )
             Spacer(
                 modifier = Modifier
                     .height(16.dp),
             )
-            CustomTextField(titleText = "Fecha", text = "")
+            TextField(
+                value = fechaHabito,
+                label = { Text("Fecha") },
+                onValueChange = {
+                    fechaHabito = it
+                },
+            )
             Spacer(
                 modifier = Modifier
                     .height(16.dp),
             )
-            CustomTextField(titleText = "Hora", text = "(opcional)")
-
+            TextField(
+                value = horaHabito,
+                label = { Text("Hora") },
+                onValueChange = {
+                    horaHabito = it
+                },
+            )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
@@ -162,9 +212,11 @@ fun AddEvent(controller: NavHostController) {
                         .weight(1f),
                 )
                 TextButton(
-                    onClick = { isDialogVisible = false },
+                    onClick = {
+                        Log.i("BOTON CREAR Evento", "CLICK")
+                    },
 
-                    ) {
+                ) {
                     Text(
                         text = "<crear>",
                         textAlign = TextAlign.Right,
@@ -176,16 +228,14 @@ fun AddEvent(controller: NavHostController) {
 }
 
 @Composable
-fun EventOrHabit() {
-    var isDialogVisibleHabit by remember { mutableStateOf(false) }
-    var isDialogVisibleEvent by remember { mutableStateOf(false) }
+fun EventOrHabit(openSecondDialogEvent: () -> Unit, openThirdDialogEvent: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(
                 color = Color.LightGray,
-                shape = CircleShape
-            )
+                shape = CircleShape,
+            ),
     ) {
         Row(
             modifier = Modifier
@@ -194,64 +244,38 @@ fun EventOrHabit() {
         ) {
             TextButton(
                 onClick = {
-                    isDialogVisibleHabit = true
+                    openSecondDialogEvent()
                 },
                 modifier = Modifier
                     .background(
                         color = CustomLightBlue2,
-                        shape = CircleShape
-                    )
+                        shape = CircleShape,
+                    ),
             ) {
                 Text(
                     text = "Habito",
                     textAlign = TextAlign.Left,
                 )
             }
-            if (isDialogVisibleHabit) {
-                Dialog(
-                    onDismissRequest = {
-                        isDialogVisibleHabit = false
-                    },
-                    content = {
-                        AddHabit(controller = rememberNavController())
-                    })
-            }
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f),
+            Spacer(
+                modifier = Modifier
+                    .weight(1f),
+            )
+            TextButton(
+                onClick = {
+                    openThirdDialogEvent()
+                },
+                modifier = Modifier
+                    .background(
+                        color = CustomLightBlue2,
+                        shape = CircleShape,
+                    ),
+            ) {
+                Text(
+                    text = "Evento",
+                    textAlign = TextAlign.Right,
                 )
-                TextButton(
-                    onClick = {
-                        isDialogVisibleEvent = true
-                    },
-                    modifier = Modifier
-                        .background(
-                            color = CustomLightBlue2,
-                            shape = CircleShape
-                        )
-                ) {
-                    Text(
-                        text = "Evento",
-                        textAlign = TextAlign.Right,
-                    )
-                }
-                if (isDialogVisibleEvent) {
-                    Dialog(
-                        onDismissRequest = {
-                            isDialogVisibleEvent = false
-                        },
-                        content = {
-                            AddEvent(controller = rememberNavController())
-                        })
-
-                }
-
+            }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewEventOrHabit() {
-    EventOrHabit()
 }
