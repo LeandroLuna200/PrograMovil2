@@ -1,15 +1,18 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
+import ar.edu.unlam.mobile.scaffold.domain.habit.services.HabitGetter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PlannerViewModel @Inject constructor() : ViewModel() {
+class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter) : ViewModel() {
     private val _showDialog = mutableStateOf(false)
     val showDialog: State<Boolean> = _showDialog
 
@@ -23,21 +26,23 @@ class PlannerViewModel @Inject constructor() : ViewModel() {
     val habits: State<List<Habit>> = _habits
 
     init {
-        // Inicializa la lista de hábitos aquí
-        val dias = mutableListOf<String>("D", "L", "S")
-        val initialHabits = mutableListOf<Habit>()
-        initialHabits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, dias, 0))
-        initialHabits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, dias, 0))
-        initialHabits.add(Habit("estudiar 2hrs", TypeCategory.DEDICATED, dias, 8))
-        initialHabits.add(
-            Habit(
-                "ir al médico a las 10 am",
-                TypeCategory.EVENT,
-                dias,
-                0,
-            ),
-        )
-        _habits.value = initialHabits
+        getHabit()
+    }
+
+    fun getHabit() {
+        Log.i("HABITOS MOCK1", "")
+        viewModelScope.launch {
+            Log.i("HABITOS MOCK2", "")
+            habitGetter.getHabit().collect {
+//                Log.i("HABITOS MOCK", it.toString())
+//                _habits.value = _habits.value + it
+//                Log.i("HABITOS MOCK", habits.toString())
+                it.map {
+                    Log.i("HABITOS MOCK", it.id.toString())
+                    Log.i("HABITOS MOCK", it.name.toString())
+                }
+            }
+        }
     }
 
     fun showOrDismissDialog(show: Boolean) {
