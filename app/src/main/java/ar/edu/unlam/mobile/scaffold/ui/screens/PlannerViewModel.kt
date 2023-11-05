@@ -24,16 +24,16 @@ class PlannerViewModel @Inject constructor() : ViewModel() {
 
     init {
         // Inicializa la lista de hábitos aquí
+        val dias = mutableListOf<String>("D", "L", "S")
         val initialHabits = mutableListOf<Habit>()
-        initialHabits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, isSimple = true, 0, 0))
-        initialHabits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, isSimple = true, 0, 0))
-        initialHabits.add(Habit("estudiar 2hrs", TypeCategory.DEDICATED, isSimple = false, 2, 8))
+        initialHabits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, dias, 0))
+        initialHabits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, dias, 0))
+        initialHabits.add(Habit("estudiar 2hrs", TypeCategory.DEDICATED, dias, 8))
         initialHabits.add(
             Habit(
                 "ir al médico a las 10 am",
                 TypeCategory.EVENT,
-                isSimple = false,
-                0,
+                dias,
                 0,
             ),
         )

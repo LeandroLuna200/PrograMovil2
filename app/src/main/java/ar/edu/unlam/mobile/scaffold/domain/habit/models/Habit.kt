@@ -1,7 +1,20 @@
 package ar.edu.unlam.mobile.scaffold.domain.habit.models
 
+sealed class Habito {
+    abstract val name: String
+    abstract val category: TypeCategory
+}
+
 data class Habit(
-    val name: String,
-    val category: TypeCategory,
+    override val name: String,
+    override val category: TypeCategory,
+    val days: List<String>,
     val dailyGoal: Long,
-)
+) : Habito()
+
+data class Event(
+    override val name: String,
+    override val category: TypeCategory,
+    val fecha: String,
+    val hora: Long,
+) : Habito()

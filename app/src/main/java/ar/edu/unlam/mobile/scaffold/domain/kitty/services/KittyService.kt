@@ -5,7 +5,7 @@ import ar.edu.unlam.mobile.scaffold.domain.kitty.models.Kitty
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class KittyService @Inject constructor(val repository: KittyRepository) : KittyGetter {
+class KittyService @Inject constructor(val repository: KittyMockService) : KittyGetter {
     override suspend fun getKitty(): Flow<Kitty> {
         return this.repository.getKitty()
     }

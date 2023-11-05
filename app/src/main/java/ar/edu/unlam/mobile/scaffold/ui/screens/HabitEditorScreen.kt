@@ -83,7 +83,7 @@ fun AddHabit(closeSecondDialogEvent: () -> Unit) {
 
             TextField(
                 value = nombreHabito,
-                label = { Text("Fecha del hábito") },
+                label = { Text("Nombre") },
                 onValueChange = {
                     nombreHabito = it
                 },

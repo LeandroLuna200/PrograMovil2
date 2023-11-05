@@ -23,11 +23,11 @@ import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 
 @Composable
 fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
-    //TODO filtrar lista por habits dedicated
+    // TODO filtrar lista por habits dedicated
     val habits: MutableList<Habit> = mutableListOf()
-    habits.add(Habit("levantarme temprano", TypeCategory.DEDICATED, isSimple = false, 0, 0))
-    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, isSimple = true, 0, 0))
-    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, isSimple = true, 0, 0))
+//    habits.add(Habit("levantarme temprano", TypeCategory.DEDICATED, 0))
+//    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, 0))
+//    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, 0))
 
     val uiState: TimerUIState by viewModel.uiState.collectAsState()
 
@@ -40,7 +40,7 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
     ) {
         // TODO cambiar esto por un spinner
         CustomTextField(titleText = "Hábito", text = "Hábito")
-        //TODO la meta diaria cambia segun el habito que se selecciona en el spinner
+        // TODO la meta diaria cambia segun el habito que se selecciona en el spinner
         CustomTextField(titleText = "Meta Diaria", text = "01:30hs")
         Chronometer()
         when (val jokeState = uiState.jokeState) {
