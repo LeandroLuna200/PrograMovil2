@@ -2,7 +2,6 @@ package ar.edu.unlam.mobile.scaffold.ui.screens
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,31 +15,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habito
+import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
-import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import java.util.Date
 
 @Composable
-fun HabitScreen(/*habits: MutableList<Habit>*/) {
+fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hiltViewModel()) {
     val currentDate by remember { mutableStateOf(getCurrentDate()) }
     // TODO pasar lista de Habits por parametro
-    val habits = mutableListOf<Habito>()
-//    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, 0))
-//    habits.add(Habit("estudiar 2hrs", TypeCategory.DEDICATED, 8))
-//    habits.add(Habit("ir al medico a las 10am", TypeCategory.EVENT, 0))
+    val habits = viewModel.habits.value
+
     val events = habits.filter { it.category == TypeCategory.EVENT }
     val habitsDedicated = habits.filter { it.category == TypeCategory.DEDICATED }
     val habitsSimple = habits.filter { it.category == TypeCategory.SIMPLE }
-    var selectedDays by remember { mutableStateOf<Set<String>>(emptySet()) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,18 +47,11 @@ fun HabitScreen(/*habits: MutableList<Habit>*/) {
                 .fillMaxWidth()
                 .wrapContentHeight(),
         )
-        DaysRowButtons{ day, isSelected ->
-            selectedDays = if (isSelected) {
-                selectedDays + day
-            } else {
-                selectedDays - day
-            }
-            Log.i("DIAS", selectedDays.toString())
-        }
+//        DaysRowButtons()
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f), 
+                .weight(1f), // Ocupa el espacio restante en la columna
         ) {
             item {
                 Text(
@@ -78,23 +65,10 @@ fun HabitScreen(/*habits: MutableList<Habit>*/) {
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
-                if (events.isEmpty()){
-                Text(text = "no hay eventos",
-                    style = TextStyle(
-                        color = Color.DarkGray,
-                        fontSize = 20.sp,
-                        textAlign = TextAlign.Center,
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                )
-            }
             }
 
             items(events.size) { item ->
                 ItemHabit(events[item].name, Icons.Default.Clear)
-
             }
 
             item {
@@ -109,19 +83,6 @@ fun HabitScreen(/*habits: MutableList<Habit>*/) {
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
-                if (habitsDedicated.isEmpty()) {
-                    Text(
-                        text = "no hay tareas dedicadas",
-                        style = TextStyle(
-                            color = Color.DarkGray,
-                            fontSize = 20.sp,
-                            textAlign = TextAlign.Center,
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                    )
-                }
             }
             items(habitsDedicated.size) { item ->
                 ItemHabit(habitsDedicated[item].name, Icons.Default.Clear)
@@ -138,19 +99,6 @@ fun HabitScreen(/*habits: MutableList<Habit>*/) {
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
-                if (habitsSimple.isEmpty()) {
-                    Text(
-                        text = "no hay tareas simples",
-                        style = TextStyle(
-                            color = Color.DarkGray,
-                            fontSize = 20.sp,
-                            textAlign = TextAlign.Center,
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                    )
-                }
             }
             items(habitsSimple.size) { item ->
                 ItemHabit(habitsSimple[item].name, Icons.Default.Clear)

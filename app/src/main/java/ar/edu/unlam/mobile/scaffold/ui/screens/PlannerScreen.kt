@@ -1,6 +1,5 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,10 +15,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,8 +26,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
-import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
-import ar.edu.unlam.mobile.scaffold.ui.components.FilterByCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
@@ -69,6 +62,7 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
     val habits = viewModel.habits.value
 
     Body(
+        viewModel,
         habits = habits,
         showDialog,
         openDialogEvent,
@@ -84,6 +78,7 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
 
 @Composable
 fun Body(
+    viewModel: PlannerViewModel,
     habits: List<Habit>,
     isDialogVisible: Boolean,
     openDialogEvent: () -> Unit,
@@ -98,25 +93,17 @@ fun Body(
     val events = habits.filter { it.category == TypeCategory.EVENT }
     val habitsDedicated = habits.filter { it.category == TypeCategory.DEDICATED }
     val habitsSimple = habits.filter { it.category == TypeCategory.SIMPLE }
-    var selectedDays by remember { mutableStateOf<Set<String>>(emptySet()) }
-
+    // TODO campo de busqueda y filtros
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 65.dp),
+            .padding(bottom = 150.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // TODO cambiar el icon por uno de filtro
-        FilterByCategory()
+//        FilterByCategory()
 
-        DaysRowButtons{ day, isSelected ->
-            selectedDays = if (isSelected) {
-                selectedDays + day
-            } else {
-                selectedDays - day
-            }
-            Log.i("DIAS", selectedDays.toString())
-        }
+//        DaysRowButtons()
         Text(
             text = "<Planner>",
             style = TextStyle(
@@ -185,7 +172,7 @@ fun Body(
         }
         IconButton(
             modifier = Modifier
-                .padding(6.dp)
+                .padding(30.dp)
                 .background(
                     color = CustomLightBlue,
                     shape = CircleShape,
@@ -212,7 +199,7 @@ fun Body(
                     // Lógica de cierre del segundo diálogo
                 },
                 content = {
-                    AddHabit(closeSecondDialogEvent)
+                    AddHabit(closeSecondDialogEvent, viewModel)
                 },
             )
         }
