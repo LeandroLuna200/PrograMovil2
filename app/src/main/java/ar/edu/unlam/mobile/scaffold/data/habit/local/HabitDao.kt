@@ -12,4 +12,7 @@ interface HabitDao {
 
     @Query("SELECT * FROM habit_table")
     fun getAllHabits(): Flow<List<HabitLocalModel>>
+
+    @Query("DELETE FROM habit_table WHERE id = :habitId")
+    suspend fun deleteHabitById(habitId: Long)
 }

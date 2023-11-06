@@ -22,8 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habito
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import java.util.Date

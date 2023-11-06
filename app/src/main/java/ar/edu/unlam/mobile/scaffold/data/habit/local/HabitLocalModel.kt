@@ -18,10 +18,6 @@ data class HabitLocalModel(
 
 ) {
     fun getDaysList(): List<String> {
-        if (days == null) {
-            days = listOf<String>()
-            return days
-        }
         return days
     }
 

@@ -12,6 +12,10 @@ class HabitService @Inject constructor(val repository: HabitRepository) :
         this.repository.insertHabit(habit.toHabitDB())
     }
 
+    override suspend fun deleteHabitById(habitId: Long) {
+        this.repository.deleteHabitById(habitId)
+    }
+
     override suspend fun getHabit(): Flow<List<Habit>> {
 //        val dias = mutableListOf<String>("D", "L", "S")
 //        val prueba = mutableListOf<Habit>(
