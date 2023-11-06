@@ -21,9 +21,7 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
     }
 
     private fun getHabit() {
-        Log.i("HABITOS MOCK1", "")
         viewModelScope.launch {
-            Log.i("HABITOS MOCK2", "")
             habitGetter.getHabit().collect { it ->
                 it.map {
                     _habits.value += it
