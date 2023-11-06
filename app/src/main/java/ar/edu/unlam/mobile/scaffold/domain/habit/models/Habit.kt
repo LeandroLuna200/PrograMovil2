@@ -15,6 +15,6 @@ data class Habit(
 data class Event(
     override val name: String,
     override val category: TypeCategory,
-    val fecha: String,
-    val hora: Long,
+    val date: String,
+    val hour: Long,
 ) : Habito()

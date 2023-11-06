@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,17 +28,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ar.edu.unlam.mobile.scaffold.ui.components.CustomTextField
 import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
-import ar.edu.unlam.mobile.scaffold.ui.components.ToggleButton
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
 
 @Composable
 fun AddHabit(closeSecondDialogEvent: () -> Unit) {
-    var nombreHabito by remember { mutableStateOf("") }
+    var nameHabit by remember { mutableStateOf("") }
     var isCheckedSimple by remember { mutableStateOf(false) }
     var isCheckedSemanal by remember { mutableStateOf(false) }
     var horaSimple by remember { mutableStateOf("") }
-    var metaSemanal by remember { mutableStateOf("") }
+    var dailyGoal by remember { mutableStateOf("") }
     var selectedDays by remember { mutableStateOf<Set<String>>(emptySet()) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,13 +65,8 @@ fun AddHabit(closeSecondDialogEvent: () -> Unit) {
                         textAlign = TextAlign.Left,
                     )
                 }
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f),
-                )
             }
-
-            DaysRowButtons() { day, isSelected ->
+            DaysRowButtons { day, isSelected ->
                 selectedDays = if (isSelected) {
                     selectedDays + day
                 } else {
@@ -80,35 +74,50 @@ fun AddHabit(closeSecondDialogEvent: () -> Unit) {
                 }
                 Log.i("DIAS", selectedDays.toString())
             }
-
-            TextField(
-                value = nombreHabito,
-                label = { Text("Nombre") },
-                onValueChange = {
-                    nombreHabito = it
-                },
+            Spacer(
+                modifier = Modifier
+                    .height(12.dp),
             )
+            nameHabit = CustomTextField(titleText = "Nombre del habito", text = "")
 
-            isCheckedSimple = ToggleButton(text = "Tarea Simple")
-
-            TextField(
-                value = horaSimple,
-                label = { Text("Hora") },
-                onValueChange = {
-                    horaSimple = it
-                },
-            )
-
-            isCheckedSemanal = ToggleButton(text = "Meta Diaria")
-
-            TextField(
-                value = metaSemanal,
-                label = { Text("Horas x dia") },
-                onValueChange = {
-                    metaSemanal = it
-                },
-            )
-
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(12.dp)
+            ) {
+                Text(text = "Tarea simple")
+                Spacer(
+                    modifier = Modifier
+                        .weight(1f),
+                )
+                Switch(
+                    checked = isCheckedSimple,
+                    onCheckedChange = { isChecked ->
+                        isCheckedSimple = isChecked
+                        isCheckedSemanal = false
+                    }
+                )
+            }
+            horaSimple = CustomTextField(titleText = "Hora", text = "")
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(12.dp)
+            ) {
+                Text(text = "Meta diaria")
+                Spacer(
+                    modifier = Modifier
+                        .weight(1f),
+                )
+                Switch(
+                    checked = isCheckedSemanal,
+                    onCheckedChange = { isChecked ->
+                        isCheckedSemanal = isChecked
+                        isCheckedSimple = false
+                    }
+                )
+            }
+            dailyGoal = CustomTextField(titleText = "Hora por dia", text = "")
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
@@ -131,9 +140,9 @@ fun AddHabit(closeSecondDialogEvent: () -> Unit) {
 
 @Composable
 fun AddEvent(closeThirdDialogEvent: () -> Unit) {
-    var nombreHabito by remember { mutableStateOf("") }
-    var fechaHabito by remember { mutableStateOf("") }
-    var horaHabito by remember { mutableStateOf("") }
+    var nameEvent by remember { mutableStateOf("") }
+    var dateEvent by remember { mutableStateOf("") }
+    var hourEvent by remember { mutableStateOf("") }
     var selectedDays by remember { mutableStateOf<Set<String>>(emptySet()) }
     Box(
         modifier = Modifier
@@ -161,49 +170,31 @@ fun AddEvent(closeThirdDialogEvent: () -> Unit) {
                         textAlign = TextAlign.Left,
                     )
                 }
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f),
-                )
             }
 
-//            DaysRowButtons { day, isSelected ->
-//                selectedDays = if (isSelected) {
-//                    selectedDays + day
-//                } else {
-//                    selectedDays - day
-//                }
-//                Log.i("DIAS", selectedDays.toString())
-//            }
-            TextField(
-                value = nombreHabito,
-                label = { Text("Nombre del hábito") },
-                onValueChange = {
-                    nombreHabito = it
-                },
+            DaysRowButtons { day, isSelected ->
+                selectedDays = if (isSelected) {
+                    selectedDays + day
+                } else {
+                    selectedDays - day
+                }
+                Log.i("DIAS", selectedDays.toString())
+            }
+            Spacer(
+                modifier = Modifier
+                    .height(12.dp),
             )
+            nameEvent = CustomTextField(titleText = "Nombre del habito", text = "")
             Spacer(
                 modifier = Modifier
                     .height(16.dp),
             )
-            TextField(
-                value = fechaHabito,
-                label = { Text("Fecha") },
-                onValueChange = {
-                    fechaHabito = it
-                },
-            )
+            dateEvent = CustomTextField(titleText = "Fecha", text = "")
             Spacer(
                 modifier = Modifier
                     .height(16.dp),
             )
-            TextField(
-                value = horaHabito,
-                label = { Text("Hora") },
-                onValueChange = {
-                    horaHabito = it
-                },
-            )
+            hourEvent = CustomTextField(titleText = "Hora(opcional)", text = "")
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
@@ -216,7 +207,7 @@ fun AddEvent(closeThirdDialogEvent: () -> Unit) {
                         Log.i("BOTON CREAR Evento", "CLICK")
                     },
 
-                ) {
+                    ) {
                     Text(
                         text = "<crear>",
                         textAlign = TextAlign.Right,

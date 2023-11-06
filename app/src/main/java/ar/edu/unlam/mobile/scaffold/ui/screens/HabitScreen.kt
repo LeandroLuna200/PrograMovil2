@@ -2,6 +2,7 @@ package ar.edu.unlam.mobile.scaffold.ui.screens
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,15 +16,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habito
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
+import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import java.util.Date
 
@@ -38,6 +40,7 @@ fun HabitScreen(/*habits: MutableList<Habit>*/) {
     val events = habits.filter { it.category == TypeCategory.EVENT }
     val habitsDedicated = habits.filter { it.category == TypeCategory.DEDICATED }
     val habitsSimple = habits.filter { it.category == TypeCategory.SIMPLE }
+    var selectedDays by remember { mutableStateOf<Set<String>>(emptySet()) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,11 +53,18 @@ fun HabitScreen(/*habits: MutableList<Habit>*/) {
                 .fillMaxWidth()
                 .wrapContentHeight(),
         )
-//        DaysRowButtons()
+        DaysRowButtons{ day, isSelected ->
+            selectedDays = if (isSelected) {
+                selectedDays + day
+            } else {
+                selectedDays - day
+            }
+            Log.i("DIAS", selectedDays.toString())
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f), // Ocupa el espacio restante en la columna
+                .weight(1f), 
         ) {
             item {
                 Text(
@@ -68,10 +78,23 @@ fun HabitScreen(/*habits: MutableList<Habit>*/) {
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
+                if (events.isEmpty()){
+                Text(text = "no hay eventos",
+                    style = TextStyle(
+                        color = Color.DarkGray,
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Center,
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                )
+            }
             }
 
             items(events.size) { item ->
                 ItemHabit(events[item].name, Icons.Default.Clear)
+
             }
 
             item {
@@ -86,6 +109,19 @@ fun HabitScreen(/*habits: MutableList<Habit>*/) {
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
+                if (habitsDedicated.isEmpty()) {
+                    Text(
+                        text = "no hay tareas dedicadas",
+                        style = TextStyle(
+                            color = Color.DarkGray,
+                            fontSize = 20.sp,
+                            textAlign = TextAlign.Center,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                    )
+                }
             }
             items(habitsDedicated.size) { item ->
                 ItemHabit(habitsDedicated[item].name, Icons.Default.Clear)
@@ -102,6 +138,19 @@ fun HabitScreen(/*habits: MutableList<Habit>*/) {
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
+                if (habitsSimple.isEmpty()) {
+                    Text(
+                        text = "no hay tareas simples",
+                        style = TextStyle(
+                            color = Color.DarkGray,
+                            fontSize = 20.sp,
+                            textAlign = TextAlign.Center,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                    )
+                }
             }
             items(habitsSimple.size) { item ->
                 ItemHabit(habitsSimple[item].name, Icons.Default.Clear)

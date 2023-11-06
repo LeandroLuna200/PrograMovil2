@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +31,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
+import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.FilterByCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
@@ -92,7 +98,8 @@ fun Body(
     val events = habits.filter { it.category == TypeCategory.EVENT }
     val habitsDedicated = habits.filter { it.category == TypeCategory.DEDICATED }
     val habitsSimple = habits.filter { it.category == TypeCategory.SIMPLE }
-    // TODO campo de busqueda y filtros
+    var selectedDays by remember { mutableStateOf<Set<String>>(emptySet()) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -102,7 +109,14 @@ fun Body(
         // TODO cambiar el icon por uno de filtro
         FilterByCategory()
 
-//        DaysRowButtons()
+        DaysRowButtons{ day, isSelected ->
+            selectedDays = if (isSelected) {
+                selectedDays + day
+            } else {
+                selectedDays - day
+            }
+            Log.i("DIAS", selectedDays.toString())
+        }
         Text(
             text = "<Planner>",
             style = TextStyle(
