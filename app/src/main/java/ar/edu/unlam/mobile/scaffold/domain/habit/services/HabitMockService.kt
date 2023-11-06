@@ -24,4 +24,8 @@ class HabitMockService @Inject constructor() : HabitGetter {
             prueba
         }
     }
+
+    override suspend fun insertHabit(habit: Habit) {
+        TODO("Not yet implemented")
+    }
 }

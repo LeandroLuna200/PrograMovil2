@@ -29,19 +29,27 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
         getHabit()
     }
 
-    fun getHabit() {
+    private fun getHabit() {
         Log.i("HABITOS MOCK1", "")
         viewModelScope.launch {
             Log.i("HABITOS MOCK2", "")
-            habitGetter.getHabit().collect {
+            habitGetter.getHabit().collect { it ->
 //                Log.i("HABITOS MOCK", it.toString())
 //                _habits.value = _habits.value + it
 //                Log.i("HABITOS MOCK", habits.toString())
                 it.map {
-                    Log.i("HABITOS MOCK", it.id.toString())
-                    Log.i("HABITOS MOCK", it.name.toString())
+                    _habits.value += it
+                    Log.i("BASE DE DATOS", it.id.toString())
+                    Log.i("BASE DE DATOS", it.name)
                 }
             }
+        }
+    }
+
+    fun insertHabit(habit: Habit) {
+        viewModelScope.launch {
+            // Llama a la función del repositorio para insertar el hábito
+            habitGetter.insertHabit(habit)
         }
     }
 

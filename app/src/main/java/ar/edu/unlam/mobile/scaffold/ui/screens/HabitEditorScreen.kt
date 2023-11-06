@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -27,13 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ar.edu.unlam.mobile.scaffold.ui.components.CustomTextField
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ToggleButton
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
 
 @Composable
-fun AddHabit(closeSecondDialogEvent: () -> Unit) {
+fun AddHabit(closeSecondDialogEvent: () -> Unit, viewModel: PlannerViewModel) {
     var nombreHabito by remember { mutableStateOf("") }
     var isCheckedSimple by remember { mutableStateOf(false) }
     var isCheckedSemanal by remember { mutableStateOf(false) }
@@ -117,7 +117,22 @@ fun AddHabit(closeSecondDialogEvent: () -> Unit) {
                         .weight(1f),
                 )
                 TextButton(
-                    onClick = { Log.i("BOTON CREAR HABITO", "CLICK") },
+                    onClick = {
+                        Log.i("BOTON CREAR HABITO", "CLICK")
+
+                        // TODO CAMBIAR POR LOS DATOS QUE SE INGRESAN
+                        val dias = mutableListOf<String>("X", "L", "S")
+
+                        viewModel.insertHabit(
+                            Habit(
+                                1,
+                                "ver las estrellas",
+                                TypeCategory.SIMPLE,
+                                dias,
+                                0,
+                            ),
+                        )
+                    },
                 ) {
                     Text(
                         text = "<crear>",

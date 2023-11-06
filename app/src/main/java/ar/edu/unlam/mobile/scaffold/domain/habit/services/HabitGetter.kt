@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface HabitGetter {
     suspend fun getHabit(): Flow<List<Habit>>
+    suspend fun insertHabit(habit: Habit)
 }

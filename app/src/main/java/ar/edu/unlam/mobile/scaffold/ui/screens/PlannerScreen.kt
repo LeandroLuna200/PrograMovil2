@@ -26,7 +26,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
-import ar.edu.unlam.mobile.scaffold.ui.components.FilterByCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
@@ -63,6 +62,7 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
     val habits = viewModel.habits.value
 
     Body(
+        viewModel,
         habits = habits,
         showDialog,
         openDialogEvent,
@@ -78,6 +78,7 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
 
 @Composable
 fun Body(
+    viewModel: PlannerViewModel,
     habits: List<Habit>,
     isDialogVisible: Boolean,
     openDialogEvent: () -> Unit,
@@ -96,11 +97,11 @@ fun Body(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 65.dp),
+            .padding(bottom = 150.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // TODO cambiar el icon por uno de filtro
-        FilterByCategory()
+//        FilterByCategory()
 
 //        DaysRowButtons()
         Text(
@@ -171,7 +172,7 @@ fun Body(
         }
         IconButton(
             modifier = Modifier
-                .padding(6.dp)
+                .padding(30.dp)
                 .background(
                     color = CustomLightBlue,
                     shape = CircleShape,
@@ -198,7 +199,7 @@ fun Body(
                     // Lógica de cierre del segundo diálogo
                 },
                 content = {
-                    AddHabit(closeSecondDialogEvent)
+                    AddHabit(closeSecondDialogEvent, viewModel)
                 },
             )
         }

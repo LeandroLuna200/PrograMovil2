@@ -1,22 +1,24 @@
 package ar.edu.unlam.mobile.scaffold.domain.habit.services
 
-import android.util.Log
 import ar.edu.unlam.mobile.scaffold.data.habit.repository.HabitRepository
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class HabitService @Inject constructor(val repository: HabitRepository) :
     HabitGetter {
+
+    override suspend fun insertHabit(habit: Habit) {
+        this.repository.insertHabit(habit.toHabitDB())
+    }
+
     override suspend fun getHabit(): Flow<List<Habit>> {
-        val dias = mutableListOf<String>("D", "L", "S")
-        val prueba = mutableListOf<Habit>(
-            Habit(1, "levantarme temprano", TypeCategory.SIMPLE, dias, 0),
-            Habit(2, "levantarme temprano", TypeCategory.SIMPLE, dias, 0),
-            Habit(9, "estudiar 2hrs", TypeCategory.DEDICATED, dias, 8),
-        )
+//        val dias = mutableListOf<String>("D", "L", "S")
+//        val prueba = mutableListOf<Habit>(
+//            Habit(1, "levantarme temprano", TypeCategory.SIMPLE, dias, 0),
+//            Habit(2, "levantarme temprano", TypeCategory.SIMPLE, dias, 0),
+//            Habit(9, "estudiar 2hrs", TypeCategory.DEDICATED, dias, 8),
+//        )
 //        val prueba2 = mutableListOf<HabitLocalModel>(
 //            HabitLocalModel( "levantarme temprano", TypeCategory.SIMPLE, dias, 0),
 //            HabitLocalModel( "levantarme temprano", TypeCategory.SIMPLE, dias, 0),
@@ -33,7 +35,7 @@ class HabitService @Inject constructor(val repository: HabitRepository) :
 //            "BASE DE DATOS",
 //            pruebaBDD.map { it }.toString(),
 //        )
-        this.repository.insertHabit(prueba[2].toHabitDB())
+//        this.repository.insertHabit(prueba[2].toHabitDB())
 //        Log.i(
 //            "BASE DE DATOS",
 //            this.repository.getHabits().collect {

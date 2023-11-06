@@ -21,6 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habito
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
@@ -28,13 +29,11 @@ import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import java.util.Date
 
 @Composable
-fun HabitScreen(/*habits: MutableList<Habit>*/) {
+fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hiltViewModel()) {
     val currentDate by remember { mutableStateOf(getCurrentDate()) }
     // TODO pasar lista de Habits por parametro
-    val habits = mutableListOf<Habito>()
-//    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, 0))
-//    habits.add(Habit("estudiar 2hrs", TypeCategory.DEDICATED, 8))
-//    habits.add(Habit("ir al medico a las 10am", TypeCategory.EVENT, 0))
+    val habits = viewModel.habits.value
+
     val events = habits.filter { it.category == TypeCategory.EVENT }
     val habitsDedicated = habits.filter { it.category == TypeCategory.DEDICATED }
     val habitsSimple = habits.filter { it.category == TypeCategory.SIMPLE }
