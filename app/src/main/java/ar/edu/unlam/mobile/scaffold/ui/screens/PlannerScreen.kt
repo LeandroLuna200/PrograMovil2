@@ -10,7 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -60,6 +60,7 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
     }
 
     val habits = viewModel.habits.value
+//    val habits by viewModel.habits.collectAsState()
 
     Body(
         viewModel,
@@ -134,7 +135,7 @@ fun Body(
             }
 
             items(events.size) { item ->
-                ItemHabit(events[item].name, Icons.Default.Clear)
+                ItemHabit(events[item].name, events[item].id, Icons.Default.Delete, viewModel)
             }
 
             item {
@@ -151,7 +152,12 @@ fun Body(
                 )
             }
             items(habitsDedicated.size) { item ->
-                ItemHabit(habitsDedicated[item].name, Icons.Default.Clear)
+                ItemHabit(
+                    habitsDedicated[item].name,
+                    habitsDedicated[item].id,
+                    Icons.Default.Delete,
+                    viewModel,
+                )
             }
             item {
                 Text(
@@ -167,7 +173,12 @@ fun Body(
                 )
             }
             items(habitsSimple.size) { item ->
-                ItemHabit(habitsSimple[item].name, Icons.Default.Clear)
+                ItemHabit(
+                    habitsSimple[item].name,
+                    habitsSimple[item].id,
+                    Icons.Default.Delete,
+                    viewModel,
+                )
             }
         }
         IconButton(

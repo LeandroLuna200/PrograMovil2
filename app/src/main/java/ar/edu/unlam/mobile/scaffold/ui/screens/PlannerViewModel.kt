@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.services.HabitGetter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,11 +38,7 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
 //                Log.i("HABITOS MOCK", it.toString())
 //                _habits.value = _habits.value + it
 //                Log.i("HABITOS MOCK", habits.toString())
-                it.map {
-                    _habits.value += it
-                    Log.i("BASE DE DATOS", it.id.toString())
-                    Log.i("BASE DE DATOS", it.name)
-                }
+                _habits.value = it
             }
         }
     }
@@ -51,6 +48,10 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
             // Llama a la función del repositorio para insertar el hábito
             habitGetter.insertHabit(habit)
         }
+    }
+
+    fun deleteHabit(habitId: Long) {
+        viewModelScope.launch { habitGetter.deleteHabitById(habitId) }
     }
 
     fun showOrDismissDialog(show: Boolean) {

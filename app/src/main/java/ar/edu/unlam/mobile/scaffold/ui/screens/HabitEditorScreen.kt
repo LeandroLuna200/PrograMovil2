@@ -119,19 +119,26 @@ fun AddHabit(closeSecondDialogEvent: () -> Unit, viewModel: PlannerViewModel) {
                 TextButton(
                     onClick = {
                         Log.i("BOTON CREAR HABITO", "CLICK")
-
-                        // TODO CAMBIAR POR LOS DATOS QUE SE INGRESAN
-                        val dias = mutableListOf<String>("X", "L", "S")
-
+                        val categoria = if (isCheckedSimple) {
+                            TypeCategory.SIMPLE
+                        } else {
+                            TypeCategory.DEDICATED
+                        }
+                        val horas = if (horaSimple.isNotEmpty()) {
+                            horaSimple
+                        } else {
+                            metaSemanal
+                        }
                         viewModel.insertHabit(
                             Habit(
                                 1,
-                                "ver las estrellas",
-                                TypeCategory.SIMPLE,
-                                dias,
-                                0,
+                                nombreHabito,
+                                categoria,
+                                selectedDays.toList(),
+                                horas.toLong(),
                             ),
                         )
+                        closeSecondDialogEvent()
                     },
                 ) {
                     Text(

@@ -13,27 +13,27 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerViewModel
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
 @Composable
-fun ItemHabit(text: String, iconButton: ImageVector) {
+fun ItemHabit(text: String, itemid: Long, iconButton: ImageVector, viewModel: PlannerViewModel) {
     var icon = iconButton
     var isIcon1Selected by remember { mutableStateOf(true) }
 
@@ -71,24 +71,28 @@ fun ItemHabit(text: String, iconButton: ImageVector) {
                     color = CustomLightBlue,
                     shape = CircleShape,
                 ),
-            onClick = { isIcon1Selected = !isIcon1Selected },
+            onClick = {
+                if (icon !== Icons.Default.Delete) {
+                    isIcon1Selected = !isIcon1Selected
+                } else {
+                    viewModel.deleteHabit(itemid)
+                }
+            },
         ) {
-            if (isIcon1Selected) {
-                icon = Icons.Default.Clear
-            } else {
-                icon = Icons.Default.Check
+            if (icon !== Icons.Default.Delete) {
+                icon = if (isIcon1Selected) {
+                    Icons.Default.Clear
+                } else {
+                    Icons.Default.Check
+                }
             }
             Icon(icon, contentDescription = null)
         }
-
-        }
-
-
     }
-
-
-@Preview
-@Composable
-fun PreviewItemHabit() {
-    ItemHabit(text = "hola", iconButton = Icons.Default.Edit)
 }
+
+// @Preview
+// @Composable
+// fun PreviewItemHabit() {
+//    ItemHabit(text = "hola", iconButton = Icons.Default.Edit, viewModel = viewModel)
+// }

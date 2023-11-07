@@ -9,7 +9,7 @@ import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 fun ListItemsHabits(items: List<Habit>, iconButton: ImageVector) {
     LazyColumn {
         items(items.size) {
-            item-> ItemHabit(items[item].name, iconButton)
+//            item-> ItemHabit(items[item].name, iconButton)
         }
     }
 }

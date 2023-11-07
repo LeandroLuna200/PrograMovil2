@@ -38,7 +38,7 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hil
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 65.dp),
+            .padding(bottom = 75.dp),
     ) {
         Text(
             text = currentDate,
@@ -51,7 +51,8 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hil
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f), // Ocupa el espacio restante en la columna
+                .padding(bottom = 20.dp),
+//                .weight(1f), // Ocupa el espacio restante en la columna
         ) {
             item {
                 Text(
@@ -68,7 +69,7 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hil
             }
 
             items(events.size) { item ->
-                ItemHabit(events[item].name, Icons.Default.Clear)
+                ItemHabit(events[item].name, events[item].id, Icons.Default.Clear, viewModel)
             }
 
             item {
@@ -85,7 +86,7 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hil
                 )
             }
             items(habitsDedicated.size) { item ->
-                ItemHabit(habitsDedicated[item].name, Icons.Default.Clear)
+                ItemHabit(habitsDedicated[item].name, habitsDedicated[item].id, Icons.Default.Clear, viewModel)
             }
             item {
                 Text(
@@ -101,7 +102,7 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hil
                 )
             }
             items(habitsSimple.size) { item ->
-                ItemHabit(habitsSimple[item].name, Icons.Default.Clear)
+                ItemHabit(habitsSimple[item].name, habitsSimple[item].id, Icons.Default.Clear, viewModel)
             }
         }
     }
