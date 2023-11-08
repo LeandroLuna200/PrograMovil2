@@ -15,4 +15,13 @@ interface HabitDao {
 
     @Query("DELETE FROM habit_table WHERE id = :habitId")
     suspend fun deleteHabitById(habitId: Long)
+
+    @Insert
+    suspend fun insertActivity(activityLocalModel: ActivityLocalModel)
+
+    @Query("SELECT * FROM activity_table")
+    fun getAllActivities(): Flow<List<ActivityLocalModel>>
+
+    @Query("DELETE FROM activity_table WHERE id= :id")
+    suspend fun deleteActivityById(id: Long)
 }
