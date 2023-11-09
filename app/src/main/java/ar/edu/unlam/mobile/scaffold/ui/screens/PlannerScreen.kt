@@ -91,9 +91,9 @@ fun Body(
     openThirdDialogEvent: () -> Unit,
     closeThirdDialogEvent: () -> Unit,
 ) {
-    val events = habits.filter { it.category == TypeCategory.EVENT }
-    val habitsDedicated = habits.filter { it.category == TypeCategory.DEDICATED }
-    val habitsSimple = habits.filter { it.category == TypeCategory.SIMPLE }
+
+    val habitsDedicated = habits.filter { it.category == TypeCategory.ACTIVITY }
+    val habitsSimple = habits.filter { it.category == TypeCategory.ROUTINE }
     // TODO campo de busqueda y filtros
     Column(
         modifier = Modifier
@@ -134,10 +134,6 @@ fun Body(
                 )
             }
 
-            items(events.size) { item ->
-                ItemHabit(events[item].name, events[item].id, Icons.Default.Delete, viewModel)
-            }
-
             item {
                 Text(
                     text = "Tareas Dedicadas",
@@ -151,14 +147,15 @@ fun Body(
                         .wrapContentHeight(),
                 )
             }
-            items(habitsDedicated.size) { item ->
-                ItemHabit(
-                    habitsDedicated[item].name,
-                    habitsDedicated[item].id,
-                    Icons.Default.Delete,
-                    viewModel,
-                )
-            }
+//            items(habitsDedicated.size) { item ->
+//                ItemHabit(
+//                    habitsDedicated[item].name,
+//                    habitsDedicated[item].id,
+//                    Icons.Default.Delete,
+//                    {},
+//
+//                )
+//            }
             item {
                 Text(
                     text = "Tareas simples",
@@ -177,8 +174,7 @@ fun Body(
                     habitsSimple[item].name,
                     habitsSimple[item].id,
                     Icons.Default.Delete,
-                    viewModel,
-                )
+                    ) {viewModel.deleteHabit(habitsSimple[item].id)}
             }
         }
         IconButton(
@@ -199,32 +195,32 @@ fun Body(
                     closeDialogEvent()
                 },
             ) {
-                EventOrHabit(openSecondDialogEvent, openThirdDialogEvent)
+                AddHabit(openSecondDialogEvent, viewModel::insertHabit)
             }
         }
 
-        if (showSecondDialog) {
-            Dialog(
-                onDismissRequest = {
-                    closeSecondDialogEvent()
-                    // Lógica de cierre del segundo diálogo
-                },
-                content = {
-                    AddHabit(closeSecondDialogEvent, viewModel)
-                },
-            )
-        }
-
-        if (showThirdDialog) {
-            Dialog(
-                onDismissRequest = {
-                    closeThirdDialogEvent()
-                    // Lógica de cierre del tercer diálogo
-                },
-                content = {
-                    AddEvent(closeThirdDialogEvent)
-                },
-            )
-        }
+//        if (showSecondDialog) {
+//            Dialog(
+//                onDismissRequest = {
+//                    closeSecondDialogEvent()
+//                    // Lógica de cierre del segundo diálogo
+//                },
+//                content = {
+//                    AddHabit(closeSecondDialogEvent, viewModel)
+//                },
+//            )
+//        }
+//
+//        if (showThirdDialog) {
+//            Dialog(
+//                onDismissRequest = {
+//                    closeThirdDialogEvent()
+//                    // Lógica de cierre del tercer diálogo
+//                },
+//                content = {
+//                    AddEvent(closeThirdDialogEvent)
+//                },
+//            )
+//        }
     }
 }

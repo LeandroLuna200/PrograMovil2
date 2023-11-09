@@ -105,7 +105,7 @@ fun formatTime(timeInMillis: Long): String {
     val minutes = timeInMillis / 60000
     val seconds = timeInMillis / 1000
 
-    return String.format("%02d$hours:%02d$minutes:%02d$seconds")
+    return String.format("%02d:%02d$:%02d, $hours, $minutes, $seconds")
 }
 
 @Preview(showBackground = true)

@@ -31,4 +31,7 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
             }
         }
     }
+    fun updateHabit(habit: Habit) {
+        viewModelScope.launch { habitGetter.updateHabitState(habit) }
+    }
 }

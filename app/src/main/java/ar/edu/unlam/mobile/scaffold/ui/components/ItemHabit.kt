@@ -33,7 +33,12 @@ import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerViewModel
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
 @Composable
-fun ItemHabit(text: String, itemid: Long, iconButton: ImageVector, viewModel: PlannerViewModel) {
+fun ItemHabit( //TODO pasar habito
+    text: String,
+    itemid: Long,
+    iconButton: ImageVector,
+    actionUpdate: () -> Unit
+) {
     var icon = iconButton
     var isIcon1Selected by remember { mutableStateOf(true) }
 
@@ -74,8 +79,9 @@ fun ItemHabit(text: String, itemid: Long, iconButton: ImageVector, viewModel: Pl
             onClick = {
                 if (icon !== Icons.Default.Delete) {
                     isIcon1Selected = !isIcon1Selected
+                    actionUpdate()
                 } else {
-                    viewModel.deleteHabit(itemid)
+                    actionUpdate()
                 }
             },
         ) {

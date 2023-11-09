@@ -8,8 +8,16 @@ import androidx.room.TypeConverters
 
 private const val DB_NAME = "habit_database"
 
-@Database(entities = [(HabitLocalModel::class)], version = 1)
-@TypeConverters(DataConverter::class)
+@Database(
+    entities = [
+        (HabitLocalModel::class),
+//        (ActivityLocalModel::class),
+//        (ActivityStartLocalModel::class),
+//        (ActivityEndLocalModel::class),
+    ],
+    version = 2
+)
+@TypeConverters(DataConverter::class, DayListConverter::class, StateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun locationDao(): HabitDao
@@ -20,7 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
                 context,
                 AppDatabase::class.java,
                 DB_NAME,
-            ).build()
+            ).addMigrations().build()
         }
     }
 }

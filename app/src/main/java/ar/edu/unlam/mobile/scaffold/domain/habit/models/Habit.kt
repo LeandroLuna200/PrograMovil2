@@ -1,6 +1,5 @@
 package ar.edu.unlam.mobile.scaffold.domain.habit.models
 
-import ar.edu.unlam.mobile.scaffold.data.habit.local.HabitLocalModel
 
 sealed class Habito {
     abstract val id: Long
@@ -12,24 +11,28 @@ data class Habit(
     override val id: Long,
     override val name: String,
     override val category: TypeCategory,
-    val days: List<String>,
-    val dailyGoal: Long,
+    val days: List<Long>,
+    val hour: Long,
+    val state: Long,
 ) : Habito() {
-    fun toHabitDB(): HabitLocalModel {
-        return HabitLocalModel(
-            id = 0,
-            habitName = name,
-            category = category,
-            days = days,
-            dailyGoal = dailyGoal,
-        )
-    }
+
 }
 
-data class Event(
+data class Activity(
     override val id: Long,
     override val name: String,
     override val category: TypeCategory,
-    val date: String,
-    val hour: Long,
-) : Habito()
+    val days: List<String>,
+    val dailyGoal: Int,
+    val state: Long,
+) : Habito() {
+//    fun toDomain(): ActivityLocalModel {
+//        return ActivityLocalModel(
+//            id = id,
+//            activityName = name,
+//            category = category,
+//            days = days,
+//            goal = dailyGoal,
+//        )
+//    }
+}

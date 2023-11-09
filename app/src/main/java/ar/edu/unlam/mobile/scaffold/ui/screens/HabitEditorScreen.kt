@@ -31,15 +31,16 @@ import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ToggleButton
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
+import kotlin.reflect.KFunction1
 
 @Composable
-fun AddHabit(closeSecondDialogEvent: () -> Unit, viewModel: PlannerViewModel) {
+fun AddHabit(closeSecondDialogEvent: () -> Unit, actionAdd: KFunction1<Habit, Unit>) {
     var nombreHabito by remember { mutableStateOf("") }
     var isCheckedSimple by remember { mutableStateOf(false) }
     var isCheckedSemanal by remember { mutableStateOf(false) }
     var horaSimple by remember { mutableStateOf("") }
     var metaSemanal by remember { mutableStateOf("") }
-    var selectedDays by remember { mutableStateOf<Set<String>>(emptySet()) }
+    var selectedDays by remember { mutableStateOf<Set<Long>>(emptySet()) }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -120,22 +121,23 @@ fun AddHabit(closeSecondDialogEvent: () -> Unit, viewModel: PlannerViewModel) {
                     onClick = {
                         Log.i("BOTON CREAR HABITO", "CLICK")
                         val categoria = if (isCheckedSimple) {
-                            TypeCategory.SIMPLE
+                            TypeCategory.ROUTINE
                         } else {
-                            TypeCategory.DEDICATED
+                            TypeCategory.ACTIVITY
                         }
                         val horas = if (horaSimple.isNotEmpty()) {
                             horaSimple
                         } else {
                             metaSemanal
                         }
-                        viewModel.insertHabit(
+                        actionAdd(
                             Habit(
-                                1,
+                                0,
                                 nombreHabito,
                                 categoria,
                                 selectedDays.toList(),
                                 horas.toLong(),
+                                state = 1
                             ),
                         )
                         closeSecondDialogEvent()

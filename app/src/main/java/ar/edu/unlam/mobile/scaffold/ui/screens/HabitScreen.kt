@@ -27,14 +27,14 @@ import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import java.util.Date
 
 @Composable
-fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hiltViewModel()) {
+fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltViewModel()) {
     val currentDate by remember { mutableStateOf(getCurrentDate()) }
     // TODO pasar lista de Habits por parametro
     val habits = viewModel.habits.value
 
-    val events = habits.filter { it.category == TypeCategory.EVENT }
-    val habitsDedicated = habits.filter { it.category == TypeCategory.DEDICATED }
-    val habitsSimple = habits.filter { it.category == TypeCategory.SIMPLE }
+
+    val habitsDedicated = habits.filter { it.category == TypeCategory.ACTIVITY }
+    val habitsSimple = habits.filter { it.category == TypeCategory.ROUTINE }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -56,24 +56,6 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hil
         ) {
             item {
                 Text(
-                    text = "Eventos",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 25.sp,
-                        textAlign = TextAlign.Center,
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                )
-            }
-
-            items(events.size) { item ->
-                ItemHabit(events[item].name, events[item].id, Icons.Default.Clear, viewModel)
-            }
-
-            item {
-                Text(
                     text = "Tareas Dedicadas",
                     style = TextStyle(
                         color = Color.Black,
@@ -86,7 +68,7 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hil
                 )
             }
             items(habitsDedicated.size) { item ->
-                ItemHabit(habitsDedicated[item].name, habitsDedicated[item].id, Icons.Default.Clear, viewModel)
+         //       ItemHabit(habitsDedicated[item].name, habitsDedicated[item].id, Icons.Default.Clear){}
             }
             item {
                 Text(
@@ -102,7 +84,8 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hil
                 )
             }
             items(habitsSimple.size) { item ->
-                ItemHabit(habitsSimple[item].name, habitsSimple[item].id, Icons.Default.Clear, viewModel)
+                ItemHabit(habitsSimple[item].name, habitsSimple[item].id, Icons.Default.Clear
+                ) { viewModel.updateHabit(habitsSimple[item]) }
             }
         }
     }
@@ -114,10 +97,4 @@ fun getCurrentDate(): String {
     return dateFormat.format(Date())
 }
 
-// @Preview(showBackground = true)
-// @Composable
-// fun PreviewScreen() {
-//    val habits: MutableList<Habit> = mutableListOf()
-//    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, isSimple = true, 0, 0))
-//    HabitScreen()
-// }
+

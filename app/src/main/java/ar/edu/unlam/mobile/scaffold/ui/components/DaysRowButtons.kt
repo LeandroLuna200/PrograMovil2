@@ -23,7 +23,7 @@ import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
 
 @Composable
-fun DaysRowButtons(onDaySelectedChanged: (String, Boolean) -> Unit) {
+fun DaysRowButtons(onDaySelectedChanged: (Long, Boolean) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -32,39 +32,39 @@ fun DaysRowButtons(onDaySelectedChanged: (String, Boolean) -> Unit) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Day("D") { day, isSelected ->
+        Day("D") { isSelected  ->
             // Notifica el cambio al día seleccionado
-            onDaySelectedChanged(day, isSelected)
+            onDaySelectedChanged(0, isSelected)
         }
-        Day("L") { day, isSelected ->
+        Day("L") { isSelected  ->
             // Notifica el cambio al día seleccionado
-            onDaySelectedChanged(day, isSelected)
+            onDaySelectedChanged(1, isSelected)
         }
-        Day("M") { day, isSelected ->
+        Day("M") {isSelected ->
             // Notifica el cambio al día seleccionado
-            onDaySelectedChanged(day, isSelected)
+            onDaySelectedChanged(2, isSelected)
         }
-        Day("X") { day, isSelected ->
+        Day("X") {isSelected  ->
             // Notifica el cambio al día seleccionado
-            onDaySelectedChanged(day, isSelected)
+            onDaySelectedChanged(3, isSelected)
         }
-        Day("J") { day, isSelected ->
+        Day("J") { isSelected  ->
             // Notifica el cambio al día seleccionado
-            onDaySelectedChanged(day, isSelected)
+            onDaySelectedChanged(4, isSelected)
         }
-        Day("V") { day, isSelected ->
+        Day("V") {isSelected  ->
             // Notifica el cambio al día seleccionado
-            onDaySelectedChanged(day, isSelected)
+            onDaySelectedChanged(5, isSelected)
         }
-        Day("S") { day, isSelected ->
+        Day("S") { isSelected ->
             // Notifica el cambio al día seleccionado
-            onDaySelectedChanged(day, isSelected)
+            onDaySelectedChanged(6, isSelected)
         }
     }
 }
 
 @Composable
-fun Day(text: String, param: (String, Boolean) -> Unit) {
+fun Day(text: String, param: (Boolean) -> Unit) {
     var isButtonClicked by remember { mutableStateOf(false) }
 
     val buttonColor = if (isButtonClicked) {
@@ -88,7 +88,7 @@ fun Day(text: String, param: (String, Boolean) -> Unit) {
             onClick = {
                 isButtonClicked = !isButtonClicked
 
-                param(text, isButtonClicked)
+                param(isButtonClicked)
             },
             modifier = Modifier
                 .background(
