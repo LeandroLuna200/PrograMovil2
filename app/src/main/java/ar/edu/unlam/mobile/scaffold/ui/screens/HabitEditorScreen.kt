@@ -34,7 +34,7 @@ import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
 import kotlin.reflect.KFunction1
 
 @Composable
-fun AddHabit(closeSecondDialogEvent: () -> Unit, actionAdd: KFunction1<Habit, Unit>) {
+fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunction1<Habit, Unit>) {
     var nombreHabito by remember { mutableStateOf("") }
     var isCheckedSimple by remember { mutableStateOf(false) }
     var isCheckedSemanal by remember { mutableStateOf(false) }
@@ -60,7 +60,7 @@ fun AddHabit(closeSecondDialogEvent: () -> Unit, actionAdd: KFunction1<Habit, Un
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 TextButton(
-                    onClick = { closeSecondDialogEvent() },
+                    onClick = { closeSecondDialogEvent(false) },
                 ) {
                     Text(
                         text = "<volver",
@@ -119,6 +119,8 @@ fun AddHabit(closeSecondDialogEvent: () -> Unit, actionAdd: KFunction1<Habit, Un
                 )
                 TextButton(
                     onClick = {
+
+                        // TODO HACER VALIDACIONES
                         Log.i("BOTON CREAR HABITO", "CLICK")
                         val categoria = if (isCheckedSimple) {
                             TypeCategory.ROUTINE
@@ -137,10 +139,10 @@ fun AddHabit(closeSecondDialogEvent: () -> Unit, actionAdd: KFunction1<Habit, Un
                                 categoria,
                                 selectedDays.toList(),
                                 horas.toLong(),
-                                state = 1
+                                state = 1,
                             ),
                         )
-                        closeSecondDialogEvent()
+                        closeSecondDialogEvent(false)
                     },
                 ) {
                     Text(

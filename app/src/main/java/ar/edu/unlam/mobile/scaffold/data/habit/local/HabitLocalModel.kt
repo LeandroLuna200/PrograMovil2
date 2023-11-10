@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 
-//runtime (habit simple)
+// runtime (habit simple)
 @Entity(tableName = "habit_table")
 data class HabitLocalModel(
 
@@ -16,8 +16,7 @@ data class HabitLocalModel(
     @ColumnInfo(name = "category") val category: TypeCategory,
     @TypeConverters(DataConverter::class) var days: List<Day>,
     @ColumnInfo(name = "hour") val hour: Long,
-    @ColumnInfo(name = "state") val currentState: StateLocalModel
-
+    @ColumnInfo(name = "state") val currentState: StateLocalModel,
 
 ) {
 //    fun getDaysList(): List<Day> {
@@ -25,7 +24,7 @@ data class HabitLocalModel(
 //    }
 
     fun toHabitDomain(): Habit {
-        val listDay=days.map {
+        val listDay = days.map {
             it.id
         }
         return Habit(
@@ -37,9 +36,10 @@ data class HabitLocalModel(
             state = currentState.id,
         )
     }
+
     fun toHabitDB(habit: Habit): HabitLocalModel {
         val listDay = habit.days.map {
-            Day(it,Week.values()[it.toInt()])
+            Day(it, Week.values()[it.toInt()])
         }
         val state = StateLocalModel(habit.state, StateRoutine.values()[habit.state.toInt()])
         return HabitLocalModel(
@@ -60,26 +60,24 @@ data class ActivityLocalModel(
     @ColumnInfo(name = "category") val category: TypeCategory,
     @TypeConverters(DataConverter::class) var days: List<String>,
     @ColumnInfo(name = "goal") val goal: Int,
-    //@ColumnInfo(name = "state") val currentState: String
+    // @ColumnInfo(name = "state") val currentState: String
 ) {
 //    fun getDays(): List<String> {
 //        return days
 //    }
-
-
 }
 
 @Entity(tableName = "activityStart_tb")
 data class ActivityStartLocalModel(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    //@TypeConverters(DataConverter::class)var date: Date,
+    // @TypeConverters(DataConverter::class)var date: Date,
     // @ColumnInfo(name = "activity") val activity: ActivityLocalModel,
 )
 
 @Entity(tableName = "activityEnd_tb")
 data class ActivityEndLocalModel(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    //@TypeConverters(DataConverter::class) var date: Date,
-    //@ColumnInfo(name = "activity") val activityStart: ActivityStartLocalModel,
+    // @TypeConverters(DataConverter::class) var date: Date,
+    // @ColumnInfo(name = "activity") val activityStart: ActivityStartLocalModel,
     @ColumnInfo(name = "minutes") val minutes: Int,
 )

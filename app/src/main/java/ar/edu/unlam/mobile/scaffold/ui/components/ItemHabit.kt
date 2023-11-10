@@ -29,18 +29,19 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerViewModel
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
 @Composable
-fun ItemHabit( //TODO pasar habito
-    text: String,
-    itemid: Long,
+fun ItemHabit(
+    habito: Habit,
     iconButton: ImageVector,
-    actionUpdate: () -> Unit
+    actionUpdate: () -> Unit,
 ) {
     var icon = iconButton
-    var isIcon1Selected by remember { mutableStateOf(true) }
+    var isIcon1Selected by remember { mutableStateOf(false) }
+
+    isIcon1Selected = habito.state.toInt() == 0
 
     Row(
         modifier = Modifier
@@ -60,7 +61,7 @@ fun ItemHabit( //TODO pasar habito
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = text,
+                text = habito.name,
                 modifier = Modifier.weight(1f),
                 style = TextStyle(
                     color = Color.White,
@@ -78,27 +79,29 @@ fun ItemHabit( //TODO pasar habito
                 ),
             onClick = {
                 if (icon !== Icons.Default.Delete) {
-                    isIcon1Selected = !isIcon1Selected
-                    actionUpdate()
+                    if (isIcon1Selected) {
+                        isIcon1Selected = !isIcon1Selected
+                        habito.state = 1 // tarea incompleta
+                        actionUpdate()
+                    } else {
+                        isIcon1Selected = !isIcon1Selected
+                        habito.state = 0 // tarea completada
+                        actionUpdate()
+                    }
                 } else {
                     actionUpdate()
                 }
             },
         ) {
+            // TODO CAMBIAR COLOR AL ITEM SEGUN EL ESTADO
             if (icon !== Icons.Default.Delete) {
                 icon = if (isIcon1Selected) {
-                    Icons.Default.Clear
-                } else {
                     Icons.Default.Check
+                } else {
+                    Icons.Default.Clear
                 }
             }
             Icon(icon, contentDescription = null)
         }
     }
 }
-
-// @Preview
-// @Composable
-// fun PreviewItemHabit() {
-//    ItemHabit(text = "hola", iconButton = Icons.Default.Edit, viewModel = viewModel)
-// }

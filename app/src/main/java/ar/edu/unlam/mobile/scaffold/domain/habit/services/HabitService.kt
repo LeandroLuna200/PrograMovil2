@@ -1,18 +1,12 @@
 package ar.edu.unlam.mobile.scaffold.domain.habit.services
 
-import android.util.Log
-import ar.edu.unlam.mobile.scaffold.data.habit.local.ActivityLocalModel
-import ar.edu.unlam.mobile.scaffold.data.habit.repository.HabitRepository
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
+import ar.edu.unlam.mobile.scaffold.data.habit.repository.HabitDefaultRepository
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import ar.edu.unlam.mobile.scaffold.domain.mapper.HabitMapper
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class HabitService @Inject constructor(val repository: HabitRepository) :
+class HabitService @Inject constructor(val repository: HabitDefaultRepository) :
     HabitGetter {
 
     override suspend fun insertHabit(habit: Habit) {

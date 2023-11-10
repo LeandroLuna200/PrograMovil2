@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface HabitDao {
     @Update
     suspend fun updateHabitState(habit: HabitLocalModel)
+
     @Insert
     suspend fun insertHabit(habitLocalModel: HabitLocalModel)
 
@@ -27,5 +28,4 @@ interface HabitDao {
 //
 //    @Query("DELETE FROM activity_table WHERE id= :id")
 //    suspend fun deleteActivityById(id: Long)
-
 }

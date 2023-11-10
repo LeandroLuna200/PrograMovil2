@@ -23,11 +23,12 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
     private fun getHabit() {
         viewModelScope.launch {
             habitGetter.getHabit().collect { it ->
-                it.map {
-                    _habits.value += it
-                    Log.i("BASE DE DATOS", it.id.toString())
-                    Log.i("BASE DE DATOS", it.name)
-                }
+//                it.map {
+//                    _habits.value = listOf(it)
+//                    Log.i("BASE DE DATOS", it.id.toString())
+//                    Log.i("BASE DE DATOS", it.name)
+//                }
+                _habits.value = it
             }
         }
     }

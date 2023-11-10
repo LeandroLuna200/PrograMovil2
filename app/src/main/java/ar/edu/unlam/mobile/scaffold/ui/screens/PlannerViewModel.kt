@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.services.HabitGetter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,12 +15,6 @@ import javax.inject.Inject
 class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter) : ViewModel() {
     private val _showDialog = mutableStateOf(false)
     val showDialog: State<Boolean> = _showDialog
-
-    private val _showSecondDialog = mutableStateOf(false)
-    val showSecondDialog: State<Boolean> = _showSecondDialog
-
-    private val _showThirdDialog = mutableStateOf(false)
-    val showThirdDialog: State<Boolean> = _showThirdDialog
 
     private val _habits = mutableStateOf<List<Habit>>(emptyList())
     val habits: State<List<Habit>> = _habits
@@ -56,13 +49,5 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
 
     fun showOrDismissDialog(show: Boolean) {
         _showDialog.value = show
-    }
-
-    fun showOrDismissSecondDialog(show: Boolean) {
-        _showSecondDialog.value = show
-    }
-
-    fun showOrDismissThirdDialog(show: Boolean) {
-        _showThirdDialog.value = show
     }
 }

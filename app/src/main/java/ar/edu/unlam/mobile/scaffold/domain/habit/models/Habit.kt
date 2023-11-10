@@ -1,6 +1,5 @@
 package ar.edu.unlam.mobile.scaffold.domain.habit.models
 
-
 sealed class Habito {
     abstract val id: Long
     abstract val name: String
@@ -13,10 +12,8 @@ data class Habit(
     override val category: TypeCategory,
     val days: List<Long>,
     val hour: Long,
-    val state: Long,
-) : Habito() {
-
-}
+    var state: Long,
+) : Habito()
 
 data class Activity(
     override val id: Long,

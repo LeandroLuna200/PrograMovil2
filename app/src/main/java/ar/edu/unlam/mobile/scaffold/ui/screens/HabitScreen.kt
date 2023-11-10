@@ -29,9 +29,7 @@ import java.util.Date
 @Composable
 fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltViewModel()) {
     val currentDate by remember { mutableStateOf(getCurrentDate()) }
-    // TODO pasar lista de Habits por parametro
     val habits = viewModel.habits.value
-
 
     val habitsDedicated = habits.filter { it.category == TypeCategory.ACTIVITY }
     val habitsSimple = habits.filter { it.category == TypeCategory.ROUTINE }
@@ -67,8 +65,8 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltV
                         .wrapContentHeight(),
                 )
             }
-            items(habitsDedicated.size) { item ->
-         //       ItemHabit(habitsDedicated[item].name, habitsDedicated[item].id, Icons.Default.Clear){}
+            items(habitsDedicated.size) {
+                //       ItemHabit(habitsDedicated[item].name, habitsDedicated[item].id, Icons.Default.Clear){}
             }
             item {
                 Text(
@@ -84,7 +82,9 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltV
                 )
             }
             items(habitsSimple.size) { item ->
-                ItemHabit(habitsSimple[item].name, habitsSimple[item].id, Icons.Default.Clear
+                ItemHabit(
+                    habitsSimple[item],
+                    Icons.Default.Clear,
                 ) { viewModel.updateHabit(habitsSimple[item]) }
             }
         }
@@ -96,5 +96,3 @@ fun getCurrentDate(): String {
     val dateFormat = SimpleDateFormat("dd/MM/yyyy")
     return dateFormat.format(Date())
 }
-
-

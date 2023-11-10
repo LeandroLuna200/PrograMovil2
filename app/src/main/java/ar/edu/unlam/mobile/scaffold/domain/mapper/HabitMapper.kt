@@ -14,7 +14,7 @@ class HabitMapper {
         }
         val state = StateLocalModel(habit.state, StateRoutine.values()[habit.state.toInt()])
         return HabitLocalModel(
-            id = 0,
+            id = habit.id,
             habitName = habit.name,
             category = habit.category,
             days = listDay,

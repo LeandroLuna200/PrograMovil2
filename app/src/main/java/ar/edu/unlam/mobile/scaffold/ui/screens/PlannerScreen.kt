@@ -28,12 +28,11 @@ import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
+import kotlin.reflect.KFunction1
 
 @Composable
 fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = hiltViewModel()) {
     val showDialog = viewModel.showDialog.value
-    val showSecondDialog = viewModel.showSecondDialog.value
-    val showThirdDialog = viewModel.showThirdDialog.value
 
     val openDialogEvent: () -> Unit = {
         viewModel.showOrDismissDialog(true)
@@ -43,37 +42,14 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
         viewModel.showOrDismissDialog(false)
     }
 
-    val openSecondDialogEvent: () -> Unit = {
-        viewModel.showOrDismissSecondDialog(true)
-    }
-
-    val closeSecondDialogEvent: () -> Unit = {
-        viewModel.showOrDismissSecondDialog(false)
-    }
-
-    val openThirdDialogEvent: () -> Unit = {
-        viewModel.showOrDismissThirdDialog(true)
-    }
-
-    val closeThirdDialogEvent: () -> Unit = {
-        viewModel.showOrDismissThirdDialog(false)
-    }
-
     val habits = viewModel.habits.value
-//    val habits by viewModel.habits.collectAsState()
 
     Body(
         viewModel,
         habits = habits,
         showDialog,
         openDialogEvent,
-        closeDialogEvent,
-        showSecondDialog,
-        openSecondDialogEvent,
-        closeSecondDialogEvent,
-        showThirdDialog,
-        openThirdDialogEvent,
-        closeThirdDialogEvent,
+        viewModel::showOrDismissDialog,
     )
 }
 
@@ -83,15 +59,8 @@ fun Body(
     habits: List<Habit>,
     isDialogVisible: Boolean,
     openDialogEvent: () -> Unit,
-    closeDialogEvent: () -> Unit,
-    showSecondDialog: Boolean,
-    openSecondDialogEvent: () -> Unit,
-    closeSecondDialogEvent: () -> Unit,
-    showThirdDialog: Boolean,
-    openThirdDialogEvent: () -> Unit,
-    closeThirdDialogEvent: () -> Unit,
+    closeSecondDialogEvent: KFunction1<Boolean, Unit>,
 ) {
-
     val habitsDedicated = habits.filter { it.category == TypeCategory.ACTIVITY }
     val habitsSimple = habits.filter { it.category == TypeCategory.ROUTINE }
     // TODO campo de busqueda y filtros
@@ -171,10 +140,9 @@ fun Body(
             }
             items(habitsSimple.size) { item ->
                 ItemHabit(
-                    habitsSimple[item].name,
-                    habitsSimple[item].id,
+                    habitsSimple[item],
                     Icons.Default.Delete,
-                    ) {viewModel.deleteHabit(habitsSimple[item].id)}
+                ) { viewModel.deleteHabit(habitsSimple[item].id) }
             }
         }
         IconButton(
@@ -192,35 +160,11 @@ fun Body(
         if (isDialogVisible) {
             Dialog(
                 onDismissRequest = {
-                    closeDialogEvent()
+                    viewModel.showOrDismissDialog(false)
                 },
             ) {
-                AddHabit(openSecondDialogEvent, viewModel::insertHabit)
+                AddHabit(closeSecondDialogEvent = viewModel::showOrDismissDialog, viewModel::insertHabit)
             }
         }
-
-//        if (showSecondDialog) {
-//            Dialog(
-//                onDismissRequest = {
-//                    closeSecondDialogEvent()
-//                    // Lógica de cierre del segundo diálogo
-//                },
-//                content = {
-//                    AddHabit(closeSecondDialogEvent, viewModel)
-//                },
-//            )
-//        }
-//
-//        if (showThirdDialog) {
-//            Dialog(
-//                onDismissRequest = {
-//                    closeThirdDialogEvent()
-//                    // Lógica de cierre del tercer diálogo
-//                },
-//                content = {
-//                    AddEvent(closeThirdDialogEvent)
-//                },
-//            )
-//        }
     }
 }
