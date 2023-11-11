@@ -17,7 +17,9 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
     val showDialog: State<Boolean> = _showDialog
 
     private val _habits = mutableStateOf<List<Habit>>(emptyList())
+    private val _activities = mutableStateOf<List<Habit>>(emptyList())
     val habits: State<List<Habit>> = _habits
+    val activities: State<List<Habit>> = _activities
 
     init {
         getHabit()
@@ -28,9 +30,6 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
         viewModelScope.launch {
             Log.i("HABITOS MOCK2", "")
             habitGetter.getHabit().collect { it ->
-//                Log.i("HABITOS MOCK", it.toString())
-//                _habits.value = _habits.value + it
-//                Log.i("HABITOS MOCK", habits.toString())
                 _habits.value = it
             }
         }
@@ -38,7 +37,6 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
 
     fun insertHabit(habit: Habit) {
         viewModelScope.launch {
-            // Llama a la función del repositorio para insertar el hábito
             habitGetter.insertHabit(habit)
         }
     }

@@ -37,6 +37,18 @@ class HabitMockService @Inject constructor() : HabitGetter {
         TODO("Not yet implemented")
     }
 
+    override suspend fun insertActivity(activity: Activity) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteActivityById(id: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getActivity(): Flow<List<Activity>> {
+        TODO("Not yet implemented")
+    }
+
 //    override suspend fun insertActivity(activity: Activity) {
 //        TODO("Not yet implemented")
 //    }
