@@ -2,6 +2,7 @@ package ar.edu.unlam.mobile.scaffold.data.habit.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
@@ -71,7 +72,7 @@ data class ActivityLocalModel(
 data class ActivityStartLocalModel(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     // @TypeConverters(DataConverter::class)var date: Date,
-    // @ColumnInfo(name = "activity") val activity: ActivityLocalModel,
+     @ColumnInfo(name = "activity") val activity: ActivityLocalModel,
 )
 
 @Entity(tableName = "activityEnd_tb")
