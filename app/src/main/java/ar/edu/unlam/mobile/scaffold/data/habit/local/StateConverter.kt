@@ -1,7 +1,6 @@
-package ar.edu.unlam.mobile.scaffold.data.habit.local.converters
+package ar.edu.unlam.mobile.scaffold.data.habit.local
 
 import androidx.room.TypeConverter
-import ar.edu.unlam.mobile.scaffold.data.habit.local.models.StateLocalModel
 import com.google.gson.Gson
 
 class StateConverter {

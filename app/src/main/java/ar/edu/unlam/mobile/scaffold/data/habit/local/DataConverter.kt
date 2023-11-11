@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffold.data.habit.local.converters
+package ar.edu.unlam.mobile.scaffold.data.habit.local
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
