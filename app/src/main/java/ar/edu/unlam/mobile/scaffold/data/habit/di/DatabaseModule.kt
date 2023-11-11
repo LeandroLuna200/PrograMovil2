@@ -1,6 +1,7 @@
 package ar.edu.unlam.mobile.scaffold.data.habit.di
 
 import android.content.Context
+import ar.edu.unlam.mobile.scaffold.data.habit.local.ActivityDao
 import ar.edu.unlam.mobile.scaffold.data.habit.local.AppDatabase
 import ar.edu.unlam.mobile.scaffold.data.habit.local.HabitDao
 import dagger.Module
@@ -21,6 +22,11 @@ object DatabaseModule {
 
     @Provides
     fun provideDao(database: AppDatabase): HabitDao {
-        return database.locationDao()
+        return database.habitDao()
+    }
+
+    @Provides
+    fun provideActivityDao(database: AppDatabase): ActivityDao {
+        return database.activityDao()
     }
 }

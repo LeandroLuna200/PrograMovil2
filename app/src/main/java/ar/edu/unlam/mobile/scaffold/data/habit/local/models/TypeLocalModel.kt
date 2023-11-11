@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffold.data.habit.local
+package ar.edu.unlam.mobile.scaffold.data.habit.local.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
