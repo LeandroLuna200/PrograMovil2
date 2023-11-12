@@ -86,7 +86,14 @@ fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunc
                 modifier = Modifier
                     .height(12.dp),
             )
-            habitName = CustomTextField(titleText = "Nombre del habito", text = "")
+            TextField(
+                value = habitName,
+                label = { Text("Nombre") },
+                onValueChange = {
+                    habitName = it
+                },
+            )
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
