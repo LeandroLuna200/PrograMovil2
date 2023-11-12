@@ -12,7 +12,7 @@ interface HabitGetter {
     suspend fun insertHabit(habit: Habit)
     suspend fun deleteHabitById(habitId: Long)
 
-    // ACtividades
+    // Activity
     suspend fun insertActivity(activity: Activity)
     suspend fun deleteActivityById(id: Long)
     suspend fun getAllActivities(): Flow<List<Activity>>

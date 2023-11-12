@@ -16,7 +16,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ar.edu.unlam.mobile.scaffold.ui.components.BottomBar
-import ar.edu.unlam.mobile.scaffold.ui.screens.AddEvent
 import ar.edu.unlam.mobile.scaffold.ui.screens.HabitScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerScreen

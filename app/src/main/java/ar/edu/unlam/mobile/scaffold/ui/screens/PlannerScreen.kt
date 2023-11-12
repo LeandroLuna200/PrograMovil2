@@ -116,15 +116,13 @@ fun Body(
                         .wrapContentHeight(),
                 )
             }
-//            items(habitsDedicated.size) { item ->
-//                ItemHabit(
-//                    habitsDedicated[item].name,
-//                    habitsDedicated[item].id,
-//                    Icons.Default.Delete,
-//                    {},
-//
-//                )
-//            }
+            items(habitsDedicated.size) { item ->
+                ItemHabit(
+                    habitsDedicated[item],
+                    Icons.Default.Delete,)
+                    { viewModel.deleteHabit(habitsDedicated[item].id)}
+
+            }
             item {
                 Text(
                     text = "Tareas simples",
