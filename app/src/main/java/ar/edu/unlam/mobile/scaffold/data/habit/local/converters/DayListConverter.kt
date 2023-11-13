@@ -1,6 +1,7 @@
-package ar.edu.unlam.mobile.scaffold.data.habit.local
+package ar.edu.unlam.mobile.scaffold.data.habit.local.converters
 
 import androidx.room.TypeConverter
+import ar.edu.unlam.mobile.scaffold.data.habit.local.models.Day
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
