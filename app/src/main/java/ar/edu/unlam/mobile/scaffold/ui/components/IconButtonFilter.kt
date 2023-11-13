@@ -38,6 +38,11 @@ fun FilterByCategory(){
             content = {
                 Box(modifier = Modifier){
                     Row {
+                        TextButton(onClick = { /*filtrar por eventos*/ }) {
+                            Text(text = "Eventos")
+                        }
+                    }
+                    Row {
                         TextButton(onClick = { /*TODO*/ }) {
                             Text(text = "Dedicados")
                         }

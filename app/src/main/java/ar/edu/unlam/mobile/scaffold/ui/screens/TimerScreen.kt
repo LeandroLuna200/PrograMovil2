@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
+import ar.edu.unlam.mobile.scaffold.ui.components.Chronometer
 import ar.edu.unlam.mobile.scaffold.ui.components.CustomTextField
 import ar.edu.unlam.mobile.scaffold.ui.components.TimerState
 
@@ -42,36 +43,27 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
         CustomTextField(titleText = "Hábito", text = "Hábito")
         // TODO la meta diaria cambia segun el habito que se selecciona en el spinner
         CustomTextField(titleText = "Meta Diaria", text = "01:30hs")
-//        Chronometer(state)
-//        if (TimerState.RUNNING == state) {
-//            when (val jokeState = uiState.jokeState) {
-//                is JokeUIState.Loading -> {
-//                    CircularProgressIndicator()
-//                }
-//
-//                is JokeUIState.Success -> {
-//                    Text(jokeState.joke.value)
-//                    Log.i("CHUCK NORRIS", jokeState.joke.value)
-//                }
-//
-//                is JokeUIState.Error -> {
-//                    // Error
-//                }
-//            }
-//        }
+        Chronometer(state)
+        if(TimerState.RUNNING == state) {
+            when (val jokeState = uiState.jokeState) {
+                is JokeUIState.Loading -> {
+                    CircularProgressIndicator()
+                }
 
-        when (val jokeState = uiState.jokeState) {
-            is JokeUIState.Loading -> {
-                CircularProgressIndicator()
-            }
+                is JokeUIState.Success -> {
+                    Text(jokeState.joke.value)
+                    Log.i("CHUCK NORRIS", jokeState.joke.value)
+                }
 
-            is JokeUIState.Success -> {
-                Text(jokeState.joke.value)
-                Log.i("CHUCK NORRIS", jokeState.joke.value)
-            }
-
-            is JokeUIState.Error -> {
+                is JokeUIState.Error -> {
+                    // Error
+                }
             }
         }
+
+
     }
 }
+
+
+

@@ -32,27 +32,27 @@ fun DaysRowButtons(onDaySelectedChanged: (Long, Boolean) -> Unit) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Day("D") { isSelected ->
+        Day("D") { isSelected  ->
             // Notifica el cambio al día seleccionado
             onDaySelectedChanged(0, isSelected)
         }
-        Day("L") { isSelected ->
+        Day("L") { isSelected  ->
             // Notifica el cambio al día seleccionado
             onDaySelectedChanged(1, isSelected)
         }
-        Day("M") { isSelected ->
+        Day("M") {isSelected ->
             // Notifica el cambio al día seleccionado
             onDaySelectedChanged(2, isSelected)
         }
-        Day("X") { isSelected ->
+        Day("X") {isSelected  ->
             // Notifica el cambio al día seleccionado
             onDaySelectedChanged(3, isSelected)
         }
-        Day("J") { isSelected ->
+        Day("J") { isSelected  ->
             // Notifica el cambio al día seleccionado
             onDaySelectedChanged(4, isSelected)
         }
-        Day("V") { isSelected ->
+        Day("V") {isSelected  ->
             // Notifica el cambio al día seleccionado
             onDaySelectedChanged(5, isSelected)
         }

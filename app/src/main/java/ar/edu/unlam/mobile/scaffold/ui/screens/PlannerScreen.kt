@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 import kotlin.reflect.KFunction1
@@ -48,7 +48,6 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
     Body(
         viewModel,
         habits = habits,
-        activities,
         showDialog,
         openDialogEvent,
         viewModel::showOrDismissDialog,
@@ -59,13 +58,12 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
 fun Body(
     viewModel: PlannerViewModel,
     habits: List<Habit>,
-    activities: List<Activity>,
     isDialogVisible: Boolean,
     openDialogEvent: () -> Unit,
     closeSecondDialogEvent: KFunction1<Boolean, Unit>,
 ) {
-//    val habitsDedicated = activities.filter { it.category == TypeCategory.ACTIVITY }
-//    val habitsSimple = habits.filter { it.category == TypeCategory.ROUTINE }
+    val habitsDedicated = habits.filter { it.category == TypeCategory.ACTIVITY }
+    val habitsSimple = habits.filter { it.category == TypeCategory.ROUTINE }
     // TODO campo de busqueda y filtros
     Column(
         modifier = Modifier
@@ -94,6 +92,20 @@ fun Body(
         ) {
             item {
                 Text(
+                    text = "Eventos",
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 25.sp,
+                        textAlign = TextAlign.Center,
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                )
+            }
+
+            item {
+                Text(
                     text = "Tareas Dedicadas",
                     style = TextStyle(
                         color = Color.Black,
@@ -105,13 +117,15 @@ fun Body(
                         .wrapContentHeight(),
                 )
             }
-            items(activities.size) { item ->
-                ItemHabit(
-                    activities[item],
-                    Icons.Default.Delete,
-                    null,
-                ) { viewModel.deleteActivity(activities[item].id) }
-            }
+//            items(habitsDedicated.size) { item ->
+//                ItemHabit(
+//                    habitsDedicated[item].name,
+//                    habitsDedicated[item].id,
+//                    Icons.Default.Delete,
+//                    {},
+//
+//                )
+//            }
             item {
                 Text(
                     text = "Tareas simples",
@@ -125,12 +139,11 @@ fun Body(
                         .wrapContentHeight(),
                 )
             }
-            items(habits.size) { item ->
+            items(habitsSimple.size) { item ->
                 ItemHabit(
-                    habits[item],
+                    habitsSimple[item],
                     Icons.Default.Delete,
-                    null,
-                ) { viewModel.deleteHabit(habits[item].id) }
+                ) { viewModel.deleteHabit(habitsSimple[item].id) }
             }
         }
         IconButton(
@@ -151,11 +164,7 @@ fun Body(
                     viewModel.showOrDismissDialog(false)
                 },
             ) {
-                AddHabit(
-                    closeSecondDialogEvent = viewModel::showOrDismissDialog,
-                    viewModel::insertHabit,
-                    viewModel::insertActivity,
-                )
+                AddHabit(closeSecondDialogEvent = viewModel::showOrDismissDialog, viewModel::insertHabit)
             }
         }
     }
