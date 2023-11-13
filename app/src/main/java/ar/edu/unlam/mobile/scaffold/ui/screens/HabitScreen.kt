@@ -1,7 +1,6 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
-import android.annotation.SuppressLint
-import android.icu.text.SimpleDateFormat
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,30 +22,37 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
+import androidx.navigation.NavController
+import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
-import java.util.Date
 
 @Composable
-fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltViewModel()) {
-    val currentDate by remember { mutableStateOf(getCurrentDate()) }
-    val habits = viewModel.habits.value
+fun HabitScreen(modifier: Modifier? = Modifier, navController: NavController, viewModel: HabitViewModel = hiltViewModel()) {
+    val currentDate by remember { mutableStateOf(viewModel.getCurrentDate()) }
+    val habits = viewModel.filtrarHabitXDia()
+    val activities = viewModel.filtrarActivityXDia()
+    var selectedDays = viewModel.selectedDays.value
 
-    val habitsDedicated = habits.filter { it.category == TypeCategory.ACTIVITY }
-    val habitsSimple = habits.filter { it.category == TypeCategory.ROUTINE }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 75.dp),
     ) {
         Text(
-            text = currentDate,
+            text = currentDate ?: "-",
             style = TextStyle(color = Color.Black, fontSize = 30.sp, textAlign = TextAlign.Center),
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
         )
-//        DaysRowButtons()
+        Log.i("DIA", selectedDays.toString())
+        DaysRowButtons { day, isSelected ->
+            selectedDays = if (isSelected) {
+                selectedDays + day
+            } else {
+                selectedDays - day
+            }
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -65,8 +72,12 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltV
                         .wrapContentHeight(),
                 )
             }
-            items(habitsDedicated.size) {
-                //       ItemHabit(habitsDedicated[item].name, habitsDedicated[item].id, Icons.Default.Clear){}
+            items(activities.size) { item ->
+                ItemHabit(
+                    activities[item],
+                    Icons.Default.ArrowForward,
+                    navController,
+                ) { /*aca deberia llevar al cronometro*/ }
             }
             item {
                 Text(
@@ -81,18 +92,13 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltV
                         .wrapContentHeight(),
                 )
             }
-            items(habitsSimple.size) { item ->
+            items(habits.size) { item ->
                 ItemHabit(
-                    habitsSimple[item],
+                    habits[item],
                     Icons.Default.Clear,
-                ) { viewModel.updateHabit(habitsSimple[item]) }
+                    null,
+                ) { viewModel.updateHabit(habits[item]) }
             }
         }
     }
-}
-
-@SuppressLint("SimpleDateFormat")
-fun getCurrentDate(): String {
-    val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-    return dateFormat.format(Date())
 }

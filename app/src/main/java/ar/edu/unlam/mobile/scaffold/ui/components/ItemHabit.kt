@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffold.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
@@ -29,19 +31,31 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habito
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
 @Composable
 fun ItemHabit(
-    habito: Habit,
+    habit: Habito,
     iconButton: ImageVector,
+    navController: NavController?,
     actionUpdate: () -> Unit,
 ) {
     var icon = iconButton
     var isIcon1Selected by remember { mutableStateOf(false) }
 
-    isIcon1Selected = habito.state.toInt() == 0
+    isIcon1Selected = when (habit) {
+        is Habit -> {
+            habit.state.toInt() == 0
+        }
+
+        is Activity -> {
+            habit.state.toInt() == 0
+        }
+    }
 
     Row(
         modifier = Modifier
@@ -61,7 +75,7 @@ fun ItemHabit(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = habito.name,
+                text = habit.name,
                 modifier = Modifier.weight(1f),
                 style = TextStyle(
                     color = Color.White,
@@ -78,29 +92,56 @@ fun ItemHabit(
                     shape = CircleShape,
                 ),
             onClick = {
-                if (icon !== Icons.Default.Delete) {
-                    if (isIcon1Selected) {
-                        isIcon1Selected = !isIcon1Selected
-                        habito.state = 1 // tarea incompleta
-                        actionUpdate()
+                if (iconButton !== Icons.Default.ArrowForward) {
+                    if (iconButton !== Icons.Default.Delete) {
+                        Log.i("A 1", "")
+                        if (isIcon1Selected) {
+                            isIcon1Selected = !isIcon1Selected
+                            when (habit) {
+                                is Habit -> {
+                                    habit.state = 1
+                                }
+
+                                is Activity -> {
+                                    habit.state = 1
+                                }
+                            }
+
+                            actionUpdate()
+                        } else {
+                            isIcon1Selected = !isIcon1Selected
+                            when (habit) {
+                                is Habit -> {
+                                    habit.state = 0
+                                }
+
+                                is Activity -> {
+                                    habit.state = 0
+                                }
+                            } // tarea completada
+                            actionUpdate()
+                        }
                     } else {
-                        isIcon1Selected = !isIcon1Selected
-                        habito.state = 0 // tarea completada
+                        Log.i("2", "")
                         actionUpdate()
                     }
                 } else {
-                    actionUpdate()
+                    Log.i("A TIMER", "")
+                    navController?.navigate("timer")
                 }
             },
         ) {
             // TODO CAMBIAR COLOR AL ITEM SEGUN EL ESTADO
-            if (icon !== Icons.Default.Delete) {
+            if (icon == Icons.Default.ArrowForward) {
+                icon = iconButton
+            } else if (iconButton !== Icons.Default.Delete) {
                 icon = if (isIcon1Selected) {
                     Icons.Default.Check
                 } else {
                     Icons.Default.Clear
                 }
             }
+
             Icon(icon, contentDescription = null)
         }
     }
