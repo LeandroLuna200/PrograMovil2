@@ -24,7 +24,7 @@ class HabitService @Inject constructor(val repository: HabitDefaultRepository) :
     }
 
     override suspend fun getHabit(): Flow<List<Habit>> {
-        return this.repository.getHabits()
+        return repository.getHabits()
     }
 
     // Activity

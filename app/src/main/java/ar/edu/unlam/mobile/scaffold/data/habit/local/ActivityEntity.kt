@@ -20,7 +20,7 @@ data class ActivityEntity(
     @ColumnInfo(name = "name") val activityName: String,
     @ColumnInfo(name = "category") val category: TypeCategory,
     @TypeConverters(DataConverter::class) var days: List<Day>,
-    @ColumnInfo(name = "goal") val goal: Int,
+    @ColumnInfo(name = "goal") val goal: String,
     @ColumnInfo(name = "state") val currentState: StateLocalModel,
 ) {
     fun toActivityDomain(): Activity {
@@ -78,7 +78,7 @@ data class ActivityEndEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @TypeConverters(DataConverter::class) var date: LocalDateTime,
     @ColumnInfo(name = "startId", index = true) val startId: Long,
-    @ColumnInfo(name = "minutes") val minutes: Int,
+    @ColumnInfo(name = "minutes") val minutes: LocalDateTime,
 ) {
     fun toActivityEndDomain(): ActivityEnd {
         return ActivityEnd(id, date, startId, minutes)

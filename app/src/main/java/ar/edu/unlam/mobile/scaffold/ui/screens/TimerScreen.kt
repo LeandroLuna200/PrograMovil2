@@ -43,8 +43,8 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
         CustomTextField(titleText = "Hábito", text = "Hábito")
         // TODO la meta diaria cambia segun el habito que se selecciona en el spinner
         CustomTextField(titleText = "Meta Diaria", text = "01:30hs")
-        Chronometer(state)
-        if(TimerState.RUNNING == state) {
+//        Chronometer(state)
+        if (TimerState.RUNNING == state) {
             when (val jokeState = uiState.jokeState) {
                 is JokeUIState.Loading -> {
                     CircularProgressIndicator()
@@ -60,10 +60,5 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
                 }
             }
         }
-
-
     }
 }
-
-
-

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
@@ -42,11 +43,13 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
         viewModel.showOrDismissDialog(false)
     }
 
-    val habits = viewModel.habits.value
+    val habits = viewModel.filtrarHabitXDia()
+    val activities = viewModel.filtrarActivityXDia()
 
     Body(
         viewModel,
         habits = habits,
+        activities,
         showDialog,
         openDialogEvent,
         viewModel::showOrDismissDialog,
@@ -57,12 +60,13 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
 fun Body(
     viewModel: PlannerViewModel,
     habits: List<Habit>,
+    activities: List<Activity>,
     isDialogVisible: Boolean,
     openDialogEvent: () -> Unit,
     closeSecondDialogEvent: KFunction1<Boolean, Unit>,
 ) {
-    val habitsDedicated = habits.filter { it.category == TypeCategory.ACTIVITY }
-    val habitsSimple = habits.filter { it.category == TypeCategory.ROUTINE }
+//    val habitsDedicated = activities.filter { it.category == TypeCategory.ACTIVITY }
+//    val habitsSimple = habits.filter { it.category == TypeCategory.ROUTINE }
     // TODO campo de busqueda y filtros
     Column(
         modifier = Modifier
@@ -102,12 +106,11 @@ fun Body(
                         .wrapContentHeight(),
                 )
             }
-            items(habitsDedicated.size) { item ->
+            items(activities.size) { item ->
                 ItemHabit(
-                    habitsDedicated[item],
-                    Icons.Default.Delete,)
-                    { viewModel.deleteActivity(habitsDedicated[item].id)}
-
+                    activities[item],
+                    Icons.Default.Delete,
+                ) { viewModel.deleteActivity(activities[item].id) }
             }
             item {
                 Text(
@@ -122,11 +125,11 @@ fun Body(
                         .wrapContentHeight(),
                 )
             }
-            items(habitsSimple.size) { item ->
+            items(habits.size) { item ->
                 ItemHabit(
-                    habitsSimple[item],
+                    habits[item],
                     Icons.Default.Delete,
-                ) { viewModel.deleteHabit(habitsSimple[item].id) }
+                ) { viewModel.deleteHabit(habits[item].id) }
             }
         }
         IconButton(
@@ -147,7 +150,11 @@ fun Body(
                     viewModel.showOrDismissDialog(false)
                 },
             ) {
-                AddHabit(closeSecondDialogEvent = viewModel::showOrDismissDialog, viewModel::insertHabit, viewModel::insertActivity)
+                AddHabit(
+                    closeSecondDialogEvent = viewModel::showOrDismissDialog,
+                    viewModel::insertHabit,
+                    viewModel::insertActivity,
+                )
             }
         }
     }

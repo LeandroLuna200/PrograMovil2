@@ -60,13 +60,13 @@ fun MainScreen() {
                 // Home es el componente en sí que es el destino de navegación.
                 HomeScreen(modifier = Modifier.padding(paddingValue))
             }
-            composable(
-                route = "segundo/{id}",
-                arguments = listOf(navArgument("id") { type = NavType.IntType }),
-            ) { navBackStackEntry ->
-                val id = navBackStackEntry.arguments?.getInt("id") ?: 1
-                SecondaryScreen(controller = controller, id = id)
-            }
+//            composable(
+//                route = "segundo/{id}",
+//                arguments = listOf(navArgument("id") { type = NavType.IntType }),
+//            ) { navBackStackEntry ->
+//                val id = navBackStackEntry.arguments?.getInt("id") ?: 1
+//                SecondaryScreen(controller = controller, id = id)
+//            }
             composable("planner") {
                 PlannerScreen(modifier = Modifier.padding(paddingValue))
             }

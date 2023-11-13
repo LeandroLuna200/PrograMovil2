@@ -36,7 +36,7 @@ import kotlin.reflect.KFunction1
 fun AddHabit(
     closeSecondDialogEvent: KFunction1<Boolean, Unit>,
     actionHabit: KFunction1<Habit, Unit>,
-    actionActivity: KFunction1<Activity, Unit>
+    actionActivity: KFunction1<Activity, Unit>,
 ) {
     var habitName by remember { mutableStateOf("") }
     var isCheckedSimple by remember { mutableStateOf(false) }
@@ -99,7 +99,7 @@ fun AddHabit(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(12.dp)
+                    .padding(12.dp),
             ) {
                 Text(text = "Tarea simple")
                 Spacer(
@@ -111,7 +111,7 @@ fun AddHabit(
                     onCheckedChange = { isChecked ->
                         isCheckedSimple = isChecked
                         isCheckedSemanal = false
-                    }
+                    },
                 )
             }
             TextField(
@@ -125,7 +125,7 @@ fun AddHabit(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(12.dp)
+                    .padding(12.dp),
             ) {
                 Text(text = "Meta diaria")
                 Spacer(
@@ -137,7 +137,7 @@ fun AddHabit(
                     onCheckedChange = { isChecked ->
                         isCheckedSemanal = isChecked
                         isCheckedSimple = false
-                    }
+                    },
                 )
             }
 
@@ -158,8 +158,6 @@ fun AddHabit(
                 )
                 TextButton(
                     onClick = {
-                        // TODO HACER VALIDACIONES
-                        Log.i("BOTON CREAR HABITO", "CLICK")
                         val category = if (isCheckedSimple) {
                             TypeCategory.ROUTINE
                         } else {
@@ -167,36 +165,38 @@ fun AddHabit(
                         }
                         val horas: Long = if (horaSimple.isEmpty()) {
                             0
-                        }else{
+                        } else {
                             horaSimple.toLong()
                         }
-                        val hourDaily: Int = if(dailyGoal.isEmpty()){
+                        val hourDaily: Int = if (dailyGoal.isEmpty()) {
                             0
-                        }else{
+                        } else {
                             dailyGoal.toInt()
                         }
 
-                        actionHabit(
-                            Habit(
-                                0,
-                                habitName,
-                                category,
-                                selectedDays.toList(),
-                                horas,
-                                state = 1,
+                        if (category == TypeCategory.ROUTINE) {
+                            actionHabit(
+                                Habit(
+                                    0,
+                                    habitName,
+                                    category,
+                                    selectedDays.toList(),
+                                    horas,
+                                    state = 1,
+                                ),
                             )
-                        )
-                        Log.i("HABIT HORAS", horas.toString())
-                        actionActivity(
-                            Activity(
-                                0,
-                                habitName,
-                                category,
-                                selectedDays.toList(),
-                                hourDaily,
-                                state = 1,)
-                        )
-                        Log.i("ACTIVITY HORAS", hourDaily.toString())
+                        } else {
+                            actionActivity(
+                                Activity(
+                                    0,
+                                    habitName,
+                                    category,
+                                    selectedDays.toList(),
+                                    hourDaily.toString(),
+                                    state = 1,
+                                ),
+                            )
+                        }
                         closeSecondDialogEvent(false)
                     },
                 ) {
@@ -209,5 +209,3 @@ fun AddHabit(
         }
     }
 }
-
-

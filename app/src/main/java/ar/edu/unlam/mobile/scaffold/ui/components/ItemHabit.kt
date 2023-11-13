@@ -29,19 +29,29 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habito
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
 @Composable
 fun ItemHabit(
-    habit: Habit,
+    habit: Habito,
     iconButton: ImageVector,
     actionUpdate: () -> Unit,
 ) {
     var icon = iconButton
     var isIcon1Selected by remember { mutableStateOf(false) }
 
-    isIcon1Selected = habit.state.toInt() == 0
+    isIcon1Selected = when (habit) {
+        is Habit -> {
+            habit.state.toInt() == 0
+        }
+
+        is Activity -> {
+            habit.state.toInt() == 0
+        }
+    }
 
     Row(
         modifier = Modifier
@@ -81,11 +91,28 @@ fun ItemHabit(
                 if (icon !== Icons.Default.Delete) {
                     if (isIcon1Selected) {
                         isIcon1Selected = !isIcon1Selected
-                        habit.state = 1 // tarea incompleta
+                        when (habit) {
+                            is Habit -> {
+                                habit.state = 1
+                            }
+
+                            is Activity -> {
+                                habit.state = 1
+                            }
+                        }
+
                         actionUpdate()
                     } else {
                         isIcon1Selected = !isIcon1Selected
-                        habit.state = 0 // tarea completada
+                        when (habit) {
+                            is Habit -> {
+                                habit.state = 0
+                            }
+
+                            is Activity -> {
+                                habit.state = 0
+                            }
+                        } // tarea completada
                         actionUpdate()
                     }
                 } else {

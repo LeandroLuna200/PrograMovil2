@@ -22,8 +22,8 @@ data class Activity(
     override val name: String,
     override val category: TypeCategory,
     val days: List<Long>,
-    val dailyGoal: Int,
-    val state: Long,
+    val dailyGoal: String,
+    var state: Long,
 ) : Habito()
 
 data class ActivityStart(
@@ -36,5 +36,5 @@ data class ActivityEnd(
     val id: Long,
     val date: LocalDateTime,
     val startId: Long,
-    val minutes: Int
+    val minutes: LocalDateTime
 )
