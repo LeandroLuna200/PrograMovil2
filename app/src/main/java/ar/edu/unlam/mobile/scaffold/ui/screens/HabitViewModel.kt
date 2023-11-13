@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -31,7 +32,6 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
             }
         }
     }
-
     fun updateHabit(habit: Habit) {
         viewModelScope.launch { habitGetter.updateHabitState(habit) }
     }
