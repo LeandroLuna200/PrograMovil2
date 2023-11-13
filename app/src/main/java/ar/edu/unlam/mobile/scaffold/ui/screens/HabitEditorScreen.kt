@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -27,15 +26,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
-import ar.edu.unlam.mobile.scaffold.ui.components.CustomTextField
 import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
-import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
 import kotlin.reflect.KFunction1
 
 @Composable
-fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunction1<Habit, Unit>) {
+fun AddHabit(
+    closeSecondDialogEvent: KFunction1<Boolean, Unit>,
+    actionHabit: KFunction1<Habit, Unit>,
+    actionActivity: KFunction1<Activity, Unit>
+) {
     var habitName by remember { mutableStateOf("") }
     var isCheckedSimple by remember { mutableStateOf(false) }
     var isCheckedSemanal by remember { mutableStateOf(false) }
@@ -112,7 +114,14 @@ fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunc
                     }
                 )
             }
-            horaSimple = CustomTextField(titleText = "Hora", text = "")
+            TextField(
+                value = horaSimple,
+                label = { Text("Hora") },
+                onValueChange = {
+                    horaSimple = it
+                },
+            )
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -131,8 +140,14 @@ fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunc
                     }
                 )
             }
-            dailyGoal = CustomTextField(titleText = "Hora por dia", text = "")
 
+            TextField(
+                value = dailyGoal,
+                label = { Text("Horas por dia") },
+                onValueChange = {
+                    dailyGoal = it
+                },
+            )
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -150,21 +165,38 @@ fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunc
                         } else {
                             TypeCategory.ACTIVITY
                         }
-                        val horas = if (horaSimple.isNotEmpty()) {
-                            horaSimple
-                        } else {
-                            dailyGoal
+                        val horas: Long = if (horaSimple.isEmpty()) {
+                            0
+                        }else{
+                            horaSimple.toLong()
                         }
-                        actionAdd(
+                        val hourDaily: Int = if(dailyGoal.isEmpty()){
+                            0
+                        }else{
+                            dailyGoal.toInt()
+                        }
+
+                        actionHabit(
                             Habit(
                                 0,
                                 habitName,
                                 category,
                                 selectedDays.toList(),
-                                horas.toLong(),
+                                horas,
                                 state = 1,
-                            ),
+                            )
                         )
+                        Log.i("HABIT HORAS", horas.toString())
+                        actionActivity(
+                            Activity(
+                                0,
+                                habitName,
+                                category,
+                                selectedDays.toList(),
+                                hourDaily,
+                                state = 1,)
+                        )
+                        Log.i("ACTIVITY HORAS", hourDaily.toString())
                         closeSecondDialogEvent(false)
                     },
                 ) {
