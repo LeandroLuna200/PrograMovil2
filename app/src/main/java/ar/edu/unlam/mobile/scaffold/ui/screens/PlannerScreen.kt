@@ -91,20 +91,6 @@ fun Body(
         ) {
             item {
                 Text(
-                    text = "Eventos",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 25.sp,
-                        textAlign = TextAlign.Center,
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                )
-            }
-
-            item {
-                Text(
                     text = "Tareas Dedicadas",
                     style = TextStyle(
                         color = Color.Black,
@@ -116,15 +102,13 @@ fun Body(
                         .wrapContentHeight(),
                 )
             }
-//            items(habitsDedicated.size) { item ->
-//                ItemHabit(
-//                    habitsDedicated[item].name,
-//                    habitsDedicated[item].id,
-//                    Icons.Default.Delete,
-//                    {},
-//
-//                )
-//            }
+            items(habitsDedicated.size) { item ->
+                ItemHabit(
+                    habitsDedicated[item],
+                    Icons.Default.Delete,)
+                    { viewModel.deleteActivity(habitsDedicated[item].id)}
+
+            }
             item {
                 Text(
                     text = "Tareas simples",
@@ -163,7 +147,7 @@ fun Body(
                     viewModel.showOrDismissDialog(false)
                 },
             ) {
-                AddHabit(closeSecondDialogEvent = viewModel::showOrDismissDialog, viewModel::insertHabit)
+                AddHabit(closeSecondDialogEvent = viewModel::showOrDismissDialog, viewModel::insertHabit, viewModel::insertActivity)
             }
         }
     }

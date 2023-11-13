@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -26,20 +26,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
-import ar.edu.unlam.mobile.scaffold.ui.components.ToggleButton
-import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
 import kotlin.reflect.KFunction1
 
 @Composable
-fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunction1<Habit, Unit>) {
-    var nombreHabito by remember { mutableStateOf("") }
+fun AddHabit(
+    closeSecondDialogEvent: KFunction1<Boolean, Unit>,
+    actionHabit: KFunction1<Habit, Unit>,
+    actionActivity: KFunction1<Activity, Unit>
+) {
+    var habitName by remember { mutableStateOf("") }
     var isCheckedSimple by remember { mutableStateOf(false) }
     var isCheckedSemanal by remember { mutableStateOf(false) }
     var horaSimple by remember { mutableStateOf("") }
-    var metaSemanal by remember { mutableStateOf("") }
+    var dailyGoal by remember { mutableStateOf("") }
     var selectedDays by remember { mutableStateOf<Set<Long>>(emptySet()) }
     Box(
         modifier = Modifier
@@ -73,7 +76,7 @@ fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunc
                 )
             }
 
-            DaysRowButtons() { day, isSelected ->
+            DaysRowButtons { day, isSelected ->
                 selectedDays = if (isSelected) {
                     selectedDays + day
                 } else {
@@ -81,17 +84,36 @@ fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunc
                 }
                 Log.i("DIAS", selectedDays.toString())
             }
-
+            Spacer(
+                modifier = Modifier
+                    .height(12.dp),
+            )
             TextField(
-                value = nombreHabito,
+                value = habitName,
                 label = { Text("Nombre") },
                 onValueChange = {
-                    nombreHabito = it
+                    habitName = it
                 },
             )
 
-            isCheckedSimple = ToggleButton(text = "Tarea Simple")
-
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(12.dp)
+            ) {
+                Text(text = "Tarea simple")
+                Spacer(
+                    modifier = Modifier
+                        .weight(1f),
+                )
+                Switch(
+                    checked = isCheckedSimple,
+                    onCheckedChange = { isChecked ->
+                        isCheckedSimple = isChecked
+                        isCheckedSemanal = false
+                    }
+                )
+            }
             TextField(
                 value = horaSimple,
                 label = { Text("Hora") },
@@ -100,13 +122,30 @@ fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunc
                 },
             )
 
-            isCheckedSemanal = ToggleButton(text = "Meta Diaria")
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(12.dp)
+            ) {
+                Text(text = "Meta diaria")
+                Spacer(
+                    modifier = Modifier
+                        .weight(1f),
+                )
+                Switch(
+                    checked = isCheckedSemanal,
+                    onCheckedChange = { isChecked ->
+                        isCheckedSemanal = isChecked
+                        isCheckedSimple = false
+                    }
+                )
+            }
 
             TextField(
-                value = metaSemanal,
-                label = { Text("Horas x dia") },
+                value = dailyGoal,
+                label = { Text("Horas por dia") },
                 onValueChange = {
-                    metaSemanal = it
+                    dailyGoal = it
                 },
             )
 
@@ -119,29 +158,45 @@ fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunc
                 )
                 TextButton(
                     onClick = {
-
                         // TODO HACER VALIDACIONES
                         Log.i("BOTON CREAR HABITO", "CLICK")
-                        val categoria = if (isCheckedSimple) {
+                        val category = if (isCheckedSimple) {
                             TypeCategory.ROUTINE
                         } else {
                             TypeCategory.ACTIVITY
                         }
-                        val horas = if (horaSimple.isNotEmpty()) {
-                            horaSimple
-                        } else {
-                            metaSemanal
+                        val horas: Long = if (horaSimple.isEmpty()) {
+                            0
+                        }else{
+                            horaSimple.toLong()
                         }
-                        actionAdd(
+                        val hourDaily: Int = if(dailyGoal.isEmpty()){
+                            0
+                        }else{
+                            dailyGoal.toInt()
+                        }
+
+                        actionHabit(
                             Habit(
                                 0,
-                                nombreHabito,
-                                categoria,
+                                habitName,
+                                category,
                                 selectedDays.toList(),
-                                horas.toLong(),
+                                horas,
                                 state = 1,
-                            ),
+                            )
                         )
+                        Log.i("HABIT HORAS", horas.toString())
+                        actionActivity(
+                            Activity(
+                                0,
+                                habitName,
+                                category,
+                                selectedDays.toList(),
+                                hourDaily,
+                                state = 1,)
+                        )
+                        Log.i("ACTIVITY HORAS", hourDaily.toString())
                         closeSecondDialogEvent(false)
                     },
                 ) {
@@ -155,153 +210,4 @@ fun AddHabit(closeSecondDialogEvent: KFunction1<Boolean, Unit>, actionAdd: KFunc
     }
 }
 
-@Composable
-fun AddEvent(closeThirdDialogEvent: () -> Unit) {
-    var nombreHabito by remember { mutableStateOf("") }
-    var fechaHabito by remember { mutableStateOf("") }
-    var horaHabito by remember { mutableStateOf("") }
-    var selectedDays by remember { mutableStateOf<Set<String>>(emptySet()) }
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = Color.LightGray,
-            )
-            .border(1.dp, Color.Gray, shape = RoundedCornerShape(8.dp)),
-    ) {
-        Column(
-            modifier = Modifier,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                TextButton(
-                    onClick = { closeThirdDialogEvent() },
-                ) {
-                    Text(
-                        text = "<volver",
-                        textAlign = TextAlign.Left,
-                    )
-                }
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f),
-                )
-            }
 
-//            DaysRowButtons { day, isSelected ->
-//                selectedDays = if (isSelected) {
-//                    selectedDays + day
-//                } else {
-//                    selectedDays - day
-//                }
-//                Log.i("DIAS", selectedDays.toString())
-//            }
-            TextField(
-                value = nombreHabito,
-                label = { Text("Nombre del hábito") },
-                onValueChange = {
-                    nombreHabito = it
-                },
-            )
-            Spacer(
-                modifier = Modifier
-                    .height(16.dp),
-            )
-            TextField(
-                value = fechaHabito,
-                label = { Text("Fecha") },
-                onValueChange = {
-                    fechaHabito = it
-                },
-            )
-            Spacer(
-                modifier = Modifier
-                    .height(16.dp),
-            )
-            TextField(
-                value = horaHabito,
-                label = { Text("Hora") },
-                onValueChange = {
-                    horaHabito = it
-                },
-            )
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f),
-                )
-                TextButton(
-                    onClick = {
-                        Log.i("BOTON CREAR Evento", "CLICK")
-                    },
-
-                ) {
-                    Text(
-                        text = "<crear>",
-                        textAlign = TextAlign.Right,
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun EventOrHabit(openSecondDialogEvent: () -> Unit, openThirdDialogEvent: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = Color.LightGray,
-                shape = CircleShape,
-            ),
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            TextButton(
-                onClick = {
-                    openSecondDialogEvent()
-                },
-                modifier = Modifier
-                    .background(
-                        color = CustomLightBlue2,
-                        shape = CircleShape,
-                    ),
-            ) {
-                Text(
-                    text = "Habito",
-                    textAlign = TextAlign.Left,
-                )
-            }
-            Spacer(
-                modifier = Modifier
-                    .weight(1f),
-            )
-            TextButton(
-                onClick = {
-                    openThirdDialogEvent()
-                },
-                modifier = Modifier
-                    .background(
-                        color = CustomLightBlue2,
-                        shape = CircleShape,
-                    ),
-            ) {
-                Text(
-                    text = "Evento",
-                    textAlign = TextAlign.Right,
-                )
-            }
-        }
-    }
-}

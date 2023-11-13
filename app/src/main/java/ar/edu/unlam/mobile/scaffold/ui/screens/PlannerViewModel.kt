@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.services.HabitGetter
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +24,15 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
 
     init {
         getHabit()
+        getActivity()
+    }
+
+    private fun getActivity() {
+        viewModelScope.launch {
+            habitGetter.getAllActivities().collect {
+
+            }
+        }
     }
 
     private fun getHabit() {
@@ -33,6 +43,16 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
                 _habits.value = it
             }
         }
+    }
+
+    fun insertActivity(activity: Activity) {
+        viewModelScope.launch {
+            habitGetter.insertActivity(activity)
+        }
+    }
+
+    fun deleteActivity(activityId: Long) {
+        viewModelScope.launch { habitGetter.deleteActivityById(activityId) }
     }
 
     fun insertHabit(habit: Habit) {

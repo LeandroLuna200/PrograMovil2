@@ -34,14 +34,14 @@ import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
 @Composable
 fun ItemHabit(
-    habito: Habit,
+    habit: Habit,
     iconButton: ImageVector,
     actionUpdate: () -> Unit,
 ) {
     var icon = iconButton
     var isIcon1Selected by remember { mutableStateOf(false) }
 
-    isIcon1Selected = habito.state.toInt() == 0
+    isIcon1Selected = habit.state.toInt() == 0
 
     Row(
         modifier = Modifier
@@ -61,7 +61,7 @@ fun ItemHabit(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = habito.name,
+                text = habit.name,
                 modifier = Modifier.weight(1f),
                 style = TextStyle(
                     color = Color.White,
@@ -81,11 +81,11 @@ fun ItemHabit(
                 if (icon !== Icons.Default.Delete) {
                     if (isIcon1Selected) {
                         isIcon1Selected = !isIcon1Selected
-                        habito.state = 1 // tarea incompleta
+                        habit.state = 1 // tarea incompleta
                         actionUpdate()
                     } else {
                         isIcon1Selected = !isIcon1Selected
-                        habito.state = 0 // tarea completada
+                        habit.state = 0 // tarea completada
                         actionUpdate()
                     }
                 } else {

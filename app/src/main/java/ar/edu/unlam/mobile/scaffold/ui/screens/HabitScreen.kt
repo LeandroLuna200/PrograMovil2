@@ -65,8 +65,11 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltV
                         .wrapContentHeight(),
                 )
             }
-            items(habitsDedicated.size) {
-                //       ItemHabit(habitsDedicated[item].name, habitsDedicated[item].id, Icons.Default.Clear){}
+            items(habitsDedicated.size) { item->
+                ItemHabit(
+                    habitsDedicated[item],
+                    Icons.Default.Clear
+                ) {/*aca deberia llevar al cronometro*/}
             }
             item {
                 Text(

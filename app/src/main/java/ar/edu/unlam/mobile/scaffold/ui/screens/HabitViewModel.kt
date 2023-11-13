@@ -4,9 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.services.HabitGetter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,8 +17,12 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
     private val _habits = mutableStateOf<List<Habit>>(emptyList())
     val habits: State<List<Habit>> = _habits
 
+    private val _activities = mutableStateOf<List<Activity>>(emptyList())
+    val activities: State<List<Activity>> = _activities
+
     init {
         getHabit()
+        getActivity()
     }
 
     private fun getHabit() {
@@ -32,7 +38,19 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
         }
     }
 
+    private fun getActivity(){
+        viewModelScope.launch {
+            habitGetter.getAllActivities().collect{
+                _activities.value = it
+            }
+        }
+    }
+
     fun updateHabit(habit: Habit) {
         viewModelScope.launch { habitGetter.updateHabitState(habit) }
+    }
+
+    fun updateActivity(activity: Activity){
+        viewModelScope.launch{ habitGetter.updateActivityState(activity)}
     }
 }
