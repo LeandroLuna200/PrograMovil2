@@ -26,7 +26,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 import kotlin.reflect.KFunction1
@@ -110,6 +109,7 @@ fun Body(
                 ItemHabit(
                     activities[item],
                     Icons.Default.Delete,
+                    null,
                 ) { viewModel.deleteActivity(activities[item].id) }
             }
             item {
@@ -129,6 +129,7 @@ fun Body(
                 ItemHabit(
                     habits[item],
                     Icons.Default.Delete,
+                    null,
                 ) { viewModel.deleteHabit(habits[item].id) }
             }
         }

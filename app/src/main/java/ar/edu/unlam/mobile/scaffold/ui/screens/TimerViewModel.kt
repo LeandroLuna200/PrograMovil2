@@ -37,7 +37,7 @@ class TimerViewModel @Inject constructor(val jokeGetter: JokeGetter) : ViewModel
         getJoke()
     }
 
-    fun getJoke() {
+    private fun getJoke() {
         viewModelScope.launch {
             jokeGetter.getJoke().collect {
                 _uiState.value = TimerUIState(JokeUIState.Success(it))

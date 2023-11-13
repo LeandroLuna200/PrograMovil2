@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -23,11 +22,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 
 @Composable
-fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltViewModel()) {
+fun HabitScreen(modifier: Modifier? = Modifier, navController: NavController, viewModel: HabitViewModel = hiltViewModel()) {
     val currentDate by remember { mutableStateOf(viewModel.getCurrentDate()) }
     val habits = viewModel.filtrarHabitXDia()
     val activities = viewModel.filtrarActivityXDia()
@@ -76,6 +76,7 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltV
                 ItemHabit(
                     activities[item],
                     Icons.Default.ArrowForward,
+                    navController,
                 ) { /*aca deberia llevar al cronometro*/ }
             }
             item {
@@ -95,6 +96,7 @@ fun HabitScreen(modifier: Modifier = Modifier, viewModel: HabitViewModel = hiltV
                 ItemHabit(
                     habits[item],
                     Icons.Default.Clear,
+                    null,
                 ) { viewModel.updateHabit(habits[item]) }
             }
         }
