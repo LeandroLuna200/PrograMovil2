@@ -42,8 +42,8 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
         viewModel.showOrDismissDialog(false)
     }
 
-    val habits = viewModel.filtrarHabitXDia()
-    val activities = viewModel.filtrarActivityXDia()
+    val habits = viewModel.habits.value
+    val activities = viewModel.activities.value
 
     Body(
         viewModel,
