@@ -2,13 +2,13 @@ package ar.edu.unlam.mobile.scaffold.data.habit.repository
 
 import ar.edu.unlam.mobile.scaffold.data.habit.local.ActivityDao
 import ar.edu.unlam.mobile.scaffold.data.habit.local.HabitDao
+import ar.edu.unlam.mobile.scaffold.data.habit.mapper.ActivityMapper
+import ar.edu.unlam.mobile.scaffold.data.habit.mapper.HabitMapper
+import ar.edu.unlam.mobile.scaffold.data.habit.mapper.StartEndMapper
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityEnd
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityStart
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
-import ar.edu.unlam.mobile.scaffold.data.habit.mapper.ActivityMapper
-import ar.edu.unlam.mobile.scaffold.data.habit.mapper.HabitMapper
-import ar.edu.unlam.mobile.scaffold.data.habit.mapper.StartEndMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

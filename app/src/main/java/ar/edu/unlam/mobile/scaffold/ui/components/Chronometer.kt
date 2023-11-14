@@ -29,7 +29,7 @@ enum class TimerState {
 @Composable
 fun Chronometer(initialState: TimerState) {
     var state by remember { mutableStateOf(initialState) }
-    //TODO PASAR A HORAS, MINUTOS
+    // TODO PASAR A HORAS, MINUTOS
     var elapsedMillis by remember { mutableLongStateOf(0L) }
 
     LaunchedEffect(state) {
@@ -41,7 +41,7 @@ fun Chronometer(initialState: TimerState) {
                 }
 
                 TimerState.PAUSED -> {
-                    //elapsedMillis
+                    // elapsedMillis
                 }
 
                 TimerState.STOPPED -> {
@@ -68,7 +68,7 @@ fun Chronometer(initialState: TimerState) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier
-                        .padding(vertical = 16.dp)
+                        .padding(vertical = 16.dp),
                 ) {
                     Button(onClick = { state = TimerState.PAUSED }) {
                         Text(text = "Pausar")
@@ -84,7 +84,7 @@ fun Chronometer(initialState: TimerState) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier
-                        .padding(vertical = 16.dp)
+                        .padding(vertical = 16.dp),
                 ) {
                     Button(onClick = { state = TimerState.PAUSED }) {
                         Text(text = "Reanudar")
@@ -97,7 +97,6 @@ fun Chronometer(initialState: TimerState) {
             }
         }
     }
-
 }
 
 fun formatTime(timeInMillis: Long): String {

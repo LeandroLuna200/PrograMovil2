@@ -21,12 +21,12 @@ import androidx.compose.ui.window.Dialog
 
 @Preview(showBackground = true)
 @Composable
-fun FilterByCategory(){
+fun FilterByCategory() {
     var isDialogVisible by remember { mutableStateOf(false) }
     IconButton(
         modifier = Modifier
             .padding(6.dp),
-        onClick = {isDialogVisible = true},
+        onClick = { isDialogVisible = true },
     ) {
         Icon(Icons.Default.ThumbUp, contentDescription = null)
     }
@@ -36,7 +36,7 @@ fun FilterByCategory(){
                 isDialogVisible = false
             },
             content = {
-                Box(modifier = Modifier){
+                Box(modifier = Modifier) {
                     Row {
                         TextButton(onClick = { /*TODO*/ }) {
                             Text(text = "Dedicados")
@@ -48,6 +48,7 @@ fun FilterByCategory(){
                         }
                     }
                 }
-            })
+            },
+        )
     }
 }

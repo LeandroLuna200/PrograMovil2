@@ -10,4 +10,3 @@ data class JokeAPIModel(
         return Joke(id = id, value = value)
     }
 }
-
