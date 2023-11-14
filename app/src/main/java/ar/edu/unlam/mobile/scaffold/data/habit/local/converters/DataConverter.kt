@@ -27,13 +27,14 @@ class DataConverter : Serializable {
         val type: Type = object : TypeToken<List<String?>?>() {}.type
         return gson.fromJson<List<String>>(daysValuesString, type)
     }
+
     @TypeConverter
-    fun fromDateValues(date: Date): String?{
-        if (date == null){
+    fun fromDateValues(date: Date): String? {
+        if (date == null) {
             return null
         }
-        val gson= Gson()
-        val type: Type = object :TypeToken<String?>(){}.type
-        return gson.toJson(date,type)
+        val gson = Gson()
+        val type: Type = object : TypeToken<String?>() {}.type
+        return gson.toJson(date, type)
     }
 }

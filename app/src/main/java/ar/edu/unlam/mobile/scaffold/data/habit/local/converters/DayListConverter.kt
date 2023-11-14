@@ -19,7 +19,7 @@ class DayListConverter {
             object : TypeToken<List<Day>>() {}.type
         return gson.fromJson(
             dayListString,
-            listType
+            listType,
         )
     }
 }
