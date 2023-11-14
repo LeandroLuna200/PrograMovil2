@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
-import ar.edu.unlam.mobile.scaffold.ui.components.customTextField
 import ar.edu.unlam.mobile.scaffold.ui.components.TimerState
+import ar.edu.unlam.mobile.scaffold.ui.components.customTextField
 
 @Composable
 fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
