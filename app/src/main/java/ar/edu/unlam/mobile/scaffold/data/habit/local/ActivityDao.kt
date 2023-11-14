@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ActivityDao {
     @Update
-    suspend fun updateActivityState(habit: ActivityEntity)
+    suspend fun updateActivityState(activity: ActivityEntity)
 
     @Insert
     suspend fun insertActivity(activityLocalModel: ActivityEntity)

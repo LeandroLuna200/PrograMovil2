@@ -29,8 +29,8 @@ import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 @Composable
 fun HabitScreen(modifier: Modifier? = Modifier, navController: NavController, viewModel: HabitViewModel = hiltViewModel()) {
     val currentDate by remember { mutableStateOf(viewModel.getCurrentDate()) }
-    val habits = viewModel.filtrarHabitXDia()
-    val activities = viewModel.filtrarActivityXDia()
+    val habits = viewModel.filterHabitByDay()
+    val activities = viewModel.filterActivityByDay()
     var selectedDays = viewModel.selectedDays.value
 
     Column(
@@ -71,13 +71,22 @@ fun HabitScreen(modifier: Modifier? = Modifier, navController: NavController, vi
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
+                if (activities.isEmpty()){
+                    Text(text = "no hay tareas dedicadas por el momento",
+                        style = TextStyle(
+                            color = Color.DarkGray,
+                            fontSize = 15.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
             }
             items(activities.size) { item ->
                 ItemHabit(
                     activities[item],
                     Icons.Default.ArrowForward,
                     navController,
-                ) { /*aca deberia llevar al cronometro*/ }
+                ) { }
             }
             item {
                 Text(
@@ -91,6 +100,15 @@ fun HabitScreen(modifier: Modifier? = Modifier, navController: NavController, vi
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
+                if (habits.isEmpty()){
+                    Text(text = "no hay tareas simples por el momento",
+                        style = TextStyle(
+                            color = Color.DarkGray,
+                            fontSize = 15.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
             }
             items(habits.size) { item ->
                 ItemHabit(

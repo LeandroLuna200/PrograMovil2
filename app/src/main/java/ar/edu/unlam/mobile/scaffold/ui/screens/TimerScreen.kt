@@ -1,35 +1,50 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
-import ar.edu.unlam.mobile.scaffold.ui.components.TimerState
 import ar.edu.unlam.mobile.scaffold.ui.components.customTextField
+import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
+import ar.edu.unlam.mobile.scaffold.ui.theme.CustomRed
+import ar.edu.unlam.mobile.scaffold.ui.theme.Green
 
 @Composable
 fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
-    // TODO filtrar lista por habits dedicated
+    // TODO filter list por habits dedicated
     val habits: MutableList<Habit> = mutableListOf()
 //    habits.add(Habit("levantarme temprano", TypeCategory.DEDICATED, 0))
 //    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, 0))
 //    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, 0))
 
+//    val now: LocalDateTime = LocalDateTime.now()
+//    val startActivity = ActivityStart(id = 0, date = now, activityId = activity!!.id)
     val uiState: TimerUIState by viewModel.uiState.collectAsState()
-    val state by remember { mutableStateOf(TimerState.STOPPED) }
+
+    var isStarted by remember { mutableStateOf(false) }
+    var color by remember { mutableStateOf(CustomRed) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,36 +56,69 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
         customTextField(titleText = "Hábito", text = "Hábito")
         // TODO la meta diaria cambia segun el habito que se selecciona en el spinner
         customTextField(titleText = "Meta Diaria", text = "01:30hs")
-//        Chronometer(state)
-//        if (TimerState.RUNNING == state) {
-//            when (val jokeState = uiState.jokeState) {
-//                is JokeUIState.Loading -> {
-//                    CircularProgressIndicator()
-//                }
-//
-//                is JokeUIState.Success -> {
-//                    Text(jokeState.joke.value)
-//                    Log.i("CHUCK NORRIS", jokeState.joke.value)
-//                }
-//
-//                is JokeUIState.Error -> {
-//                    // Error
-//                }
-//            }
-//        }
-
-        when (val jokeState = uiState.jokeState) {
-            is JokeUIState.Loading -> {
-                CircularProgressIndicator()
+        //        Chronometer(state)
+        Row{
+            if (!isStarted) {
+                TextButton(
+                    onClick = {
+//                        viewModel.insertStart(startActivity)
+                        isStarted = true
+                    },
+                    modifier = Modifier
+                        .background(color = CustomLightBlue),
+                    shape = CircleShape
+                ) {
+                    Text(
+                        text = "Iniciar",
+                        style = TextStyle(
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                        )
+                    )
+                }
+            } else {
+                TextButton(
+                    onClick = {
+//                        viewModel.insertEnd(ActivityEnd(0, date = now, startActivity.id))
+                        isStarted = false
+                    },
+                    modifier = Modifier
+                        .background(color = color),
+                    shape = CircleShape
+                ) {
+                    Text(
+                        text = "Detener",
+                        style = TextStyle(
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                        )
+                    )
+                }
             }
+        }
+        }
 
-            is JokeUIState.Success -> {
-                Text(jokeState.joke.value)
-                Log.i("CHUCK NORRIS", jokeState.joke.value)
-            }
+    when (
+        val jokeState = uiState.jokeState)
+    {
+        is JokeUIState.Loading -> {
+            CircularProgressIndicator()
+        }
 
-            is JokeUIState.Error -> {
-            }
+        is JokeUIState.Success -> {
+            Text(jokeState.joke.value)
+            Log.i("CHUCK NORRIS", jokeState.joke.value)
+        }
+
+        is JokeUIState.Error -> {
         }
     }
 }
+
+
+
+
+
+
+
+

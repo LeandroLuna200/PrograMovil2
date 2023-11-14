@@ -12,7 +12,6 @@ import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.TypeCategory
 import ar.edu.unlam.mobile.scaffold.domain.habit.services.HabitGetter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.Locale
@@ -56,18 +55,14 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
         viewModelScope.launch { habitGetter.updateHabitState(habit) }
     }
 
-    fun updateActivity(activity: Activity) {
-        viewModelScope.launch { habitGetter.updateActivityState(activity) }
-    }
-
-    fun filtrarHabitXDia(): List<Habit> {
-        Log.i("LISTA", _habits.value.toString())
-        Log.i("LISTA", _habits.value.filter { it.category == TypeCategory.ROUTINE }.toString())
+    fun filterHabitByDay(): List<Habit> {
+        Log.i("LIST", _habits.value.toString())
+        Log.i("LIST", _habits.value.filter { it.category == TypeCategory.ROUTINE }.toString())
 
         return _habits.value.filter { it.days.contains(getDiaNumber()) }
     }
 
-    fun filtrarActivityXDia(): List<Activity> {
+    fun filterActivityByDay(): List<Activity> {
         return _activities.value.filter { it.days.contains(getDiaNumber()) }
     }
 
