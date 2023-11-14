@@ -12,13 +12,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
-import ar.edu.unlam.mobile.scaffold.ui.components.CustomTextField
+import ar.edu.unlam.mobile.scaffold.ui.components.customTextField
 import ar.edu.unlam.mobile.scaffold.ui.components.TimerState
 
 @Composable
@@ -39,9 +38,9 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
         // TODO cambiar esto por un spinner
-        CustomTextField(titleText = "Hábito", text = "Hábito")
+        customTextField(titleText = "Hábito", text = "Hábito")
         // TODO la meta diaria cambia segun el habito que se selecciona en el spinner
-        CustomTextField(titleText = "Meta Diaria", text = "01:30hs")
+        customTextField(titleText = "Meta Diaria", text = "01:30hs")
 //        Chronometer(state)
 //        if (TimerState.RUNNING == state) {
 //            when (val jokeState = uiState.jokeState) {

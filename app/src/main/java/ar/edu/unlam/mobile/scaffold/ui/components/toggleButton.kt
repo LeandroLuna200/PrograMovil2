@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ToggleButton(text: String): Boolean {
+fun toggleButton(text: String): Boolean {
     var isChecked by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
