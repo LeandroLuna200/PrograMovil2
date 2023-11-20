@@ -1,11 +1,11 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
-import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,20 +36,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-<<<<<<< Updated upstream
-import ar.edu.unlam.mobile.scaffold.ui.components.customTextField
-import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
-import ar.edu.unlam.mobile.scaffold.ui.theme.CustomRed
-
-@Composable
-fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
-=======
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityStart
-import ar.edu.unlam.mobile.scaffold.ui.components.customTextField
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomRed
-import java.time.LocalDateTime
 
 @Composable
 fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: HabitViewModel) {
@@ -59,13 +48,15 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
 
 //    val now: LocalDateTime = LocalDateTime.now()
 //    val startActivity = ActivityStart(id = 0, date = now, activityId = activity!!.id)
->>>>>>> Stashed changes
+
     val uiState: TimerUIState by viewModel.uiState.collectAsState()
 
     var isStarted by remember { mutableStateOf(false) }
     val color by remember { mutableStateOf(CustomRed) }
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
@@ -77,11 +68,11 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
                 selectedActivity = habit
             }
         )
-        if (selectedActivity != null){
+        if (selectedActivity != null) {
             Text(text = "Meta diaria: ${selectedActivity!!.dailyGoal} horas")
         }
 
->>>>>>> Stashed changes
+
         Row {
             if (!isStarted) {
                 TextButton(
@@ -144,8 +135,6 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
 
             is JokeUIState.Error -> {
             }
-
-            else -> {}
         }
     }
 
@@ -158,7 +147,7 @@ fun ActivitySpinner(
     selectedItem: Activity?,
     onItemSelected: (Activity) -> Unit
 ) {
-    var expanded = remember { mutableStateOf(false) }
+    val expanded = remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -186,18 +175,7 @@ fun ActivitySpinner(
             Log.i("SPINNER", items.toString())
         }
 
+    }
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> Stashed changes
