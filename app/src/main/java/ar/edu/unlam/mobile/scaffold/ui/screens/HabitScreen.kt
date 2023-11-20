@@ -27,7 +27,11 @@ import ar.edu.unlam.mobile.scaffold.ui.components.DaysRowButtons
 import ar.edu.unlam.mobile.scaffold.ui.components.ItemHabit
 
 @Composable
-fun HabitScreen(modifier: Modifier? = Modifier, navController: NavController, viewModel: HabitViewModel = hiltViewModel()) {
+fun HabitScreen(
+    modifier: Modifier? = Modifier,
+    navController: NavController,
+    viewModel: HabitViewModel = hiltViewModel(),
+) {
     val currentDate by remember { mutableStateOf(viewModel.getCurrentDate()) }
     val habits = viewModel.filterHabitByDay()
     val activities = viewModel.filterActivityByDay()
@@ -71,13 +75,14 @@ fun HabitScreen(modifier: Modifier? = Modifier, navController: NavController, vi
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
-                if (activities.isEmpty()){
-                    Text(text = "no hay tareas dedicadas por el momento",
+                if (activities.isEmpty()) {
+                    Text(
+                        text = "no hay tareas dedicadas por el momento",
                         style = TextStyle(
                             color = Color.DarkGray,
                             fontSize = 15.sp,
-                            textAlign = TextAlign.Center
-                        )
+                            textAlign = TextAlign.Center,
+                        ),
                     )
                 }
             }
@@ -100,13 +105,14 @@ fun HabitScreen(modifier: Modifier? = Modifier, navController: NavController, vi
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
-                if (habits.isEmpty()){
-                    Text(text = "no hay tareas simples por el momento",
+                if (habits.isEmpty()) {
+                    Text(
+                        text = "no hay tareas simples por el momento",
                         style = TextStyle(
                             color = Color.DarkGray,
                             fontSize = 15.sp,
-                            textAlign = TextAlign.Center
-                        )
+                            textAlign = TextAlign.Center,
+                        ),
                     )
                 }
             }
