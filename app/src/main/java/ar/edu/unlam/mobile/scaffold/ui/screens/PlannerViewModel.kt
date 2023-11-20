@@ -32,7 +32,7 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
         getActivity()
     }
 
-    private fun getActivity() {
+    fun getActivity() {
         viewModelScope.launch {
             habitGetter.getAllActivities().collect {
                 _activities.value = it
@@ -40,10 +40,10 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
         }
     }
 
-    private fun getHabit() {
-        Log.i("HABITOS MOCK1", "")
+    fun getHabit() {
+        Log.i("HABITS MOCK1", "")
         viewModelScope.launch {
-            Log.i("HABITOS MOCK2", "")
+            Log.i("HABITS MOCK2", "")
             habitGetter.getHabit().collect { it ->
                 _habits.value = it
             }
@@ -70,14 +70,14 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
         viewModelScope.launch { habitGetter.deleteHabitById(habitId) }
     }
 
-    fun filtrarHabitXDia(): List<Habit> {
-        Log.i("LISTA", _habits.value.toString())
-        Log.i("LISTA", _habits.value.filter { it.category == TypeCategory.ROUTINE }.toString())
+    fun filterHabitByDay(): List<Habit> {
+        Log.i("LIST", _habits.value.toString())
+        Log.i("LIST", _habits.value.filter { it.category == TypeCategory.ROUTINE }.toString())
 
         return _habits.value.filter { it.days.contains(getDiaNumber()) }
     }
 
-    fun filtrarActivityXDia(): List<Activity> {
+    fun filterActivityByDay(): List<Activity> {
         return _activities.value.filter { it.days.contains(getDiaNumber()) }
     }
 
@@ -105,4 +105,5 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
     fun showOrDismissDialog(show: Boolean) {
         _showDialog.value = show
     }
+
 }

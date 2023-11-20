@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -19,6 +20,7 @@ import ar.edu.unlam.mobile.scaffold.ui.components.BottomBar
 import ar.edu.unlam.mobile.scaffold.ui.screens.HabitScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerScreen
+import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerViewModel
 import ar.edu.unlam.mobile.scaffold.ui.screens.TimerScreen
 import ar.edu.unlam.mobile.scaffold.ui.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,7 +76,7 @@ fun MainScreen() {
                 HabitScreen(null, controller)
             }
             composable("timer") {
-                TimerScreen()
+                TimerScreen(habitViewModel = hiltViewModel())
             }
         }
     }

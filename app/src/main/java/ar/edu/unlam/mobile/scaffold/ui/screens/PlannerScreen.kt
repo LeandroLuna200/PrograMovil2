@@ -99,6 +99,19 @@ fun Body(
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
+                if (activities.isEmpty()) {
+                    Text(
+                        text = "no hay tareas dedicadas por el momento",
+                        style = TextStyle(
+                            color = Color.DarkGray,
+                            fontSize = 15.sp,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                    )
+                }
             }
             items(activities.size) { item ->
                 ItemHabit(
@@ -119,6 +132,19 @@ fun Body(
                         .fillMaxWidth()
                         .wrapContentHeight(),
                 )
+                if (habits.isEmpty()) {
+                    Text(
+                        text = "no hay tareas simples por el momento",
+                        style = TextStyle(
+                            color = Color.DarkGray,
+                            fontSize = 15.sp,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                    )
+                }
             }
             items(habits.size) { item ->
                 ItemHabit(
