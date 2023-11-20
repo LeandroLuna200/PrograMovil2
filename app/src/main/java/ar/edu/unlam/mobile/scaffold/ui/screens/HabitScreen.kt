@@ -39,7 +39,7 @@ fun HabitScreen(modifier: Modifier? = Modifier, navController: NavController, vi
             .padding(bottom = 75.dp),
     ) {
         Text(
-            text = currentDate ?: "-",
+            text = currentDate,
             style = TextStyle(color = Color.Black, fontSize = 30.sp, textAlign = TextAlign.Center),
             modifier = Modifier
                 .fillMaxWidth()

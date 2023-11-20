@@ -3,7 +3,6 @@ package ar.edu.unlam.mobile.scaffold.ui.screens
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,30 +24,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.ui.components.customTextField
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomRed
-import ar.edu.unlam.mobile.scaffold.ui.theme.Green
 
 @Composable
 fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
-    // TODO filter list por habits dedicated
-    val habits: MutableList<Habit> = mutableListOf()
-//    habits.add(Habit("levantarme temprano", TypeCategory.DEDICATED, 0))
-//    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, 0))
-//    habits.add(Habit("levantarme temprano", TypeCategory.SIMPLE, 0))
-
-//    val now: LocalDateTime = LocalDateTime.now()
-//    val startActivity = ActivityStart(id = 0, date = now, activityId = activity!!.id)
     val uiState: TimerUIState by viewModel.uiState.collectAsState()
 
     var isStarted by remember { mutableStateOf(false) }
     var color by remember { mutableStateOf(CustomRed) }
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
@@ -57,7 +44,7 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
         // TODO la meta diaria cambia segun el habito que se selecciona en el spinner
         customTextField(titleText = "Meta Diaria", text = "01:30hs")
         //        Chronometer(state)
-        Row{
+        Row {
             if (!isStarted) {
                 TextButton(
                     onClick = {
@@ -66,14 +53,14 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
                     },
                     modifier = Modifier
                         .background(color = CustomLightBlue),
-                    shape = CircleShape
+                    shape = CircleShape,
                 ) {
                     Text(
                         text = "Iniciar",
                         style = TextStyle(
                             color = Color.White,
                             textAlign = TextAlign.Center,
-                        )
+                        ),
                     )
                 }
             } else {
@@ -84,23 +71,23 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
                     },
                     modifier = Modifier
                         .background(color = color),
-                    shape = CircleShape
+                    shape = CircleShape,
                 ) {
                     Text(
                         text = "Detener",
                         style = TextStyle(
                             color = Color.White,
                             textAlign = TextAlign.Center,
-                        )
+                        ),
                     )
                 }
             }
         }
-        }
+    }
 
     when (
-        val jokeState = uiState.jokeState)
-    {
+        val jokeState = uiState.jokeState
+    ) {
         is JokeUIState.Loading -> {
             CircularProgressIndicator()
         }
@@ -114,11 +101,3 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel()) {
         }
     }
 }
-
-
-
-
-
-
-
-

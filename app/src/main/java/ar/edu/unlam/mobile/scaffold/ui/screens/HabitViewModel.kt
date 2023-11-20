@@ -82,7 +82,7 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
 
     @SuppressLint("SimpleDateFormat")
     fun getCurrentDate(): String {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val currentDate = Date()
         val spanishLocale = Locale("es", "ES")
         return SimpleDateFormat("EEEE", spanishLocale).format(currentDate)

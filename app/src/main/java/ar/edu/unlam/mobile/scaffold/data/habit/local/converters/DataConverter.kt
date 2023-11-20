@@ -30,9 +30,6 @@ class DataConverter : Serializable {
 
     @TypeConverter
     fun fromDateValues(date: Date): String? {
-        if (date == null) {
-            return null
-        }
         val gson = Gson()
         val type: Type = object : TypeToken<String?>() {}.type
         return gson.toJson(date, type)

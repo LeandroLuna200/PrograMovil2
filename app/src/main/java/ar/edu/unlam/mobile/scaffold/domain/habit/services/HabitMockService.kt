@@ -27,7 +27,6 @@ class HabitMockService @Inject constructor() : HabitGetter {
             Habit(3, "estudiar 2hrs", TypeCategory.ACTIVITY, dias, 8, 1),
         )
         return flow {
-            prueba
         }
     }
 

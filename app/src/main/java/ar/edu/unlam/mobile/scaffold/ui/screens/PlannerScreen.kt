@@ -37,11 +37,6 @@ fun PlannerScreen(modifier: Modifier = Modifier, viewModel: PlannerViewModel = h
     val openDialogEvent: () -> Unit = {
         viewModel.showOrDismissDialog(true)
     }
-
-    val closeDialogEvent: () -> Unit = {
-        viewModel.showOrDismissDialog(false)
-    }
-
     val habits = viewModel.habits.value
     val activities = viewModel.activities.value
 
