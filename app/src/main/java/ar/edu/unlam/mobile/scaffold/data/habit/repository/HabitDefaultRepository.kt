@@ -39,6 +39,9 @@ class HabitDefaultRepository @Inject constructor(
 
     // Activity
 
+    override suspend fun selectStartMaxById(id: Long): Long {
+        return activityDao.selectStartByMaxId(id)
+    }
     override suspend fun updateActivityState(activity: Activity) {
         activityDao.updateActivityState(ActivityMapper().toActivityDB(activity))
     }

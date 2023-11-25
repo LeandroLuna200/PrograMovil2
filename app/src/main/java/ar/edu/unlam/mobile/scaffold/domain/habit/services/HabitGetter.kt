@@ -26,4 +26,6 @@ interface HabitGetter {
     suspend fun insertEnd(activityEnd: ActivityEnd)
 
     suspend fun selectEndById(id: Long): ActivityEnd
+
+    suspend fun selectStartMaxById(id: Long): Long
 }

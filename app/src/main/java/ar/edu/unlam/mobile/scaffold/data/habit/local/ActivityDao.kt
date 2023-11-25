@@ -25,7 +25,8 @@ interface ActivityDao {
 
     @Query("SELECT * FROM activityStart_tb WHERE id= :id")
     suspend fun selectStartById(id: Long): ActivityStartEntity
-
+    @Query("SELECT MAX(id) FROM activityStart_tb WHERE activityId= :id")
+    suspend fun selectStartByMaxId(id: Long): Long
     @Insert
     suspend fun insertEnd(activityEnd: ActivityEndEntity)
 

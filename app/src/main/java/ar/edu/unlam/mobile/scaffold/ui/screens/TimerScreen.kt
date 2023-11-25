@@ -1,6 +1,8 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -37,17 +39,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityEnd
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityStart
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomRed
+import java.time.LocalDateTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: HabitViewModel) {
 
     val activities by habitViewModel.activities
     var selectedActivity by remember { mutableStateOf<Activity?>(null) }
-
-//    val now: LocalDateTime = LocalDateTime.now()
-//    val startActivity = ActivityStart(id = 0, date = now, activityId = activity!!.id)
 
     val uiState: TimerUIState by viewModel.uiState.collectAsState()
 
@@ -72,12 +75,17 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
             Text(text = "Meta diaria: ${selectedActivity!!.dailyGoal} horas")
         }
 
-
         Row {
             if (!isStarted) {
                 TextButton(
                     onClick = {
-//                        viewModel.insertStart(ActivityStart(0, date = LocalDateTime.,selectedActivity!!.id))
+                        val startActivity = ActivityStart(
+                            id = 0,
+                            date = LocalDateTime.now(),
+                            activityId = selectedActivity!!.id
+                        )
+                        viewModel.setActivityStart(startActivity)
+                        Log.i("ACTIVITY START", startActivity.toString())
                         isStarted = true
                     },
                     modifier = Modifier
@@ -93,9 +101,20 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
                     )
                 }
             } else {
+                Log.i("ACTIVITY START", viewModel.getActivityStart().toString())
                 TextButton(
                     onClick = {
-//                        viewModel.insertEnd(ActivityEnd(0, date = now, startActivity.id))
+                        viewModel.insertEnd(
+                            ActivityEnd(
+                                0,
+                                date = LocalDateTime.now(),
+                                startId = viewModel.getMaxId(selectedActivity!!.id),
+                                minutes = viewModel.getMinutes(
+                                    LocalDateTime.now(),
+                                    viewModel.getActivityStart().date
+                                )
+                            )
+                        )
                         isStarted = false
                     },
                     modifier = Modifier
