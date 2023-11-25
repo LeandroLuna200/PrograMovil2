@@ -20,7 +20,6 @@ import ar.edu.unlam.mobile.scaffold.ui.components.BottomBar
 import ar.edu.unlam.mobile.scaffold.ui.screens.HabitScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerScreen
-import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerViewModel
 import ar.edu.unlam.mobile.scaffold.ui.screens.TimerScreen
 import ar.edu.unlam.mobile.scaffold.ui.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint

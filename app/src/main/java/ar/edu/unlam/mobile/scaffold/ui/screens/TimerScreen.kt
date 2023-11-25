@@ -42,7 +42,6 @@ import ar.edu.unlam.mobile.scaffold.ui.theme.CustomRed
 
 @Composable
 fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: HabitViewModel) {
-
     val activities by habitViewModel.activities
     var selectedActivity by remember { mutableStateOf<Activity?>(null) }
 
@@ -60,18 +59,16 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
-
         ActivitySpinner(
             items = activities,
             selectedItem = selectedActivity,
             onItemSelected = { habit ->
                 selectedActivity = habit
-            }
+            },
         )
         if (selectedActivity != null) {
             Text(text = "Meta diaria: ${selectedActivity!!.dailyGoal} horas")
         }
-
 
         Row {
             if (!isStarted) {
@@ -114,7 +111,8 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
         }
 
         when (
-            val jokeState = uiState.jokeState) {
+            val jokeState = uiState.jokeState
+        ) {
             is JokeUIState.Loading -> {
                 CircularProgressIndicator()
             }
@@ -137,15 +135,13 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
             }
         }
     }
-
-
 }
 
 @Composable
 fun ActivitySpinner(
     items: List<Activity>,
     selectedItem: Activity?,
-    onItemSelected: (Activity) -> Unit
+    onItemSelected: (Activity) -> Unit,
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -162,7 +158,6 @@ fun ActivitySpinner(
             Text(selectedItem?.name ?: "Seleccione una actividad:")
             Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = null)
 
-
             DropdownMenu(expanded = expanded.value, onDismissRequest = { expanded.value = false }) {
                 items.forEach { item ->
                     DropdownMenuItem({ Text(text = item.name) }, {
@@ -174,8 +169,5 @@ fun ActivitySpinner(
 
             Log.i("SPINNER", items.toString())
         }
-
     }
 }
-
-
