@@ -26,8 +26,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,6 +45,7 @@ import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityEnd
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityStart
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomRed
+import kotlinx.coroutines.coroutineScope
 import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -51,7 +54,8 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
 
     val activities by habitViewModel.activities
     var selectedActivity by remember { mutableStateOf<Activity?>(null) }
-
+    var maxId by remember { mutableLongStateOf(0L) }
+    var minutes by remember { mutableLongStateOf(0L) }
     val uiState: TimerUIState by viewModel.uiState.collectAsState()
 
     var isStarted by remember { mutableStateOf(false) }
@@ -101,6 +105,15 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
                     )
                 }
             } else {
+                LaunchedEffect(isStarted) {
+                    if (isStarted) {
+                        maxId = viewModel.getMaxId(selectedActivity!!.id)
+                        minutes = viewModel.getMinutes(
+                            LocalDateTime.now(),
+                            viewModel.getActivityStart().date
+                        )
+                    }
+                }
                 Log.i("ACTIVITY START", viewModel.getActivityStart().toString())
                 TextButton(
                     onClick = {
@@ -108,13 +121,11 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
                             ActivityEnd(
                                 0,
                                 date = LocalDateTime.now(),
-                                startId = viewModel.getMaxId(selectedActivity!!.id),
-                                minutes = viewModel.getMinutes(
-                                    LocalDateTime.now(),
-                                    viewModel.getActivityStart().date
-                                )
+                                startId = maxId,
+                                minutes = minutes
                             )
                         )
+                        Log.i("ACTIVITY END", LocalDateTime.now().toString())
                         isStarted = false
                     },
                     modifier = Modifier
@@ -196,5 +207,6 @@ fun ActivitySpinner(
 
     }
 }
+
 
 

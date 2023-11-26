@@ -69,4 +69,8 @@ class HabitMockService @Inject constructor() : HabitGetter {
     override suspend fun selectEndById(id: Long): ActivityEnd {
         TODO("Not yet implemented")
     }
+
+    override suspend fun selectStartMaxById(id: Long): Long {
+        TODO("Not yet implemented")
+    }
 }

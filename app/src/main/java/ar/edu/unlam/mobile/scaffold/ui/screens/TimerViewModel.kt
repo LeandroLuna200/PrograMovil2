@@ -47,6 +47,7 @@ class TimerViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     lateinit var startActivity: ActivityStart
+
     init {
         getJoke()
     }
@@ -84,16 +85,16 @@ class TimerViewModel @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getMinutes(dateEnd: LocalDateTime, dateStart:LocalDateTime):Long{
+    fun getMinutes(dateEnd: LocalDateTime, dateStart: LocalDateTime): Long {
         val duration = Duration.between(dateStart, dateEnd)
-        return if(duration.toHours() < 1) {
+        return if (duration.toHours() < 1) {
             duration.toMinutes()
-        }else{
+        } else {
             duration.toHours()
         }
     }
 
-    fun getActivityStart(): ActivityStart{
+    fun getActivityStart(): ActivityStart {
         return startActivity
     }
 
@@ -102,9 +103,13 @@ class TimerViewModel @Inject constructor(
         startActivity = start
     }
 
-    suspend fun getMaxId(id: Long): Long{
-        return withContext(Dispatchers.IO) {
-            habitGetter.selectStartMaxById(id)
-        }
+    //     suspend fun getMaxId(id: Long): Long{
+//        return withContext(Dispatchers.IO) {
+//            habitGetter.selectStartMaxById(id)
+//        }
+//    }
+    suspend fun getMaxId(id: Long): Long {
+        return habitGetter.selectStartMaxById(id)
     }
+
 }

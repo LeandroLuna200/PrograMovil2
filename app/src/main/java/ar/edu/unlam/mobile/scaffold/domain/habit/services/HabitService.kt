@@ -60,4 +60,8 @@ class HabitService @Inject constructor(val repository: HabitDefaultRepository) :
     override suspend fun selectEndById(id: Long): ActivityEnd {
         return repository.selectEndById(id)
     }
+
+    override suspend fun selectStartMaxById(id: Long): Long {
+        return repository.selectStartMaxById(id)
+    }
 }
