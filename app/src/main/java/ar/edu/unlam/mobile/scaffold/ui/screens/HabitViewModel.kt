@@ -5,6 +5,8 @@ import android.icu.text.SimpleDateFormat
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
@@ -28,11 +30,30 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
     private val _selectedDays = mutableStateOf(listOf<Long>())
     val selectedDays: State<List<Long>> = _selectedDays
 
+//    private var _actIncompletas = listOf<Activity>()
+//    private var actIncompletas: List<Activity> = _actIncompletas
+//    var hayIncompletas: Boolean = false
+
+    private val _actIncompletas = MutableLiveData<List<Activity>>()
+    val actIncompletas: LiveData<List<Activity>> get() = _actIncompletas
+
+    private val _hayIncompletas = MutableLiveData<Boolean>()
+    val hayIncompletas: LiveData<Boolean> get() = _hayIncompletas
+
     init {
         getHabit()
         getActivity()
         _selectedDays.value = listOf(getDiaNumber())
 //        filtrarListasXDia()
+        getActivitiesIncompletas()
+    }
+
+    private fun getActivitiesIncompletas() {
+        viewModelScope.launch {
+            _actIncompletas.value = habitGetter.getTiempoDeActividades()
+            _hayIncompletas.value = _actIncompletas.value!!.isNotEmpty()
+            Log.i("BOOLEAN", hayIncompletas.toString())
+        }
     }
 
     private fun getHabit() {
@@ -86,5 +107,9 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
         val currentDate = Date()
         val spanishLocale = Locale("es", "ES")
         return SimpleDateFormat("EEEE", spanishLocale).format(currentDate)
+    }
+
+    fun dismissIncompletasDialog() {
+        _hayIncompletas.value = false
     }
 }
