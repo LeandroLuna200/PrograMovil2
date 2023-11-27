@@ -83,6 +83,9 @@ fun HabitScreen(
                             fontSize = 15.sp,
                             textAlign = TextAlign.Center,
                         ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
                     )
                 }
             }
@@ -113,6 +116,9 @@ fun HabitScreen(
                             fontSize = 15.sp,
                             textAlign = TextAlign.Center,
                         ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
                     )
                 }
             }
