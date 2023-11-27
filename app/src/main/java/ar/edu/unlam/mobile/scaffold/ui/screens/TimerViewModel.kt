@@ -111,5 +111,4 @@ class TimerViewModel @Inject constructor(
     suspend fun getMaxId(id: Long): Long {
         return habitGetter.selectStartMaxById(id)
     }
-
 }
