@@ -1,5 +1,7 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
@@ -14,6 +16,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.Duration
+import java.time.LocalDateTime
 import javax.annotation.concurrent.Immutable
 import javax.inject.Inject
 
@@ -41,6 +45,8 @@ class TimerViewModel @Inject constructor(
     )
 
     val uiState = _uiState.asStateFlow()
+
+    lateinit var startActivity: ActivityStart
 
     init {
         getJoke()
@@ -76,5 +82,33 @@ class TimerViewModel @Inject constructor(
         return withContext(Dispatchers.IO) {
             habitGetter.selectEndById(id)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getMinutes(dateEnd: LocalDateTime, dateStart: LocalDateTime): Long {
+        val duration = Duration.between(dateStart, dateEnd)
+        return if (duration.toHours() < 1) {
+            duration.toMinutes()
+        } else {
+            duration.toHours()
+        }
+    }
+
+    fun getActivityStart(): ActivityStart {
+        return startActivity
+    }
+
+    fun setActivityStart(start: ActivityStart) {
+        insertStart(start)
+        startActivity = start
+    }
+
+    //     suspend fun getMaxId(id: Long): Long{
+//        return withContext(Dispatchers.IO) {
+//            habitGetter.selectStartMaxById(id)
+//        }
+//    }
+    suspend fun getMaxId(id: Long): Long {
+        return habitGetter.selectStartMaxById(id)
     }
 }

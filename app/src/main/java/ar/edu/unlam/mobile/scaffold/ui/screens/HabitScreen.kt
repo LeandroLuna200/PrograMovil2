@@ -10,11 +10,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -36,6 +40,11 @@ fun HabitScreen(
     val habits = viewModel.filterHabitByDay()
     val activities = viewModel.filterActivityByDay()
     var selectedDays = viewModel.selectedDays.value
+
+//    var showDialog by remember { mutableStateOf(viewModel.hayIncompletas) }
+
+//    Log.i("BOOLEAN2", showDialog.toString())
+    val hayIncompletas by viewModel.hayIncompletas.observeAsState(initial = false)
 
     Column(
         modifier = Modifier
@@ -130,5 +139,30 @@ fun HabitScreen(
                 ) { viewModel.updateHabit(habits[item]) }
             }
         }
+    }
+//    Log.i("BOOLEAN2", showDialog.toString())
+    if (hayIncompletas) {
+//        Log.i("BOOLEAN2", showDialog.toString())
+        AlertDialog(
+            onDismissRequest = {
+                // Aquí puedes realizar acciones cuando se cierra el cuadro de diálogo
+            },
+            title = {
+                Text("Tareas Incompletas")
+            },
+            text = {
+                Text("hay tareas incompletas")
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        viewModel.dismissIncompletasDialog()
+                        // Puedes realizar acciones adicionales aquí
+                    },
+                ) {
+                    Text("Aceptar")
+                }
+            },
+        )
     }
 }

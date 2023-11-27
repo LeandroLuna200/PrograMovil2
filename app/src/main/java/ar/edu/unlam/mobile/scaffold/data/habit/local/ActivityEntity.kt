@@ -78,7 +78,7 @@ data class ActivityEndEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @TypeConverters(DataConverter::class) var date: LocalDateTime,
     @ColumnInfo(name = "startId", index = true) val startId: Long,
-    @ColumnInfo(name = "minutes") val minutes: LocalDateTime,
+    @ColumnInfo(name = "minutes") val minutes: Long,
 ) {
     fun toActivityEndDomain(): ActivityEnd {
         return ActivityEnd(id, date, startId, minutes)

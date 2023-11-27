@@ -27,7 +27,7 @@ data class Activity(
 ) : Habito()
 
 data class ActivityStart(
-    val id: Long,
+    var id: Long,
     val date: LocalDateTime,
     val activityId: Long,
 )
@@ -36,5 +36,5 @@ data class ActivityEnd(
     val id: Long,
     val date: LocalDateTime,
     val startId: Long,
-    val minutes: LocalDateTime
+    val minutes: Long
 )

@@ -26,9 +26,24 @@ interface ActivityDao {
     @Query("SELECT * FROM activityStart_tb WHERE id= :id")
     suspend fun selectStartById(id: Long): ActivityStartEntity
 
+    @Query("SELECT MAX(id) FROM activityStart_tb WHERE activityId= :id")
+    suspend fun selectStartByMaxId(id: Long): Long
+
+    @Query("SELECT * FROM activityStart_tb")
+    fun getAllActivitiesStart(): Flow<List<ActivityStartEntity>>
+
     @Insert
     suspend fun insertEnd(activityEnd: ActivityEndEntity)
 
     @Query("SELECT * FROM activityEnd_tb WHERE id= :id")
     suspend fun selectEndById(id: Long): ActivityEndEntity
+
+    @Query("SELECT * FROM activityEnd_tb")
+    fun getAllActivitiesEnd(): Flow<List<ActivityEndEntity>>
+
+    @Query("SELECT * FROM activityStart_tb WHERE activityId = :activityId")
+    fun getActivityStarts(activityId: Long): Flow<List<ActivityStartEntity>>
+
+    @Query("SELECT * FROM activityEnd_tb WHERE startId IN (:startIds)")
+    fun getActivityEndsForActivity(startIds: List<Long>): Flow<List<ActivityEndEntity>>
 }

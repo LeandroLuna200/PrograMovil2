@@ -1,6 +1,8 @@
 package ar.edu.unlam.mobile.scaffold.ui.screens
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,8 +28,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,21 +41,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityEnd
+import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityStart
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomRed
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: HabitViewModel) {
     val activities by habitViewModel.activities
     var selectedActivity by remember { mutableStateOf<Activity?>(null) }
-
-//    val now: LocalDateTime = LocalDateTime.now()
-//    val startActivity = ActivityStart(id = 0, date = now, activityId = activity!!.id)
-
+    var maxId by remember { mutableLongStateOf(0L) }
+    var minutes by remember { mutableLongStateOf(0L) }
     val uiState: TimerUIState by viewModel.uiState.collectAsState()
 
     var isStarted by remember { mutableStateOf(false) }
     val color by remember { mutableStateOf(CustomRed) }
+    val coroutineScope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +84,13 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
             if (!isStarted) {
                 TextButton(
                     onClick = {
-//                        viewModel.insertStart(ActivityStart(0, date = LocalDateTime.,selectedActivity!!.id))
+                        val startActivity = ActivityStart(
+                            id = 0,
+                            date = LocalDateTime.now(),
+                            activityId = selectedActivity!!.id,
+                        )
+                        viewModel.setActivityStart(startActivity)
+                        Log.i("ACTIVITY START", startActivity.toString())
                         isStarted = true
                     },
                     modifier = Modifier
@@ -92,8 +108,26 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
             } else {
                 TextButton(
                     onClick = {
-//                        viewModel.insertEnd(ActivityEnd(0, date = now, startActivity.id))
-                        isStarted = false
+                        Log.i("ACTIVITY START", viewModel.getActivityStart().toString())
+                        coroutineScope.launch {
+                            maxId = viewModel.getMaxId(selectedActivity!!.id)
+                            minutes = viewModel.getMinutes(
+                                LocalDateTime.now(),
+                                viewModel.getActivityStart().date,
+                            )
+
+                            viewModel.insertEnd(
+                                ActivityEnd(
+                                    0,
+                                    date = LocalDateTime.now(),
+                                    startId = maxId,
+                                    minutes = minutes,
+                                ),
+                            )
+                            Log.i("ACTIVITY END", LocalDateTime.now().toString())
+                            Log.i("MINUTES", minutes.toString())
+                            isStarted = false
+                        }
                     },
                     modifier = Modifier
                         .background(color = color),

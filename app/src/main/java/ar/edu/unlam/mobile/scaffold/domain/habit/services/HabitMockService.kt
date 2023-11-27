@@ -62,11 +62,35 @@ class HabitMockService @Inject constructor() : HabitGetter {
         TODO("Not yet implemented")
     }
 
+    override fun getAllActivitiesStart(): Flow<List<ActivityStart>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun insertEnd(activityEnd: ActivityEnd) {
         TODO("Not yet implemented")
     }
 
     override suspend fun selectEndById(id: Long): ActivityEnd {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun selectStartMaxById(id: Long): Long {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllActivitiesEnd(): Flow<List<ActivityEnd>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getActivityStarts(activityId: Long): Flow<List<ActivityStart>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getActivityEndsForActivity(startIds: List<Long>): Flow<List<ActivityEnd>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getTiempoDeActividades(): List<Activity> {
         TODO("Not yet implemented")
     }
 }

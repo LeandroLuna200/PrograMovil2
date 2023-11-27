@@ -1,6 +1,8 @@
 package ar.edu.unlam.mobile.scaffold.data.habit.repository
 
 import ar.edu.unlam.mobile.scaffold.data.habit.local.ActivityDao
+import ar.edu.unlam.mobile.scaffold.data.habit.local.ActivityEndEntity
+import ar.edu.unlam.mobile.scaffold.data.habit.local.ActivityStartEntity
 import ar.edu.unlam.mobile.scaffold.data.habit.local.HabitDao
 import ar.edu.unlam.mobile.scaffold.data.habit.mapper.ActivityMapper
 import ar.edu.unlam.mobile.scaffold.data.habit.mapper.HabitMapper
@@ -39,6 +41,9 @@ class HabitDefaultRepository @Inject constructor(
 
     // Activity
 
+    override suspend fun selectStartMaxById(id: Long): Long {
+        return activityDao.selectStartByMaxId(id)
+    }
     override suspend fun updateActivityState(activity: Activity) {
         activityDao.updateActivityState(ActivityMapper().toActivityDB(activity))
     }
@@ -67,11 +72,43 @@ class HabitDefaultRepository @Inject constructor(
         return activityDao.selectStartById(id).toActivityStartDomain()
     }
 
+    override fun getAllActivitiesStart(): Flow<List<ActivityStart>> {
+        return this.activityDao.getAllActivitiesStart().map { activitiesEntities ->
+            activitiesEntities.map { activityEntity ->
+                activityEntity.toActivityStartDomain()
+            }
+        }
+    }
+
     override suspend fun insertEnd(activityEnd: ActivityEnd) {
         activityDao.insertEnd(StartEndMapper().toActivityEndDB(activityEnd))
     }
 
     override suspend fun selectEndById(id: Long): ActivityEnd {
         return activityDao.selectEndById(id).toActivityEndDomain()
+    }
+
+    override fun getAllActivitiesEnd(): Flow<List<ActivityEnd>> {
+        return this.activityDao.getAllActivitiesEnd().map { activitiesEntities ->
+            activitiesEntities.map { activityEntity ->
+                activityEntity.toActivityEndDomain()
+            }
+        }
+    }
+
+    override fun getActivityStarts(activityId: Long): Flow<List<ActivityStart>> {
+        return this.activityDao.getActivityStarts(activityId).map { activitiesEntities ->
+            activitiesEntities.map { activityEntity ->
+                activityEntity.toActivityStartDomain()
+            }
+        }
+    }
+
+    override fun getActivityEndsForActivity(startIds: List<Long>): Flow<List<ActivityEnd>> {
+        return this.activityDao.getActivityEndsForActivity(startIds).map { activitiesEntities ->
+            activitiesEntities.map { activityEntity ->
+                activityEntity.toActivityEndDomain()
+            }
+        }
     }
 }
