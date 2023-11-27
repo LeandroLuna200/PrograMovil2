@@ -39,6 +39,7 @@ fun HabitScreen(
     val currentDate by remember { mutableStateOf(viewModel.getCurrentDate()) }
     val habits = viewModel.filterHabitByDay()
     val activities = viewModel.filterActivityByDay()
+    val actIncompletas = viewModel.filterIncompletedActivityByDay()
     var selectedDays = viewModel.selectedDays.value
 
 //    var showDialog by remember { mutableStateOf(viewModel.hayIncompletas) }
@@ -151,8 +152,15 @@ fun HabitScreen(
                 Text("Tareas Incompletas")
             },
             text = {
-                Text("hay tareas incompletas")
+                LazyColumn {
+                    if (actIncompletas != null) {
+                        items(actIncompletas.size) { index ->
+                            actIncompletas[index]?.name?.let { Text(text = it) }
+                        }
+                    }
+                }
             },
+
             confirmButton = {
                 Button(
                     onClick = {

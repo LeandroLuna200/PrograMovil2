@@ -36,5 +36,5 @@ interface HabitGetter {
     fun getActivityStarts(activityId: Long): Flow<List<ActivityStart>>
 
     fun getActivityEndsForActivity(startIds: List<Long>): Flow<List<ActivityEnd>>
-    suspend fun getTiempoDeActividades(): List<Activity>
+    suspend fun getTiempoDeActividades(): List<Activity?>
 }

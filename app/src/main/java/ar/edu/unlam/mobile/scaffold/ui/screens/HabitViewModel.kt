@@ -34,8 +34,8 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
 //    private var actIncompletas: List<Activity> = _actIncompletas
 //    var hayIncompletas: Boolean = false
 
-    private val _actIncompletas = MutableLiveData<List<Activity>>()
-    val actIncompletas: LiveData<List<Activity>> get() = _actIncompletas
+    private val _actIncompletas = MutableLiveData<List<Activity?>>()
+    val actIncompletas: LiveData<List<Activity?>> get() = _actIncompletas
 
     private val _hayIncompletas = MutableLiveData<Boolean>()
     val hayIncompletas: LiveData<Boolean> get() = _hayIncompletas
@@ -52,7 +52,7 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
         viewModelScope.launch {
             _actIncompletas.value = habitGetter.getTiempoDeActividades()
             _hayIncompletas.value = _actIncompletas.value!!.isNotEmpty()
-            Log.i("BOOLEAN", hayIncompletas.toString())
+            Log.i("BOOLEAN", hayIncompletas.value.toString())
         }
     }
 
@@ -85,6 +85,10 @@ class HabitViewModel @Inject constructor(private val habitGetter: HabitGetter) :
 
     fun filterActivityByDay(): List<Activity> {
         return _activities.value.filter { it.days.contains(getDiaNumber()) }
+    }
+
+    fun filterIncompletedActivityByDay(): List<Activity?>? {
+        return actIncompletas.value?.filter { it?.days?.contains(getDiaNumber()) ?: false }
     }
 
     fun getDiaNumber(): Long {

@@ -9,12 +9,9 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import ar.edu.unlam.mobile.scaffold.R
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
 
 @Composable
@@ -54,16 +51,16 @@ fun BottomBar(controller: NavHostController) {
                 )
             },
         )
-        NavigationBarItem(
-            selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == "habit" } == true,
-            onClick = { controller.navigate("home") },
-            icon = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_equalizer),
-                    contentDescription = "Borrar Tarea",
-                    tint = CustomLightBlue,
-                )
-            },
-        )
+//        NavigationBarItem(
+//            selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == "habit" } == true,
+//            onClick = { controller.navigate("home") },
+//            icon = {
+//                Icon(
+//                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_equalizer),
+//                    contentDescription = "Borrar Tarea",
+//                    tint = CustomLightBlue,
+//                )
+//            },
+//        )
     }
 }

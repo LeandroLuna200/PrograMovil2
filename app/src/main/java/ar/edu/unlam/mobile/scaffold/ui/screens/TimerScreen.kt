@@ -56,6 +56,7 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
     var selectedActivity by remember { mutableStateOf<Activity?>(null) }
     var maxId by remember { mutableLongStateOf(0L) }
     var minutes by remember { mutableLongStateOf(0L) }
+    var hours by remember { mutableLongStateOf(0L) }
     val uiState: TimerUIState by viewModel.uiState.collectAsState()
 
     var isStarted by remember { mutableStateOf(false) }
@@ -116,18 +117,57 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
                                 viewModel.getActivityStart().date,
                             )
 
-                            viewModel.insertEnd(
-                                ActivityEnd(
-                                    0,
-                                    date = LocalDateTime.now(),
-                                    startId = maxId,
-                                    minutes = minutes,
-                                ),
-                            )
-                            Log.i("ACTIVITY END", LocalDateTime.now().toString())
-                            Log.i("MINUTES", minutes.toString())
-                            isStarted = false
+                            if (minutes == 0L) {
+                                hours = viewModel.getHours(
+                                    LocalDateTime.now(),
+                                    viewModel.getActivityStart().date,
+                                )
+                            }
+
+                            if (hours != 0L) {
+                                if (hours == selectedActivity!!.dailyGoal.toLong()) {
+                                    viewModel.updateActivity(
+                                        Activity(
+                                            selectedActivity!!.id,
+                                            selectedActivity!!.name,
+                                            selectedActivity!!.category,
+                                            selectedActivity!!.days,
+                                            selectedActivity!!.dailyGoal,
+                                            0,
+                                        ),
+                                    )
+                                }
+                                viewModel.insertEnd(
+                                    ActivityEnd(
+                                        0,
+                                        date = LocalDateTime.now(),
+                                        startId = maxId,
+                                        minutes = hours,
+                                    ),
+                                )
+                            } else {
+                                viewModel.insertEnd(
+                                    ActivityEnd(
+                                        0,
+                                        date = LocalDateTime.now(),
+                                        startId = maxId,
+                                        minutes = minutes,
+                                    ),
+                                )
+                            }
                         }
+
+//                        viewModel.insertEnd(
+//                            ActivityEnd(
+//                                0,
+//                                date = LocalDateTime.now(),
+//                                startId = maxId,
+//                                minutes = minutes,
+//                            ),
+//                        )
+                        Log.i("ACTIVITY END", LocalDateTime.now().toString())
+                        Log.i("MINUTES", minutes.toString())
+                        isStarted = false
                     },
                     modifier = Modifier
                         .background(color = color),
