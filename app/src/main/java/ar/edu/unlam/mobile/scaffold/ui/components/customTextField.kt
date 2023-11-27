@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun CustomTextField(titleText: String, text: String) {
+fun customTextField(titleText: String, text: String): String {
     Row(
         modifier = Modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -31,4 +31,5 @@ fun CustomTextField(titleText: String, text: String) {
             maxLines = 2,
         )
     }
+    return text
 }

@@ -10,7 +10,7 @@ class KittyService @Inject constructor(val repository: KittyRepository) : KittyG
         return this.repository.getKitty()
     }
 
-    override suspend fun getKittyById(id: Int): Flow<Kitty> {
-        TODO("Not yet implemented")
-    }
+//    override suspend fun getKittyById(id: Int): Flow<Kitty> {
+//        TODO("Not yet implemented")
+//    }
 }

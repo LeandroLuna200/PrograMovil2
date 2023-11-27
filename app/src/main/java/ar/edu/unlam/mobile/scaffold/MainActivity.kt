@@ -1,8 +1,10 @@
 package ar.edu.unlam.mobile.scaffold
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -10,22 +12,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavType
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import ar.edu.unlam.mobile.scaffold.ui.components.BottomBar
 import ar.edu.unlam.mobile.scaffold.ui.screens.HabitScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.PlannerScreen
-import ar.edu.unlam.mobile.scaffold.ui.screens.SecondaryScreen
 import ar.edu.unlam.mobile.scaffold.ui.screens.TimerScreen
 import ar.edu.unlam.mobile.scaffold.ui.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -60,24 +61,21 @@ fun MainScreen() {
                 // Home es el componente en sí que es el destino de navegación.
                 HomeScreen(modifier = Modifier.padding(paddingValue))
             }
-            composable(
-                route = "segundo/{id}",
-                arguments = listOf(navArgument("id") { type = NavType.IntType }),
-            ) { navBackStackEntry ->
-                val id = navBackStackEntry.arguments?.getInt("id") ?: 1
-                SecondaryScreen(controller = controller, id = id)
-            }
+//            composable(
+//                route = "segundo/{id}",
+//                arguments = listOf(navArgument("id") { type = NavType.IntType }),
+//            ) { navBackStackEntry ->
+//                val id = navBackStackEntry.arguments?.getInt("id") ?: 1
+//                SecondaryScreen(controller = controller, id = id)
+//            }
             composable("planner") {
-                // Home es el componente en sí que es el destino de navegación.
-                PlannerScreen()
+                PlannerScreen(modifier = Modifier.padding(paddingValue))
             }
             composable("habit") {
-                // Home es el componente en sí que es el destino de navegación.
-                HabitScreen()
+                HabitScreen(null, controller)
             }
             composable("timer") {
-                // Home es el componente en sí que es el destino de navegación.
-                TimerScreen()
+                TimerScreen(habitViewModel = hiltViewModel())
             }
         }
     }
