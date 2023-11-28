@@ -165,7 +165,6 @@ fun HabitScreen(
                 Button(
                     onClick = {
                         viewModel.dismissIncompletasDialog()
-                        // Puedes realizar acciones adicionales aquí
                     },
                 ) {
                     Text("Aceptar")

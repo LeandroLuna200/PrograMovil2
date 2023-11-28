@@ -37,6 +37,7 @@ import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habit
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Habito
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
+import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
 
 @Composable
 fun ItemHabit(
@@ -47,6 +48,7 @@ fun ItemHabit(
 ) {
     var icon = iconButton
     var isIcon1Selected by remember { mutableStateOf(false) }
+    var color by remember { mutableStateOf(CustomLightBlue) }
 
     isIcon1Selected = when (habit) {
         is Habit -> {
@@ -70,7 +72,7 @@ fun ItemHabit(
                 .fillMaxHeight()
                 .padding(6.dp)
                 .background(
-                    color = CustomLightBlue,
+                    color = color,
                     shape = CircleShape,
                 ),
             verticalAlignment = Alignment.CenterVertically,
@@ -90,7 +92,7 @@ fun ItemHabit(
                 .size(64.dp)
                 .padding(6.dp)
                 .background(
-                    color = CustomLightBlue,
+                    color = color,
                     shape = CircleShape,
                 ),
             onClick = {
@@ -102,10 +104,12 @@ fun ItemHabit(
                             when (habit) {
                                 is Habit -> {
                                     habit.state = 1
+                                    color = CustomLightBlue
                                 }
 
                                 is Activity -> {
                                     habit.state = 1
+                                    color = CustomLightBlue
                                 }
                             }
 
@@ -115,10 +119,12 @@ fun ItemHabit(
                             when (habit) {
                                 is Habit -> {
                                     habit.state = 0
+                                    color = CustomLightBlue2
                                 }
 
                                 is Activity -> {
                                     habit.state = 0
+                                    color = CustomLightBlue2
                                 }
                             } // tarea completada
                             actionUpdate()
@@ -143,7 +149,6 @@ fun ItemHabit(
                     Icons.Default.Clear
                 }
             }
-
             Icon(icon, contentDescription = null)
         }
     }
