@@ -105,5 +105,4 @@ class PlannerViewModel @Inject constructor(private val habitGetter: HabitGetter)
     fun showOrDismissDialog(show: Boolean) {
         _showDialog.value = show
     }
-
 }

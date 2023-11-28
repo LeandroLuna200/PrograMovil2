@@ -88,42 +88,45 @@ class HabitService @Inject constructor(val repository: HabitDefaultRepository) :
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getTiempoDeActividades(): List<Activity> {
+    override suspend fun getTiempoDeActividades(): List<Activity?> {
         val actividades = repository.getAllActivities().firstOrNull() ?: emptyList()
         Log.i("ESTADO", actividades.toString())
         val actividadesConTiempo = actividades.map { actividad ->
             Log.i("ESTADO0", actividades.toString())
-            var startDataList: List<ActivityStart>? = null
-            repository.getActivityStarts(actividad.id).map {
-                startDataList = it
-                Log.i("ESTADO2", it.toString())
-            }
-            val startIds = startDataList?.map { it.id }
-            Log.i("ESTADO2", startDataList.toString())
-            var endDataList: List<ActivityEnd>? = null
-            if (startIds != null) {
-                repository.getActivityEndsForActivity(startIds).map {
-                    endDataList = it
+            if (actividad.state != 0L) {
+                var startDataList: List<ActivityStart>? = null
+                repository.getActivityStarts(actividad.id).map {
+                    startDataList = it
+                    Log.i("ESTADO2", it.toString())
                 }
-            }
-            Log.i("ESTADO3", endDataList.toString())
-            val totalDurationMinutes = calculateTotalDuration(startDataList, endDataList)
-            Log.i("totalDurationMinutes", totalDurationMinutes.toString())
-            // Verificar si se cumplió el dailyGoal
-            val cumplioDailyGoal = totalDurationMinutes >= actividad.dailyGoal.toLong()
-            // Actualizar el estado de la actividad basado en la duración total y el dailyGoal
-            val newState = if (cumplioDailyGoal) {
+                val startIds = startDataList?.map { it.id }
+                Log.i("ESTADO2", startDataList.toString())
+                var endDataList: List<ActivityEnd>? = null
+                if (startIds != null) {
+                    repository.getActivityEndsForActivity(startIds).map {
+                        endDataList = it
+                    }
+                }
+                Log.i("ESTADO3", endDataList.toString())
+                val totalDurationMinutes = calculateTotalDuration(startDataList, endDataList)
+                Log.i("totalDurationMinutes", totalDurationMinutes.toString())
+                // Verificar si se cumplió el dailyGoal
+                val cumplioDailyGoal = totalDurationMinutes >= actividad.dailyGoal.toLong()
+                // Actualizar el estado de la actividad basado en la duración total y el dailyGoal
+                val newState = if (cumplioDailyGoal) {
 //                ActivityState.COMPLETED
-                Log.i("ESTADO", totalDurationMinutes.toString())
-            } else {
+                    Log.i("ESTADO", totalDurationMinutes.toString())
+                } else {
 //                ActivityState.INACTIVE
-                Log.i("ESTADO", cumplioDailyGoal.toString())
+                    Log.i("ESTADO", cumplioDailyGoal.toString())
+                }
+
+                // Crear una nueva instancia de la actividad con la información actualizada
+                actividad.copy(state = 0)
+            } else {
+                null
             }
-
-            // Crear una nueva instancia de la actividad con la información actualizada
-            actividad.copy(state = 0)
         }
-
         Log.i("ESTADO", actividadesConTiempo.toString())
         return actividadesConTiempo
     }
@@ -141,7 +144,8 @@ class HabitService @Inject constructor(val repository: HabitDefaultRepository) :
                 val endData = endDataList?.get(i)
 
                 if (endData != null) {
-                    totalDurationMinutes += Duration.between(startData.date, endData.date).toMinutes()
+                    totalDurationMinutes += Duration.between(startData.date, endData.date)
+                        .toMinutes()
                 }
             }
         }

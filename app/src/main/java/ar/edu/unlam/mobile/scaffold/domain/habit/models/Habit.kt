@@ -36,5 +36,5 @@ data class ActivityEnd(
     val id: Long,
     val date: LocalDateTime,
     val startId: Long,
-    val minutes: Long
+    val minutes: Long,
 )

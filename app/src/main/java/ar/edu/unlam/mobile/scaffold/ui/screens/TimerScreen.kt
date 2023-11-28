@@ -2,7 +2,6 @@ package ar.edu.unlam.mobile.scaffold.ui.screens
 
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,20 +36,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.Activity
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityEnd
 import ar.edu.unlam.mobile.scaffold.domain.habit.models.ActivityStart
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue
-import ar.edu.unlam.mobile.scaffold.ui.theme.CustomLightBlue2
 import ar.edu.unlam.mobile.scaffold.ui.theme.CustomRed
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
@@ -61,12 +56,12 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
     var selectedActivity by remember { mutableStateOf<Activity?>(null) }
     var maxId by remember { mutableLongStateOf(0L) }
     var minutes by remember { mutableLongStateOf(0L) }
+    var hours by remember { mutableLongStateOf(0L) }
     val uiState: TimerUIState by viewModel.uiState.collectAsState()
 
     var isStarted by remember { mutableStateOf(false) }
     val color by remember { mutableStateOf(CustomRed) }
     val coroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -75,16 +70,6 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
-        Row {
-            Text(
-                "Espacio para concentrarte en tus actividades :)",
-                style = TextStyle(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontStyle = FontStyle.Italic
-                )
-            )
-        }
         ActivitySpinner(
             items = activities,
             selectedItem = selectedActivity,
@@ -100,19 +85,14 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
             if (!isStarted) {
                 TextButton(
                     onClick = {
-                        if (selectedActivity == null) {
-                            Toast.makeText(context, "Seleccione actividad", Toast.LENGTH_SHORT)
-                                .show()
-                        } else {
-                            val startActivity = ActivityStart(
-                                id = 0,
-                                date = LocalDateTime.now(),
-                                activityId = selectedActivity!!.id,
-                            )
-                            viewModel.setActivityStart(startActivity)
-                            Log.i("ACTIVITY START", startActivity.toString())
-                            isStarted = true
-                        }
+                        val startActivity = ActivityStart(
+                            id = 0,
+                            date = LocalDateTime.now(),
+                            activityId = selectedActivity!!.id,
+                        )
+                        viewModel.setActivityStart(startActivity)
+                        Log.i("ACTIVITY START", startActivity.toString())
+                        isStarted = true
                     },
                     modifier = Modifier
                         .background(color = CustomLightBlue),
@@ -121,7 +101,6 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
                     Text(
                         text = "Iniciar",
                         style = TextStyle(
-                            fontSize = 18.sp,
                             color = Color.White,
                             textAlign = TextAlign.Center,
                         ),
@@ -137,17 +116,57 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
                                 LocalDateTime.now(),
                                 viewModel.getActivityStart().date,
                             )
-                            viewModel.insertEnd(
-                                ActivityEnd(
-                                    0,
-                                    date = LocalDateTime.now(),
-                                    startId = maxId,
-                                    minutes = minutes,
-                                ),
-                            )
-                            Log.i("ACTIVITY END", LocalDateTime.now().toString())
-                            Log.i("MINUTES", minutes.toString())
+
+                            if (minutes == 0L) {
+                                hours = viewModel.getHours(
+                                    LocalDateTime.now(),
+                                    viewModel.getActivityStart().date,
+                                )
+                            }
+
+                            if (hours != 0L) {
+                                if (hours == selectedActivity!!.dailyGoal.toLong()) {
+                                    viewModel.updateActivity(
+                                        Activity(
+                                            selectedActivity!!.id,
+                                            selectedActivity!!.name,
+                                            selectedActivity!!.category,
+                                            selectedActivity!!.days,
+                                            selectedActivity!!.dailyGoal,
+                                            0,
+                                        ),
+                                    )
+                                }
+                                viewModel.insertEnd(
+                                    ActivityEnd(
+                                        0,
+                                        date = LocalDateTime.now(),
+                                        startId = maxId,
+                                        minutes = hours,
+                                    ),
+                                )
+                            } else {
+                                viewModel.insertEnd(
+                                    ActivityEnd(
+                                        0,
+                                        date = LocalDateTime.now(),
+                                        startId = maxId,
+                                        minutes = minutes,
+                                    ),
+                                )
+                            }
                         }
+
+//                        viewModel.insertEnd(
+//                            ActivityEnd(
+//                                0,
+//                                date = LocalDateTime.now(),
+//                                startId = maxId,
+//                                minutes = minutes,
+//                            ),
+//                        )
+                        Log.i("ACTIVITY END", LocalDateTime.now().toString())
+                        Log.i("MINUTES", minutes.toString())
                         isStarted = false
                     },
                     modifier = Modifier
@@ -157,7 +176,6 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
                     Text(
                         text = "Detener",
                         style = TextStyle(
-                            fontSize = 18.sp,
                             color = Color.White,
                             textAlign = TextAlign.Center,
                         ),
@@ -177,31 +195,13 @@ fun TimerScreen(viewModel: TimerViewModel = hiltViewModel(), habitViewModel: Hab
                 Box(
                     modifier = Modifier
                         .wrapContentSize()
-                        .padding(16.dp)
                         .background(
-                            color = CustomLightBlue2,
-                            shape = RoundedCornerShape(16.dp)
+                            color = Color.LightGray,
                         )
-                        .border(4.dp, CustomLightBlue, shape = RoundedCornerShape(16.dp)),
+                        .border(4.dp, Color.Gray, shape = RoundedCornerShape(8.dp)),
                 ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Frase recompensa de Chuck Norris: ",
-                            style = TextStyle(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                letterSpacing = 0.1.sp,
-                                lineHeight = 24.sp
-                            )
-                        )
-                        Text(text = jokeState.joke.value)
-                    }
+                    Text("Frase recompensa de Chuck Norris: \n ${jokeState.joke.value}")
                 }
-
                 Log.i("CHUCK NORRIS", jokeState.joke.value)
             }
 
@@ -229,20 +229,12 @@ fun ActivitySpinner(
             modifier = Modifier.clickable { expanded.value = !expanded.value },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                selectedItem?.name ?: "Seleccione una actividad:",
-                style = TextStyle(fontSize = 18.sp)
-            )
+            Text(selectedItem?.name ?: "Seleccione una actividad:")
             Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = null)
 
             DropdownMenu(expanded = expanded.value, onDismissRequest = { expanded.value = false }) {
                 items.forEach { item ->
-                    DropdownMenuItem({
-                        Text(
-                            text = item.name,
-                            style = TextStyle(fontSize = 18.sp)
-                        )
-                    }, {
+                    DropdownMenuItem({ Text(text = item.name) }, {
                         onItemSelected(item)
                         expanded.value = false
                     })

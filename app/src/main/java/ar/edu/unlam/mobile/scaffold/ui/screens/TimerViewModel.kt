@@ -87,11 +87,13 @@ class TimerViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun getMinutes(dateEnd: LocalDateTime, dateStart: LocalDateTime): Long {
         val duration = Duration.between(dateStart, dateEnd)
-        return if (duration.toHours() < 1) {
-            duration.toMinutes()
-        } else {
-            duration.toHours()
-        }
+        return duration.toMinutes()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getHours(dateEnd: LocalDateTime, dateStart: LocalDateTime): Long {
+        val duration = Duration.between(dateStart, dateEnd)
+        return duration.toHours()
     }
 
     fun getActivityStart(): ActivityStart {

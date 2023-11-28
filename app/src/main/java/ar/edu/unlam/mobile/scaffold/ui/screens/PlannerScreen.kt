@@ -105,7 +105,7 @@ fun Body(
                         style = TextStyle(
                             color = Color.DarkGray,
                             fontSize = 15.sp,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -138,7 +138,7 @@ fun Body(
                         style = TextStyle(
                             color = Color.DarkGray,
                             fontSize = 15.sp,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
